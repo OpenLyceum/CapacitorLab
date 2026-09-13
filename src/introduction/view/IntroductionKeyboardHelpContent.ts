@@ -2,28 +2,21 @@
  * IntroductionKeyboardHelpContent.ts
  *
  * Content for the keyboard-help dialog (the "?" button in the navigation bar).
- * The template's only interactions are buttons and Reset All, so a single
- * basic-actions section covers the available keyboard controls. When the sim
- * grows, fill the right column (pattern stubbed below).
+ * Covers the simulation's buttons, sliders, capacitor handles and draggable
+ * meter bodies and probes.
  */
 
 import {
   BasicActionsKeyboardHelpSection,
-  // SliderControlsKeyboardHelpSection,
-  // TimeControlsKeyboardHelpSection,
+  MoveDraggableItemsKeyboardHelpSection,
+  SliderControlsKeyboardHelpSection,
   TwoColumnKeyboardHelpContent,
 } from "scenerystack/scenery-phet";
 
 export class IntroductionKeyboardHelpContent extends TwoColumnKeyboardHelpContent {
   public constructor() {
-    const leftColumn = [new BasicActionsKeyboardHelpSection()];
-
-    // Right column — uncomment when the sim adds sliders and/or TimeControlNode:
-    // const rightColumn = [
-    //   new SliderControlsKeyboardHelpSection(),
-    //   // new TimeControlsKeyboardHelpSection(),
-    // ];
-    const rightColumn: never[] = [];
+    const leftColumn = [new SliderControlsKeyboardHelpSection(), new MoveDraggableItemsKeyboardHelpSection()];
+    const rightColumn = [new BasicActionsKeyboardHelpSection()];
 
     super(leftColumn, rightColumn);
   }

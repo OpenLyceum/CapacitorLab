@@ -90,35 +90,42 @@
     "exampleToggle": "Exemple de bascule"
   },
   "a11y": {
+    "common": {
+      "voltmeterBody": "Boîtier du voltmètre",
+      "positiveProbe": "Sonde positive du voltmètre",
+      "negativeProbe": "Sonde négative du voltmètre",
+      "eFieldDetectorBody": "Boîtier du détecteur de champ électrique",
+      "eFieldProbe": "Sonde du détecteur de champ électrique"
+    },
     "introduction": {
       "screenSummary": {
-        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+        "playArea": "Une pile est reliée à un condensateur réglable à plaques parallèles. Des appareils déplaçables mesurent le circuit.",
+        "controlArea": "Les commandes modifient la tension, l’aire et l’écartement des plaques, les représentations des charges et du champ, et les appareils de mesure.",
+        "interactionHint": "Réglez la pile ou les plaques, puis affichez et placez un appareil pour observer le résultat."
       },
-      "currentDetails": "La simulation est dans son état initial.",
+      "currentDetails": "Capacitance {{capacitance}} F. Charge des plaques {{charge}} C. Énergie stockée {{energy}} J.",
       "controls": {
         "exampleControl": "Contrôle d'exemple"
       }
     },
     "dielectric": {
       "screenSummary": {
-        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+        "playArea": "Une pile est reliée à un condensateur réglable contenant un diélectrique mobile. Des appareils déplaçables mesurent le circuit et le champ électrique.",
+        "controlArea": "Les commandes modifient la pile, la géométrie du condensateur, le matériau et les charges du diélectrique, le champ et les appareils.",
+        "interactionHint": "Déplacez le diélectrique et comparez la capacitance, la charge, l’énergie et les trois vecteurs du champ électrique."
       },
-      "currentDetails": "La simulation est dans son état initial.",
+      "currentDetails": "Capacitance {{capacitance}} F. Charge des plaques {{charge}} C. Énergie stockée {{energy}} J.",
       "controls": {
         "exampleControl": "Contrôle d'exemple"
       }
     },
     "multipleCapacitors": {
       "screenSummary": {
-        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+        "playArea": "Une pile alimente le circuit en série, parallèle ou combiné choisi. Chaque condensateur a son propre réglage et les appareils sont déplaçables.",
+        "controlArea": "Les commandes choisissent l’un des sept circuits, règlent les condensateurs et sélectionnent les représentations et les appareils.",
+        "interactionHint": "Choisissez un circuit et donnez des valeurs différentes aux condensateurs pour comparer capacitance totale, charge et énergie."
       },
-      "currentDetails": "La simulation est dans son état initial.",
+      "currentDetails": "Circuit {{circuit}}. Capacitance totale {{capacitance}} F. Charge stockée {{charge}} C. Énergie stockée {{energy}} J.",
       "controls": {
         "exampleControl": "Contrôle d'exemple"
       }

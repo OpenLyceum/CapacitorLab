@@ -129,6 +129,11 @@ export class StringManager {
     return stringProperties.a11y.multipleCapacitors;
   }
 
+  /** Accessible names shared by instruments on every screen. */
+  public getCommonA11yStrings() {
+    return stringProperties.a11y.common;
+  }
+
   /** "View" control panel: plate charges and electric field line checkboxes. */
   public getViewStrings() {
     return stringProperties.view;

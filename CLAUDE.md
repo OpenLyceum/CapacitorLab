@@ -1,224 +1,64 @@
 # CLAUDE.md — Capacitor Lab
 
-Sim-specific context for AI assistants. General SceneryStack guidance: [OpenLyceum/.github/CLAUDE.md](https://github.com/OpenLyceum/.github/blob/main/CLAUDE.md).
+Sim-specific context for AI assistants. General SceneryStack guidance lives in the OpenLyceum `.github`
+repository.
 
 ## Project
 
-Reusable SceneryStack template (one or N screens) and **canonical accessibility reference** for
-OpenLyceum sims. Prefer `Baton/scripts/create-sim.sh` (or GitHub **Use this template** +
-`npm run rename` + `npm run scaffold-screens`) to fork it. For multi-screen sims, see
-[`doc/multi-screen.md`](doc/multi-screen.md).
+Capacitor Lab is a faithful SceneryStack/TypeScript reimplementation of PhET's retired three-screen
+Java simulation: Introduction, Dielectric, and Multiple Capacitors. SI units are used throughout the
+model. The project is AGPL-3.0-or-later and is not an official PhET product.
 
-## Key files
+## Architecture map
 
-| File | Purpose |
-|---|---|
-| `src/CapacitorLabColors.ts` | All `ProfileColorProperty` instances |
-| `src/CapacitorLabConstants.ts` | Named numeric constants (layout px, physics SI units) |
-| `src/CapacitorLabNamespace.ts` | Namespace for color property names |
-| `src/i18n/StringManager.ts` | Singleton localized string accessor |
-| `src/introduction/IntroductionScreen.ts` | Screen wrapper |
-| `src/introduction/model/IntroductionModel.ts` | Simulation state and logic |
-| `src/introduction/view/IntroductionScreenView.ts` | Visual nodes, layout, `screenSummaryContent` + `pdomOrder` |
-| `src/introduction/view/IntroductionScreenSummaryContent.ts` | Accessible screen summary (reference a11y pattern) |
-| `src/introduction/view/IntroductionKeyboardHelpContent.ts` | Keyboard-help dialog content |
-| `src/common/CapacitorLabPanel.ts` | Pre-themed `Panel` wrapper (uses `CapacitorLabColors` automatically) |
-| `src/common/CapacitorLabButtonOptions.ts` | Flat button-appearance option bundles + light-control-surface combo-box options |
-| `src/common/CapacitorLabControlOptions.ts` | Shared slider, number-control, and checkbox sizing/theme options |
-| `src/common/TimeModel.ts` | Composable play/pause + elapsed-time model for animated sims |
-| `scripts/generate-icons.ts` | PNG icons from `public/icons/icon.svg` |
-| `scripts/rename-sim.ts` | Sim-level fork/rename (metadata, Colors, Constants, Panel, Button/Control options, Preferences) |
-| `scripts/scaffold-screens.ts` | Emit N screen packages + wire main/strings/icons |
+- `src/common/model/Capacitor.ts` — dielectric-aware capacitance, charge, energy, and field equations.
+- `src/common/model/circuit/` — single, series, parallel, and two combination topologies.
+- `src/common/model/wire/` and `shapes/` — circuit geometry used by both rendering and probes.
+- `src/common/model/meter/` — bar meters, voltmeter, and electric-field detector.
+- `src/common/view/` — pseudo-3D battery, wires, capacitor, plates, charges, fields, and shared screens.
+- `src/common/view/controls/`, `drag/`, `meters/` — all interactive controls and instruments.
+- `src/introduction/` and `src/dielectric/` — two configurations of the shared single-capacitor model/view.
+- `src/multiple-capacitors/` — seven selectable networks with independent capacitor controls.
+- `src/i18n/` — English, Spanish, and French strings with compile-time shape parity.
+- `doc/model.md` — equations and modeling assumptions.
+- `doc/implementation-notes.md` — projection, shapes-in-model rationale, and screen differences.
+- `tests/common/model/` — physics and circuit regression suite.
 
-## Common components
+## Reference implementations
 
-### CapacitorLabPanel
+The authoritative source is the Java sim under the OpenLyceum baseline checkout:
+`Baseline/PhET/trunk/simulations-java/simulations/capacitor-lab/`.
 
-Every control panel and info box in the sim should use `CapacitorLabPanel` so that
-default/projector color switching is automatic:
+Secondary references are:
 
-```typescript
-import { CapacitorLabPanel } from "../../common/CapacitorLabPanel.js";
-const panel = new CapacitorLabPanel(content);              // uses CapacitorLabColors defaults
-const panel = new CapacitorLabPanel(content, { xMargin: 20 }); // override any PanelOption
-```
+- `https://github.com/veillette/simulations/tree/main/capacitor-lab` for the earlier Backbone/PixiJS web port.
+- `https://github.com/phetsims/capacitor-lab-basics` for modern PhET pseudo-3D and interaction conventions.
 
-### TimeModel
+Capacitor Lab: Basics has no dielectric feature, so never simplify this port's dielectric physics to
+match it. Preserve the air/dielectric split in charge and electric-field quantities.
 
-For simulations with animation, compose `TimeModel` into your screen model:
+## Physics quirks
 
-```typescript
-import { TimeModel } from "../../common/TimeModel.js";
+- Air deliberately uses relative permittivity 1.0, not the physical 1.0005896.
+- The partially inserted slab is modeled as air-filled and dielectric-filled capacitors in parallel.
+- With the battery connected, voltage is fixed and charge follows `Q = CV`; disconnected, plate charge
+  is fixed and voltage follows `V = Q/C`.
+- Probe readings are geometric. Do not replace model-shape intersection with view-coordinate guesses.
+- Multiple-capacitor controls change plate separation to realize a requested capacitance; each capacitor
+  is independently adjustable, while battery voltage is synchronized across circuits.
 
-export class MyModel implements TModel {
-  public readonly timer = new TimeModel();   // starts paused; pass true to auto-play
+## Working conventions
 
-  public step(dt: number): void {
-    this.timer.step(dt);
-    // use this.timer.timeProperty.value for physics
-  }
-  public reset(): void { this.timer.reset(); /* … */ }
-}
-```
+Use `ProfileColorProperty` values from `CapacitorLabColors.ts`, localized properties from
+`StringManager`, and flat control options from `src/common/CapacitorLabButtonOptions.ts`. Keep physics
+out of scenery nodes. Interactive nodes need keyboard operation and localized accessible content.
 
-Wire the view to `TimeControlNode` from `scenerystack/scenery-phet` binding on
-`model.timer.isPlayingProperty`.
-
-### CapacitorLabButtonOptions
-
-SceneryStack's push/round buttons default to a 3-D/beveled look; every button in the sim
-should be flat instead. Spread these into the relevant options object:
-
-```typescript
-import { FLAT_RESET_ALL_BUTTON_OPTIONS, FLAT_RECTANGULAR_BUTTON_OPTIONS } from "../../common/CapacitorLabButtonOptions.js";
-
-const resetAllButton = new ResetAllButton({ ...FLAT_RESET_ALL_BUTTON_OPTIONS, listener: () => {...} });
-const exampleButton = new RectangularPushButton({ ...FLAT_RECTANGULAR_BUTTON_OPTIONS, content, listener });
-```
-
-`FLAT_PLAY_PAUSE_STEP_BUTTON_OPTIONS` spreads into `TimeControlNode`'s `playPauseStepButtonOptions`;
-`TIME_CONTROL_SPEED_RADIO_OPTIONS` fixes `TimeControlNode`'s speed-radio label color, which
-otherwise defaults to black text on the sim's dark default-mode panels. `CAPACITOR_LAB_COMBO_BOX_OPTIONS`
-themes a `ComboBox`'s button/list chrome to the light control surface below; pair item labels
-with `LIGHT_SURFACE_TEXT_FILL` (not `CapacitorLabColors.textColorProperty`, which is for panel-fill text).
-
-`CapacitorLabColors.ts` backs this with a "light control surfaces" section —
-`controlSurfaceColorProperty`, `controlSurfaceDisabledColorProperty`,
-`controlSurfaceTextColorProperty` — identical white/dark-text values in both default and
-projector profiles, so any component that must stay light regardless of theme (combo boxes,
-flat buttons, editable fields) keeps readable contrast automatically.
-
-## Accessibility
-
-This template is the **canonical accessibility reference** for OpenLyceum sims. It ships with
-the three required layers wired up: PDOM names, a `IntroductionScreenSummaryContent`, and an explicit
-`pdomOrder` + `IntroductionKeyboardHelpContent`. A11y strings live under the `a11y` key in each locale
-JSON, exposed via `StringManager.getIntroductionA11yStrings()`. When building a real sim, make
-`currentDetailsContent` a live `DerivedProperty` over model state and add `accessibleName`s to
-every interactive node. Full convention and checklist: [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
-
-## Compliance carve-outs
-
-A clean fork of this template rarely needs compliance carve-outs — root `CapacitorLabConstants.ts`,
-`*Colors.ts`, `*Namespace.ts`, standard screen layout, and full a11y wiring pass Baton's
-compliance check out of the box. Document carve-outs in the forked sim's `CLAUDE.md` only when
-you introduce a deliberate deviation (nested constants, hardcoded interaction fills, etc.).
-
-### `package.json` overrides
-
-JSON cannot carry comments, so the rationale for forced transitive pins lives here. Prefer
-**tilde (`~`) or exact** versions — caret (`^`) lets minors drift under what is meant to be a
-hard pin. Dependabot ignores these three names (see `.github/dependabot.yml`) so it does not
-open PRs that fight the overrides. Revisit when SceneryStack drops or re-pins them upstream.
-
-| Override | Pin | Why |
-|---|---|---|
-| `lodash` | `~4.18.1` | SceneryStack declares `~4.17.12`. Bump clears Dependabot/npm advisories patched in 4.18.x (e.g. GHSA-r5fr-rjxr-66jc, GHSA-f23m-r3pf-42rh). |
-| `three` | `~0.125.2` | SceneryStack declares `^0.104.0`. Floor is 0.125.0 for GHSA-fq6p-x6j3-cmmq (ReDoS). Staying on the 0.125 line avoids a larger API jump; **0.125.x still has open CVEs** (e.g. XSS GHSA-7vvq-7r29-5vg3, fixed only in ≥0.137.0). Remove this override if/when SceneryStack stops depending on `three` or pins a patched line itself. |
-| `brace-expansion` | `~5.0.9` | Transitive via `vite-plugin-pwa` / Workbox. Clears npm audit (originally GHSA-mh99-v99m-4gvg; keep ≥5.0.9 for GHSA-rgw5-rvv9-x895). |
-
-## Testing
-
-Fleet-standard Vitest layout (keep when forking):
-
-| Path | Purpose |
-|---|---|
-| `vitest.config.ts` | `happy-dom` environment; `setupFiles: ["./tests/setup.ts"]`; `execArgv: ["--expose-gc"]` |
-| `tests/setup.ts` | Canvas / AudioContext mocks + `init({ name: "…" })` before SceneryStack imports |
-| `tests/TimeModel.test.ts` | Sample model unit tests — replace with real physics tests |
-| `tests/memory-leak.test.ts` | WeakRef + `forceGC` dispose regression (fleet pattern) |
-| `tests/fuzz/fuzz.spec.ts` | Optional Playwright fuzz smoke via joist `?fuzz` |
-| `playwright.config.ts` | Chromium project + Vite webServer for fuzz |
-
-- Put unit tests only under root `tests/`, mirroring `src/` (never co-locate or use `__tests__/`).
-- Change the `name` passed to `init()` in `tests/setup.ts` to match `package.json` after `npm run rename`.
-- Run `npm test`. CI runs the suite when a `test` script is present.
-- Expand `memory-leak.test.ts` for any component that adds/removes nodes or links Properties at
-  runtime (see OpticsLab for a deep suite).
-- Optional: `npm run test:fuzz` / `test:fuzz:quick` / `test:fuzz:long` (not part of default CI).
-  Duration is 30s by default; override with `npm run test:fuzz -- 90` or `FUZZ_DURATION=90`.
-
-## Commands
+Run all gates before handing off:
 
 ```bash
-npm run lint && npm run check && npm run build && npm test
-```
-
-| Command | Description |
-|---|---|
-| `npm start` / `npm run dev` | Vite dev server |
-| `npm run build` | Type-check + production build |
-| `npm run build:single` | Single-file build mode |
-| `npm run check` | TypeScript (`tsc --noEmit` + scripts project) |
-| `npm run lint` / `npm run fix` | Biome check / auto-fix |
-| `npm test` | Vitest unit tests |
-| `npm run test:fuzz` | Playwright fuzz smoke (`?fuzz&ea`, 30s; `npm run test:fuzz -- 90` to change) |
-| `npm run test:fuzz:quick` | 10s fuzz |
-| `npm run test:fuzz:long` | 300s fuzz |
-| `npm run icons` | Regenerate PWA icons (+ placeholder screenshots) |
-| `npm run rename` | Sim-level fork/rename (`--id`, `--name`) |
-| `npm run scaffold-screens` | Emit N screens (`--screens Intro,Lab`) |
-| `npm run release` | `check && lint && build`, then version patch + push tags |
-
-`npm run release` intentionally skips `npm test` — template tests are samples. Real sims should append `&& npm test` before the version bump.
-
-## Customizing a new sim from this template
-
-### Recommended: Baton create-sim
-
-```sh
-Baton/scripts/create-sim.sh --repo Friction --name "Friction" --screens Intro,Lab --shared-model --onboard
-```
-
-### Manual: GitHub template + rename + scaffold
-
-```sh
-npm install
-npm run rename -- --id friction --name "Friction"
-npm run scaffold-screens -- --screens Intro,Lab --shared-model
-# omit --screens for one screen named after the sim; omit --shared-model for independent models
-npm run fix     # required: both scripts reorder imports, which Biome then sorts
 npm run check
+npm run lint
+npm test
+npm run build
+npm run test:fuzz:quick
 ```
-
-`rename` updates package id and metadata, display name, and every sim-level `Sim*`
-(Colors, Constants, Namespace, Panel, ButtonOptions, ControlOptions, Preferences, query parameters).
-`scaffold-screens` owns screen folders (fleet naming: `src/intro/`, not `intro-screen/`).
-After both steps no `Sim*` identifier should remain — `rg -n '\bSim[A-Z_]|\bSIM_[A-Z_]' src` to confirm.
-
-### Manual checklist (if not using the scripts)
-
-1. **Rename** — replace `capacitor-lab` / `Capacitor Lab` / `Sim` prefix in `init.ts`, `brand.ts`, `package.json` (name, description, keywords, repository.url), Colors/Constants/Namespace/Panel/ButtonOptions/ControlOptions/Preferences
-2. **Screens** — run `scaffold-screens` or mirror `introduction/` into kebab folders
-3. **Locale** — add `strings_XX.json`, register in `StringManager`, add locale to `init.ts` `availableLocales`
-4. **Icon** — edit `public/icons/icon.svg`, run `npm run icons`; match theme color in `index.html` / `vite.config.ts`
-5. **Colors** — edit `*Colors.ts` (`default` + `projector` profiles per property)
-
-## Multi-screen sims
-
-Full guide: [`doc/multi-screen.md`](doc/multi-screen.md)
-
-Summary:
-- Prefer `npm run scaffold-screens -- --screens Intro,Lab` (add `--shared-model` for a root model)
-- Or create a screen folder mirroring `src/introduction/` for each screen (kebab names, no `-screen` suffix)
-- Add screen-name keys to all locale JSON files; nest `a11y` per screen
-- Expose new getters in `StringManager.getScreenNames()` / `get{Screen}A11yStrings()`
-- Shared state: `--shared-model` → `common/model/SharedModel.ts` composed per screen (rename to a domain type)
-- Add `src/common/CapacitorLabScreenIcons.ts` with `create{Screen}Icon()` factories; wire `homeScreenIcon` + `navigationBarIcon` on each Screen
-- Register all screens in the `screens` array in `main.ts`
-
-## Using this template beyond a direct copy
-
-| Approach | When to use |
-|---|---|
-| **`Baton/scripts/create-sim.sh`** | Agents / fleet — create repo, rename, scaffold N screens |
-| **GitHub template** ("Use this template") | Humans starting a sim in the browser |
-| `npm run rename` + `scaffold-screens` | Same, after cloning the template |
-| **npm workspace / monorepo** | Managing a suite of sims with shared tooling |
-| **git subtree** for pulling updates | Keeping forks in sync with template improvements |
-
-See `doc/multi-screen.md` → "Using this template beyond a direct copy" for details.
-
-## PWA
-
-After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).

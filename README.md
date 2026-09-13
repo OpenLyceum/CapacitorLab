@@ -2,67 +2,57 @@
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-A reusable SceneryStack simulation template for one or N screens, built with
-[SceneryStack](https://scenerystack.org/), Vite 8, TypeScript 7, and Biome 2.
+A SceneryStack/TypeScript reimplementation of PhET's retired Java Capacitor Lab. It restores the full
+three-screen experience—including the Dielectric screen—in a modern installable web simulation.
 
 ## Features
 
-- SceneryStack scaffold with model/view separation (`rename` + `scaffold-screens` for one or N screens)
-- English, Spanish, and French localization via `StringManager`
-- Default and projector color profiles
-- Progressive Web App (installable, offline-capable)
-- Git hooks for Biome pre-commit checks
-- Shared GitHub Actions CI via `OpenLyceum/Baton`
+- Introduction: vary voltage, plate area, and plate separation; inspect charge, field, capacitance,
+  voltage, and stored energy.
+- Dielectric: insert glass, paper, teflon, or a custom material and compare free, bound, and excess
+  charge with the plate, dielectric, and net electric fields.
+- Multiple Capacitors: build seven series, parallel, and combination networks with independently
+  adjustable capacitor values.
+- English, Spanish, and French localization; keyboard operation and live screen-reader summaries.
+- Default/projector color profiles and offline PWA support.
 
 ## Quick Start
 
+Requires Node 24 or newer.
+
 ```bash
 npm install
-npm run icons    # generate PNG icons from public/icons/icon.svg
-npm start        # dev server → http://localhost:5173
+npm run dev
 ```
 
 ## Scripts
 
-| Command | Description |
+| Command | Purpose |
 |---|---|
-| `npm start` / `npm run dev` | Start Vite dev server |
-| `npm run build` | Type-check + production build → `dist/` |
-| `npm run preview` | Preview the production build locally |
-| `npm test` | Run Vitest unit tests (includes memory-leak suite) |
-| `npm run test:fuzz` | Optional Playwright fuzz smoke (`?fuzz&ea`, default 30s) |
-| `npm run test:fuzz -- 90` | Same fuzz for 90 seconds (`--duration 90` or `FUZZ_DURATION=90` also work) |
-| `npm run test:fuzz:quick` | Shorter fuzz smoke (10s) |
-| `npm run test:fuzz:long` | Longer fuzz smoke (300s) |
-| `npm run check` | TypeScript type check |
-| `npm run lint` | Biome lint check |
-| `npm run format` | Auto-format all files |
-| `npm run fix` | Lint + auto-fix |
-| `npm run icons` | Regenerate PNG icons from `public/icons/icon.svg` |
-| `npm run rename` | Sim-level fork/rename (`--id`, `--name`) |
-| `npm run scaffold-screens` | Emit N fleet-named screen packages from `introduction/` (`--shared-model` optional) |
-| `npm run release` | `check && lint && build`, then version patch + push tags |
-| `npm run clean` | Remove `dist/` |
+| `npm run dev` | Start the Vite development server |
+| `npm run check` | Type-check the app, scripts, and tests |
+| `npm run lint` | Run Biome checks |
+| `npm test` | Run the Vitest physics and regression suite |
+| `npm run test:physics` | Check Java-reference physics values |
+| `npm run build` | Build the production PWA |
+| `npm run test:fuzz:quick` | Fuzz all screens in Chromium for 10 seconds |
 
-`npm run release` intentionally skips `npm test` — template tests are samples. Real sims should append `&& npm test` (before the version bump) so a release cannot ship a failing suite.
-
-New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a release (for example `npm version patch` and a matching git tag). Keep `name` in kebab-case; it is separate from the SceneryStack sim identifier in `src/init.ts`.
+See [the model guide](doc/model.md) for the physics and
+[implementation notes](doc/implementation-notes.md) for architecture and reference sources.
 
 ## Tech Stack
 
-| Tool | Version | Purpose |
-|---|---|---|
-| [SceneryStack](https://scenerystack.org/) | ^3.0.0 | Simulation framework |
-| [Vite](https://vitejs.dev/) | ^8 | Build tool + dev server |
-| [TypeScript](https://www.typescriptlang.org/) | ^7 | Type-safe JavaScript |
-| [Biome](https://biomejs.dev/) | ^2.5 | Linting + formatting |
-| [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) | ^1 | PWA + service worker |
+- SceneryStack 3
+- TypeScript 7 and Vite 8
+- Vitest 5 and Playwright
+- Biome 2
 
 ## License
 
-GNU Affero General Public License v3.0 — see [OpenLyceum org license](https://github.com/OpenLyceum/.github/blob/main/LICENSE).
+GNU AGPL-3.0-or-later. This is an independent OpenLyceum reimplementation, not an official PhET
+product. See [CREDITS.md](CREDITS.md) for source and artwork attribution.
 
 ## Contributing
 
-See [OpenLyceum contributing guidelines](https://github.com/OpenLyceum/.github/blob/main/CONTRIBUTING.md).
-Report bugs via GitHub Issues; use org issue templates.
+See the [OpenLyceum contributing guidelines](https://github.com/OpenLyceum/.github/blob/main/CONTRIBUTING.md)
+and report defects through this repository's GitHub Issues page.

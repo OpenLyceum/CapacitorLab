@@ -79,16 +79,27 @@ describe("MultipleCapacitorsModel", () => {
     expect(model.currentCircuitProperty.value).toBe(model.circuits[0]);
   });
 
-  it("applies the capacitance slider to every capacitor in every circuit", () => {
+  it("starts every capacitor at the bottom of the capacitance range", () => {
     const model = new MultipleCapacitorsModel();
-
-    model.capacitanceProperty.value = CAPACITANCE_RANGE.max;
 
     for (const circuit of model.circuits) {
       for (const capacitor of circuit.capacitors) {
-        expect(capacitor.totalCapacitanceProperty.value).toBeCloseTo(CAPACITANCE_RANGE.max, 20);
+        expect(capacitor.totalCapacitanceProperty.value).toBeCloseTo(CAPACITANCE_RANGE.min, 20);
       }
     }
+  });
+
+  it("lets a capacitor's capacitance be set independently, by moving its plates", () => {
+    const model = new MultipleCapacitorsModel();
+    const [capacitor, other] = model.circuits[4]?.capacitors ?? [];
+    if (capacitor === undefined || other === undefined) {
+      throw new Error("expected three capacitors in parallel");
+    }
+
+    capacitor.setTotalCapacitance(CAPACITANCE_RANGE.max);
+
+    expect(capacitor.totalCapacitanceProperty.value).toBeCloseTo(CAPACITANCE_RANGE.max, 20);
+    expect(other.totalCapacitanceProperty.value).toBeCloseTo(CAPACITANCE_RANGE.min, 20);
   });
 
   it("keeps one battery voltage across all seven circuits", () => {
@@ -104,7 +115,6 @@ describe("MultipleCapacitorsModel", () => {
 
   it("re-points the bar meters when the circuit changes", () => {
     const model = new MultipleCapacitorsModel();
-    model.capacitanceProperty.value = CAPACITANCE_RANGE.max;
     const singleCapacitance = model.capacitanceMeter.valueProperty.value;
 
     // Three in parallel triples the total capacitance.

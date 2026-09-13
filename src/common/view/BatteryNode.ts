@@ -25,8 +25,13 @@ import { StringManager } from "../../i18n/StringManager.js";
 import type { Battery } from "../model/Battery.js";
 import { Polarity, type PolarityValue } from "../model/Polarity.js";
 
-/** Slider track height as a fraction of the battery image's height. */
-const TRACK_LENGTH_FRACTION = 0.6;
+/**
+ * Track length in view pixels. A fixed number rather than a fraction of the
+ * battery image: the artwork is an SVG whose intrinsic size is not known until it
+ * loads, and a track built from a zero height fails immediately.
+ */
+const TRACK_LENGTH = 80;
+const TRACK_THICKNESS = 4;
 
 const TICK_LABEL_FONT = new PhetFont(14);
 
@@ -36,14 +41,11 @@ export class BatteryNode extends Node {
 
     const imageNode = new Image(CapacitorLabImages.batteryUp);
     this.addChild(imageNode);
-    // Origin at the battery's centre, which is where the model places it.
-    imageNode.centerX = 0;
-    imageNode.centerY = 0;
 
     const unitStrings = StringManager.getInstance().getUnitStrings();
 
     const slider = new VSlider(battery.voltageProperty, BATTERY_VOLTAGE_RANGE, {
-      trackSize: new Dimension2(2, TRACK_LENGTH_FRACTION * imageNode.height),
+      trackSize: new Dimension2(TRACK_LENGTH, TRACK_THICKNESS),
       thumbFill: CapacitorLabColors.dragHandleColorProperty,
       thumbFillHighlighted: CapacitorLabColors.dragHandleHighlightColorProperty,
       // A dead zone around zero: without it, landing exactly on zero by dragging
@@ -66,8 +68,15 @@ export class BatteryNode extends Node {
     slider.addMajorTick(BATTERY_VOLTAGE_RANGE.min, createTickLabel(BATTERY_VOLTAGE_RANGE.min));
 
     this.addChild(slider);
-    slider.centerX = imageNode.centerX;
-    slider.centerY = imageNode.centerY;
+
+    // The model puts the battery's origin at its centre, and the artwork's size
+    // is only known once the SVG has loaded — so recentre whenever it changes.
+    imageNode.boundsProperty.link(() => {
+      imageNode.centerX = 0;
+      imageNode.centerY = 0;
+      slider.centerX = 0;
+      slider.centerY = 0;
+    });
 
     battery.polarityProperty.link((polarity: PolarityValue) => {
       imageNode.image = polarity === Polarity.POSITIVE ? CapacitorLabImages.batteryUp : CapacitorLabImages.batteryDown;

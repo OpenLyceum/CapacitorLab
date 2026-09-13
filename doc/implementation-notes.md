@@ -1,135 +1,63 @@
-# Implementation Notes - Capacitor Lab
+# Implementation Notes — Capacitor Lab
 
-Developer-facing notes on the **SceneryStackTemplate** scaffold. **Replace and expand this file when
-forking** to describe your sim's real architecture (see Stern Gerlach or Light Propagation for
-target quality). Until then, this documents what the template provides out of the box.
+This is a TypeScript/SceneryStack port of PhET's retired Java Capacitor Lab. The Java source is the
+authority for physics and feature scope. The Backbone/PixiJS port in `veillette/simulations` is a
+secondary check for browser behavior, while PhET's Capacitor Lab: Basics supplies modern reusable
+pseudo-3D conventions but intentionally has no dielectric model.
 
-## Architecture Overview
+## Architecture
 
-SceneryStackTemplate is the fleet-canonical starting point for new SceneryStack sims (one or N screens).
-It demonstrates Model–View separation, color profiles, localization, reset behavior, accessibility
-reference wiring, and reusable common components — **without** domain physics.
+`CapacitorLabModel` owns the current circuit, world bounds, and five meters. `SingleCapacitorModel`
+specializes it for Introduction and Dielectric; those screens differ by constructor configuration.
+`MultipleCapacitorsModel` owns seven persistent circuit models and exposes the selected circuit.
 
-```
-main.ts
-  └─ IntroductionScreen             (Screen<IntroductionModel, IntroductionScreenView>)
-       ├─ IntroductionModel          state + logic  (src/introduction/model/)  ← stub: add physics here
-       └─ IntroductionScreenView     visuals        (src/introduction/view/)
-            ├─ IntroductionScreenSummaryContent     (PDOM overview — reference a11y pattern)
-            └─ IntroductionKeyboardHelpContent      (keyboard help dialog)
+The physics model is entirely in `src/common/model/`. It includes component shapes because the
+voltmeter and electric-field probes determine readings by intersecting their model-space shapes with
+batteries, wires, plates, and capacitor gaps. Moving that geometry into the view would duplicate the
+Java measurement design and make readings depend on rendering details.
 
-src/common/
-  ├─ CapacitorLabPanel.ts           pre-themed panel (uses CapacitorLabColors)
-  ├─ CapacitorLabButtonOptions.ts   flat button / combo-box option bundles
-  └─ TimeModel.ts          composable play/pause + elapsed time
+The common view is layered as circuit, meters, controls, and popups. `SingleCapacitorScreenView` is
+shared by Introduction and Dielectric. All seven multiple-capacitor circuit nodes are built once and
+visibility is switched with `currentCircuitProperty`, matching both earlier implementations.
 
-src/preferences/
-  ├─ CapacitorLabPreferencesModel   sim-specific pref state
-  ├─ CapacitorLabPreferencesNode    pref UI in Preferences → Simulation
-  └─ capacitorLabQueryParameters    QueryStringMachine declarations
-```
+## Pseudo-3D projection
 
-Data flows Model → View through AXON `Property` objects (`.link()` / `.lazyLink()`). The view never
-integrates physics; the model never imports scenery.
+`CLModelViewTransform3D` is a parallel yaw/pitch projection compatible with SceneryStack's
+`YawPitchModelViewTransform3`. There is no perspective or vanishing point, so projected component
+edges and drag inversions remain linear. `BoxShapes` and `BoxNode` generate and paint the visible
+faces; capacitor-specific nodes split plate and dielectric faces where occlusion requires it.
 
-## Forking checklist
+The circuit is laid out in a fixed 1024 × 864 design box and scaled as a group into the space left of
+the control column. Model units remain metres throughout.
 
-### Automated rename + scaffold (recommended)
+## Screen differences
 
-```sh
-npm run rename -- --id my-sim --name "My Simulation"
-npm run scaffold-screens -- --screens Intro,Lab   # or omit --screens for one screen
+- Introduction uses air, keeps the dielectric fully withdrawn and invisible, and simplifies the
+  electric-field detector to the sum vector.
+- Dielectric exposes glass, paper, teflon, and a custom material, an offset handle, dielectric charge
+  choices, and all three field vectors. The slab becomes translucent when field lines, a detector,
+  the voltmeter, or excess dielectric charges need to be seen through it.
+- Multiple Capacitors offers single, two/three series, two/three parallel, and two three-capacitor
+  combination circuits. Each capacitor has an independent capacitance slider. Batteries share one
+  synchronized voltage, so switching circuits preserves the user's setting.
+
+## Interaction and accessibility
+
+Pointer and keyboard drag listeners drive the same model properties. Arrow/WASD movement works for
+plate, separation, dielectric, meter-body, and probe interactions; Shift provides finer movement.
+Keyboard help documents both sliders and movable objects. Each screen summary describes its real
+play/control areas and derives a live capacitance, charge, and energy paragraph from meter properties.
+
+## Verification
+
+Vitest covers capacitor equations, calibration extremes, circuit totals, probe geometry, resets, and
+screen-model wiring. The memory-leak smoke test constructs and resets each screen model. Playwright
+fuzzes all three screens with assertions enabled. Use:
+
+```bash
 npm run check
+npm run lint
+npm test
+npm run build
+npm run test:fuzz:quick
 ```
-
-Or from the workspace: `Baton/scripts/create-sim.sh --repo MySim --name "My Simulation"`.
-
-`scripts/rename-sim.ts` updates sim-level identifiers (package id, Colors, Preferences).
-`scripts/scaffold-screens.ts` emits fleet-named screen folders and wires main/strings/icons.
-
-### Manual steps (after rename/scaffold or if skipping the scripts)
-
-1. **`doc/model.md`** — educator physics (equations, ranges, simplifications).
-2. **`doc/implementation-notes.md`** — this file, rewritten for your architecture.
-3. **Screen model(s)** — real Properties, `step(dt)`, `reset()`; compose `TimeModel` if animated.
-4. **Screen view(s)** — play area + controls; wire `ResetAllButton` to `model.reset()`.
-5. **`*Colors.ts`** — sim palette (default + projector profiles).
-6. **Locale JSON** — title, strings, `a11y` keys; register locales in `init.ts`.
-7. **`public/icons/icon.svg`** → `npm run icons`; align theme color in `index.html` / vite config.
-8. **`tests/setup.ts`** — `init({ name: … })` must match `package.json` name after rename.
-9. **`CLAUDE.md`** — sim-specific file map and pitfalls for AI assistants.
-
-## Common components (keep when forking)
-
-### CapacitorLabPanel
-
-Every control panel should use `CapacitorLabPanel` so projector-mode switching is automatic:
-
-```typescript
-import { CapacitorLabPanel } from "../../common/CapacitorLabPanel.js";
-const panel = new CapacitorLabPanel(content);
-const panelWide = new CapacitorLabPanel(content, { xMargin: 20 });
-```
-
-### TimeModel
-
-Compose into your screen model for animation (do not subclass `TimeModel`):
-
-```typescript
-export class MyModel implements TModel {
-  public readonly timer = new TimeModel();  // pass true to auto-play on startup
-
-  public step(dt: number): void {
-    this.timer.step(dt);
-    // physics uses this.timer.timeProperty.value
-  }
-  public reset(): void { this.timer.reset(); /* restore initial state */ }
-}
-```
-
-Wire `TimeControlNode` to `model.timer.isPlayingProperty` in the view.
-
-### CapacitorLabButtonOptions
-
-Spread flat button options into every push/round button and `TimeControlNode` (see `CLAUDE.md`).
-Use `CAPACITOR_LAB_COMBO_BOX_OPTIONS` + `LIGHT_SURFACE_TEXT_FILL` for light control surfaces on dark panels.
-
-## Accessibility (reference implementation)
-
-The template is the **canonical OpenLyceum a11y reference**:
-
-- PDOM `accessibleName` on interactive nodes (prefer live `StringProperty`s).
-- `IntroductionScreenSummaryContent` with a live `currentDetailsContent` `DerivedProperty` over model state.
-- Explicit `pdomOrder` + `IntroductionKeyboardHelpContent`.
-- Strings under `a11y` in locale JSON → `StringManager.getIntroductionA11yStrings()`.
-
-Full checklist: [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
-
-## Testing (fleet layout — keep when forking)
-
-| Path | Purpose |
-|---|---|
-| `vitest.config.ts` | `happy-dom`; `setupFiles: ["./tests/setup.ts"]`; `execArgv: ["--expose-gc"]` |
-| `tests/setup.ts` | Canvas/AudioContext mocks + `init()` before SceneryStack imports |
-| `tests/TimeModel.test.ts` | **Replace** with real model/physics tests mirroring `src/` |
-| `tests/memory-leak.test.ts` | WeakRef + `forceGC` dispose regression |
-| `tests/fuzz/fuzz.spec.ts` | Optional Playwright smoke via `?fuzz` |
-
-Run `npm test`. Expand `memory-leak.test.ts` when adding runtime-created nodes or Property links.
-
-## Multi-screen simulations
-
-Default is single-screen. To add screens, see **`doc/multi-screen.md`**: per-screen folders mirroring
-`src/introduction/`, `StringManager` screen-name getters, optional shared root model, a shared
-`src/common/CapacitorLabScreenIcons.ts` module (`create{Screen}Icon()` factories wired as
-`homeScreenIcon` / `navigationBarIcon`), and register all screens in `main.ts`.
-
-## PWA
-
-After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).
-
-## Known template stubs (remove when forking)
-
-- `IntroductionModel.step()` / `reset()` — empty placeholders until you add physics.
-- Placeholder play-area content in `IntroductionScreenView` — replace with real UI.
-- `tests/TimeModel.test.ts` — sample only; add tests for your model under `tests/`.

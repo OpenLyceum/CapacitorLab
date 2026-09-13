@@ -12,7 +12,7 @@
  * Ported from `module/multiplecapacitors/MultipleCapacitorsModel.java`.
  */
 
-import { NumberProperty, Property } from "scenerystack/axon";
+import { Property } from "scenerystack/axon";
 import { Vector3 } from "scenerystack/dot";
 import { CAPACITANCE_RANGE, WIRE_THICKNESS } from "../../CapacitorLabConstants.js";
 import { Capacitor } from "../../common/model/Capacitor.js";
@@ -58,12 +58,6 @@ export class MultipleCapacitorsModel extends CapacitorLabModel {
 
   /** The circuit currently selected, and therefore drawn and measured. */
   public readonly currentCircuitProperty: Property<Circuit>;
-
-  /**
-   * Capacitance of every capacitor, Farads. The user sets this instead of the
-   * plate geometry; each capacitor converts it into a plate separation.
-   */
-  public readonly capacitanceProperty: NumberProperty;
 
   public constructor() {
     const modelViewTransform = new CLModelViewTransform3D();
@@ -120,20 +114,10 @@ export class MultipleCapacitorsModel extends CapacitorLabModel {
 
     this.circuits = circuits;
     this.currentCircuitProperty = currentCircuitProperty;
-    this.capacitanceProperty = new NumberProperty(CAPACITANCE_RANGE.min, { range: CAPACITANCE_RANGE });
 
-    // One slider drives every capacitor in every circuit, so switching circuits
-    // does not change the capacitance the user has dialled in.
-    this.capacitanceProperty.link((capacitance: number) => {
-      for (const circuit of circuits) {
-        for (const capacitor of circuit.capacitors) {
-          capacitor.setTotalCapacitance(capacitance);
-        }
-      }
-    });
-
-    // Likewise the battery: the circuits each have their own, but they are kept
-    // in step so the user sees one battery that follows them between circuits.
+    // Each capacitor has its own capacitance slider — that is what lets a network
+    // be built from unequal parts. The battery, though, is one battery as far as
+    // the user is concerned, so the circuits' batteries are kept in step.
     for (const circuit of circuits) {
       circuit.battery.voltageProperty.link((voltage: number) => {
         for (const other of circuits) {
@@ -148,7 +132,6 @@ export class MultipleCapacitorsModel extends CapacitorLabModel {
     for (const circuit of this.circuits) {
       circuit.reset();
     }
-    this.capacitanceProperty.reset();
     this.currentCircuitProperty.reset();
   }
 }

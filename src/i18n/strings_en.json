@@ -90,35 +90,42 @@
     "exampleToggle": "Example Toggle"
   },
   "a11y": {
+    "common": {
+      "voltmeterBody": "Voltmeter body",
+      "positiveProbe": "Positive voltmeter probe",
+      "negativeProbe": "Negative voltmeter probe",
+      "eFieldDetectorBody": "Electric field detector body",
+      "eFieldProbe": "Electric field detector probe"
+    },
     "introduction": {
       "screenSummary": {
-        "playArea": "The play area shows the main simulation content.",
-        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-        "interactionHint": "Explore the simulation by interacting with its controls."
+        "playArea": "A battery is connected to an adjustable parallel-plate capacitor. Draggable meters can measure the circuit.",
+        "controlArea": "Controls change battery voltage, plate area and separation, charge and field representations, and meter visibility.",
+        "interactionHint": "Adjust the battery or capacitor handles, then show and position a meter to investigate the result."
       },
-      "currentDetails": "The simulation is in its initial state.",
+      "currentDetails": "Capacitance {{capacitance}} F. Plate charge {{charge}} C. Stored energy {{energy}} J.",
       "controls": {
         "exampleControl": "Example control"
       }
     },
     "dielectric": {
       "screenSummary": {
-        "playArea": "The play area shows the main simulation content.",
-        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-        "interactionHint": "Explore the simulation by interacting with its controls."
+        "playArea": "A battery is connected to an adjustable parallel-plate capacitor containing a movable dielectric slab. Draggable meters can measure the circuit and electric field.",
+        "controlArea": "Controls change the battery, capacitor geometry, dielectric material and charge view, field representations, and meter visibility.",
+        "interactionHint": "Move the dielectric slab and compare capacitance, charge, energy, and the three electric-field vectors."
       },
-      "currentDetails": "The simulation is in its initial state.",
+      "currentDetails": "Capacitance {{capacitance}} F. Plate charge {{charge}} C. Stored energy {{energy}} J.",
       "controls": {
         "exampleControl": "Example control"
       }
     },
     "multipleCapacitors": {
       "screenSummary": {
-        "playArea": "The play area shows the main simulation content.",
-        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-        "interactionHint": "Explore the simulation by interacting with its controls."
+        "playArea": "A battery powers the selected series, parallel, or combination circuit. Every capacitor has its own capacitance control, and draggable meters measure the network.",
+        "controlArea": "Controls select one of seven circuits, change capacitor values, show charge and field representations, and choose meters.",
+        "interactionHint": "Select a circuit and give its capacitors different values to compare total capacitance, stored charge, and energy."
       },
-      "currentDetails": "The simulation is in its initial state.",
+      "currentDetails": "{{circuit}} circuit. Total capacitance {{capacitance}} F. Stored charge {{charge}} C. Stored energy {{energy}} J.",
       "controls": {
         "exampleControl": "Example control"
       }

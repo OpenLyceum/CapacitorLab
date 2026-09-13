@@ -12,7 +12,7 @@
  * Ported from `model/meter/Voltmeter.java`.
  */
 
-import { BooleanProperty, Multilink, NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import { BooleanProperty, Multilink, Property, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
@@ -28,8 +28,12 @@ export class Voltmeter {
   public readonly positiveProbePositionProperty: WorldPositionProperty;
   public readonly negativeProbePositionProperty: WorldPositionProperty;
 
-  /** Reading in Volts, or NaN when a probe is touching nothing in the circuit. */
-  public readonly valueProperty: NumberProperty;
+  /**
+   * Reading in Volts, or NaN when a probe is touching nothing in the circuit —
+   * which the view shows as "?" rather than as a number. A plain Property rather
+   * than a NumberProperty, because NumberProperty rejects NaN.
+   */
+  public readonly valueProperty: Property<number>;
 
   private readonly circuitProperty: TReadOnlyProperty<Circuit>;
   private readonly modelViewTransform: CLModelViewTransform3D;
@@ -53,7 +57,7 @@ export class Voltmeter {
     this.bodyPositionProperty = new WorldPositionProperty(worldBounds, bodyPosition);
     this.positiveProbePositionProperty = new WorldPositionProperty(worldBounds, positiveProbePosition);
     this.negativeProbePositionProperty = new WorldPositionProperty(worldBounds, negativeProbePosition);
-    this.valueProperty = new NumberProperty(Number.NaN);
+    this.valueProperty = new Property<number>(Number.NaN);
 
     Multilink.multilink([this.positiveProbePositionProperty, this.negativeProbePositionProperty], () =>
       this.updateValue(),

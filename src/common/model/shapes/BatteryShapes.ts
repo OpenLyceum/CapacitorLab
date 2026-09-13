@@ -49,19 +49,33 @@ export class BatteryShapes {
       : this.createNegativeTerminalShape();
   }
 
-  /** A raised cylinder: cap ellipse, wall, and base ellipse unioned. */
+  /**
+   * A raised cylinder, drawn as one closed silhouette: the top half of the cap
+   * ellipse, down the right side, the bottom half of the base ellipse, and back.
+   *
+   * Built as a single path rather than by unioning a rectangle with two ellipses.
+   * The rectangle's sides would be exactly tangent to both ellipses, and kite's
+   * constructive-area geometry does not survive that degeneracy — it asserts
+   * rather than returning a slightly wrong shape.
+   */
   private createPositiveTerminalShape(): Shape {
     const { position } = this.battery;
     const { width, height } = POSITIVE_TERMINAL_ELLIPSE_SIZE;
+    const radiusX = width / 2;
+    const radiusY = height / 2;
     const x = position.x;
-    const y = position.y + this.battery.getTopTerminalYOffset();
+    const topY = position.y + this.battery.getTopTerminalYOffset();
+    const bottomY = topY + POSITIVE_TERMINAL_CYLINDER_HEIGHT;
 
-    const topEllipse = Shape.ellipse(x, y, width / 2, height / 2, 0);
-    const bottomEllipse = Shape.ellipse(x, y + POSITIVE_TERMINAL_CYLINDER_HEIGHT, width / 2, height / 2, 0);
-    const wall = Shape.rectangle(x - width / 2, y, width, POSITIVE_TERMINAL_CYLINDER_HEIGHT);
+    // Angles run clockwise on screen because +y is down: π…2π traces the top half.
+    const shape = new Shape()
+      .moveTo(x - radiusX, topY)
+      .ellipticalArc(x, topY, radiusX, radiusY, 0, Math.PI, 2 * Math.PI, false)
+      .lineTo(x + radiusX, bottomY)
+      .ellipticalArc(x, bottomY, radiusX, radiusY, 0, 0, Math.PI, false)
+      .close();
 
-    const composite = topEllipse.shapeUnion(wall).shapeUnion(bottomEllipse);
-    return this.modelViewTransform.modelToViewShape(composite);
+    return this.modelViewTransform.modelToViewShape(shape);
   }
 
   /** A recessed dimple: one ellipse. */

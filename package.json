@@ -31,6 +31,7 @@
     "watch": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:physics": "tsx scripts/physics-check.ts",
     "test:fuzz": "tsx scripts/test-fuzz.ts",
     "test:fuzz:quick": "tsx scripts/test-fuzz.ts 10",
     "test:fuzz:long": "tsx scripts/test-fuzz.ts 300",

@@ -29,6 +29,13 @@ export const PANEL_CORNER_RADIUS = 6;
 /** Length of the double-headed arrow on each drag handle. */
 export const DRAG_HANDLE_ARROW_LENGTH = 35;
 
+/**
+ * The play area's design size, in view pixels, before it is scaled to fit the
+ * screen. Every model position is laid out against this box — it is the Java
+ * sim's canvas size, and the circuit's coordinates assume it.
+ */
+export const PLAY_AREA_DESIGN_SIZE = { width: 1024, height: 864 };
+
 // ── Model-view transform ──────────────────────────────────────────────────────
 // The sim draws in pseudo-3D: a parallel projection with no vanishing point.
 // See CLModelViewTransform3D for the coordinate frame.
@@ -140,6 +147,7 @@ CapacitorLabNamespace.register("CapacitorLabConstants", {
   SCREEN_VIEW_MARGIN,
   PANEL_CORNER_RADIUS,
   DRAG_HANDLE_ARROW_LENGTH,
+  PLAY_AREA_DESIGN_SIZE,
   MVT_SCALE,
   MVT_YAW,
   MVT_PITCH,

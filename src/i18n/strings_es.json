@@ -90,35 +90,42 @@
     "exampleToggle": "Ejemplo de alternancia"
   },
   "a11y": {
+    "common": {
+      "voltmeterBody": "Cuerpo del voltímetro",
+      "positiveProbe": "Sonda positiva del voltímetro",
+      "negativeProbe": "Sonda negativa del voltímetro",
+      "eFieldDetectorBody": "Cuerpo del detector de campo eléctrico",
+      "eFieldProbe": "Sonda del detector de campo eléctrico"
+    },
     "introduction": {
       "screenSummary": {
-        "playArea": "El área de juego muestra el contenido principal de la simulación.",
-        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-        "interactionHint": "Explora la simulación interactuando con sus controles."
+        "playArea": "Una batería está conectada a un capacitor ajustable de placas paralelas. Los medidores se pueden arrastrar para medir el circuito.",
+        "controlArea": "Los controles cambian el voltaje, el área y la separación de las placas, las representaciones de carga y campo y la visibilidad de los medidores.",
+        "interactionHint": "Ajusta la batería o las placas y luego muestra y coloca un medidor para investigar el resultado."
       },
-      "currentDetails": "La simulación está en su estado inicial.",
+      "currentDetails": "Capacitancia {{capacitance}} F. Carga de placa {{charge}} C. Energía almacenada {{energy}} J.",
       "controls": {
         "exampleControl": "Control de ejemplo"
       }
     },
     "dielectric": {
       "screenSummary": {
-        "playArea": "El área de juego muestra el contenido principal de la simulación.",
-        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-        "interactionHint": "Explora la simulación interactuando con sus controles."
+        "playArea": "Una batería está conectada a un capacitor ajustable que contiene un dieléctrico móvil. Los medidores se pueden arrastrar para medir el circuito y el campo eléctrico.",
+        "controlArea": "Los controles cambian la batería, la geometría del capacitor, el material y las cargas del dieléctrico, el campo y los medidores.",
+        "interactionHint": "Mueve el dieléctrico y compara la capacitancia, la carga, la energía y los tres vectores de campo eléctrico."
       },
-      "currentDetails": "La simulación está en su estado inicial.",
+      "currentDetails": "Capacitancia {{capacitance}} F. Carga de placa {{charge}} C. Energía almacenada {{energy}} J.",
       "controls": {
         "exampleControl": "Control de ejemplo"
       }
     },
     "multipleCapacitors": {
       "screenSummary": {
-        "playArea": "El área de juego muestra el contenido principal de la simulación.",
-        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-        "interactionHint": "Explora la simulación interactuando con sus controles."
+        "playArea": "Una batería alimenta el circuito seleccionado en serie, paralelo o combinado. Cada capacitor tiene su propio control y los medidores se pueden arrastrar.",
+        "controlArea": "Los controles seleccionan uno de siete circuitos, cambian los capacitores y eligen las representaciones y los medidores.",
+        "interactionHint": "Selecciona un circuito y asigna valores diferentes para comparar capacitancia total, carga almacenada y energía."
       },
-      "currentDetails": "La simulación está en su estado inicial.",
+      "currentDetails": "Circuito {{circuit}}. Capacitancia total {{capacitance}} F. Carga almacenada {{charge}} C. Energía almacenada {{energy}} J.",
       "controls": {
         "exampleControl": "Control de ejemplo"
       }
