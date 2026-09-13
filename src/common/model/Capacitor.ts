@@ -20,8 +20,12 @@
 
 import { DerivedProperty, DynamicProperty, NumberProperty, Property, type TReadOnlyProperty } from "scenerystack/axon";
 import { Dimension3, type Vector3 } from "scenerystack/dot";
+import type { Shape } from "scenerystack/kite";
 import { EPSILON_0, EPSILON_AIR, EPSILON_VACUUM, PLATE_HEIGHT } from "../../CapacitorLabConstants.js";
+import type { CLModelViewTransform3D } from "./CLModelViewTransform3D.js";
 import type { DielectricMaterial } from "./DielectricMaterial.js";
+import { CapacitorShapes } from "./shapes/CapacitorShapes.js";
+import { shapeIntersects } from "./shapes/shapeIntersects.js";
 
 /** C = ε_r · ε₀ · A / d, the general parallel-plate formula. */
 function capacitanceOf(dielectricConstant: number, area: number, plateSeparation: number): number {
@@ -111,14 +115,26 @@ export class Capacitor {
   /** Field from dielectric polarization, V/m. */
   public readonly dielectricEFieldProperty: TReadOnlyProperty<number>;
 
+  /**
+   * 2D projections of the capacitor's parts. These live in the model because the
+   * meters measure by intersecting shapes, and the model is what knows the
+   * geometry — see `doc/implementation-notes.md`.
+   */
+  public readonly shapes: CapacitorShapes;
+
+  private readonly modelViewTransform: CLModelViewTransform3D;
+
   public constructor(
     position: Vector3,
     plateWidth: number,
     plateSeparation: number,
     dielectricMaterial: DielectricMaterial,
     dielectricOffset: number,
+    modelViewTransform: CLModelViewTransform3D,
   ) {
     this.position = position;
+    this.modelViewTransform = modelViewTransform;
+    this.shapes = new CapacitorShapes(this, modelViewTransform);
 
     this.plateSizeProperty = new Property(new Dimension3(plateWidth, PLATE_HEIGHT, plateWidth));
     this.plateSeparationProperty = new NumberProperty(plateSeparation);
@@ -292,6 +308,37 @@ export class Capacitor {
   /** Inverts C = ε_r·ε₀·A/d for d. */
   public static getPlateSeparation(dielectricConstant: number, plateWidth: number, capacitance: number): number {
     return (dielectricConstant * EPSILON_0 * plateWidth * plateWidth) / capacitance;
+  }
+
+  // ── Probe hit-testing ───────────────────────────────────────────────────────
+
+  /** Does a shape touch the top plate? Used by the voltmeter's probes. */
+  public intersectsTopPlate(shape: Shape): boolean {
+    return shapeIntersects(shape, this.shapes.createTopPlateShapeOccluded());
+  }
+
+  /** Does a shape touch the visible part of the bottom plate? */
+  public intersectsBottomPlate(shape: Shape): boolean {
+    return shapeIntersects(shape, this.shapes.createBottomPlateShapeOccluded());
+  }
+
+  /** Is a model-frame point anywhere in the gap between the plates? */
+  public isBetweenPlates(point: Vector3): boolean {
+    return this.isInsideDielectricBetweenPlates(point) || this.isInsideAirBetweenPlates(point);
+  }
+
+  /** Is a model-frame point in the part of the gap the dielectric fills? */
+  public isInsideDielectricBetweenPlates(point: Vector3): boolean {
+    return this.shapes
+      .createDielectricBetweenPlatesShapeOccluded()
+      .containsPoint(this.modelViewTransform.modelToViewPosition(point));
+  }
+
+  /** Is a model-frame point in the part of the gap the dielectric has vacated? */
+  public isInsideAirBetweenPlates(point: Vector3): boolean {
+    return this.shapes
+      .createAirBetweenPlatesShapeOccluded()
+      .containsPoint(this.modelViewTransform.modelToViewPosition(point));
   }
 
   public reset(): void {

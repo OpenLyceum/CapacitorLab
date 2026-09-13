@@ -43,7 +43,11 @@ export class CLModelViewTransform3D {
   /** Rotation about the horizontal axis, radians. */
   public readonly pitch: number;
 
-  private readonly transform: YawPitchModelViewTransform3;
+  /**
+   * The scenery-phet transform underneath. Exposed because `BoxShapeCreator`
+   * takes one directly; prefer the typed methods on this class everywhere else.
+   */
+  public readonly transform: YawPitchModelViewTransform3;
 
   public constructor(options?: CLModelViewTransform3DOptions) {
     const scale = options?.scale ?? MVT_SCALE;

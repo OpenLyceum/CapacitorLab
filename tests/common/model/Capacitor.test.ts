@@ -13,14 +13,16 @@ import {
   PLATE_WIDTH_RANGE,
 } from "../../../src/CapacitorLabConstants.js";
 import { Capacitor } from "../../../src/common/model/Capacitor.js";
+import { CLModelViewTransform3D } from "../../../src/common/model/CLModelViewTransform3D.js";
 import { createAir, createCustom, createGlass } from "../../../src/common/model/DielectricMaterial.js";
 
 const L = PLATE_WIDTH_RANGE.defaultValue; // 0.01 m
 const D = PLATE_SEPARATION_RANGE.defaultValue; // 0.01 m
+const MVT = new CLModelViewTransform3D();
 
 /** A capacitor with air between the plates and the dielectric fully inserted. */
 function airCapacitor(): Capacitor {
-  return new Capacitor(new Vector3(0, 0, 0), L, D, createAir(), 0);
+  return new Capacitor(new Vector3(0, 0, 0), L, D, createAir(), 0, MVT);
 }
 
 describe("Capacitor", () => {
@@ -51,7 +53,7 @@ describe("Capacitor", () => {
     });
 
     it("follows the dielectric constant when the slab is fully inserted", () => {
-      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createGlass(), 0);
+      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createGlass(), 0, MVT);
       const glassConstant = capacitor.dielectricConstantProperty.value;
 
       expect(capacitor.airContactAreaProperty.value).toBeCloseTo(0, 12);
@@ -59,7 +61,7 @@ describe("Capacitor", () => {
     });
 
     it("treats a partly withdrawn dielectric as two capacitors in parallel", () => {
-      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0);
+      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0, MVT);
 
       capacitor.dielectricOffsetProperty.value = L / 2; // half the plate still covered
 
@@ -76,7 +78,7 @@ describe("Capacitor", () => {
     });
 
     it("clamps the dielectric contact area at zero once fully withdrawn", () => {
-      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0);
+      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0, MVT);
 
       capacitor.dielectricOffsetProperty.value = 2 * L;
 
@@ -120,7 +122,7 @@ describe("Capacitor", () => {
     });
 
     it("gives Q_excess = ((ε_r − 1)/ε_r)·C·V in the dielectric", () => {
-      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0);
+      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0, MVT);
       capacitor.plateVoltageProperty.value = 1.5;
 
       expect(capacitor.excessDielectricPlateChargeProperty.value).toBeCloseTo(
@@ -133,7 +135,7 @@ describe("Capacitor", () => {
   describe("electric field", () => {
     it("gives the net field as V/d, independent of the dielectric", () => {
       const withAir = airCapacitor();
-      const withGlass = new Capacitor(new Vector3(0, 0, 0), L, D, createGlass(), 0);
+      const withGlass = new Capacitor(new Vector3(0, 0, 0), L, D, createGlass(), 0, MVT);
       withAir.plateVoltageProperty.value = 1.5;
       withGlass.plateVoltageProperty.value = 1.5;
 
@@ -142,7 +144,7 @@ describe("Capacitor", () => {
     });
 
     it("splits the plates' field into net plus polarization", () => {
-      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0);
+      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, createCustom(5), 0, MVT);
       capacitor.plateVoltageProperty.value = 1.5;
 
       expect(capacitor.platesDielectricEFieldProperty.value).toBeCloseTo((5 * 1.5) / D, 6);
@@ -163,7 +165,7 @@ describe("Capacitor", () => {
   describe("reactivity", () => {
     it("tracks the custom material's constant while the user drags its slider", () => {
       const custom = createCustom(1);
-      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, custom, 0);
+      const capacitor = new Capacitor(new Vector3(0, 0, 0), L, D, custom, 0, MVT);
       capacitor.plateVoltageProperty.value = 1.5;
       const before = capacitor.totalCapacitanceProperty.value;
 
