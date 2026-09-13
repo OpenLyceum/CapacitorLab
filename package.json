@@ -47,8 +47,8 @@
   "devDependencies": {
     "@biomejs/biome": "^2.5.12",
     "@playwright/test": "^1.63.0",
-    "@types/node": "^24.13.3",
-    "happy-dom": "^20.14.0",
+    "@types/node": "^24.13.4",
+    "happy-dom": "^20.14.3",
     "jsdom": "^30.0.1",
     "playwright": "^1.62.1",
     "png-to-ico": "^3.0.2",
