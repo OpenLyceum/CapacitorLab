@@ -1,9 +1,93 @@
 {
-  "title": "Capacitor Lab",
+  "title": "Laboratorio de capacitores",
   "screens": {
-    "introduction": "Introduction",
-    "dielectric": "Dielectric",
-    "multipleCapacitors": "Multiple Capacitors"
+    "introduction": "Introducción",
+    "dielectric": "Dieléctrico",
+    "multipleCapacitors": "Varios capacitores"
+  },
+  "view": {
+    "title": "Mostrar",
+    "plateCharges": "cargas de la placa",
+    "electricFieldLines": "Líneas de campo eléctrico"
+  },
+  "meters": {
+    "title": "Mediciones",
+    "capacitance": "Capacitancia",
+    "plateCharge": "carga de la placa",
+    "plateChargeTop": "carga de la placa (arriba)",
+    "storedEnergy": "Energía almacenada",
+    "totalCapacitance": "Capacidad total",
+    "storedCharge": "Carga almacenada",
+    "voltmeter": "voltímetro",
+    "electricFieldDetector": "Detector de campo eléctrico"
+  },
+  "dielectricPanel": {
+    "material": "Material",
+    "constant": "Constante dieléctrica",
+    "offset": "Desplazamiento relativo",
+    "charges": "Cargas del dieléctrico",
+    "hideAllCharges": "Esconder todas las cargas",
+    "showAllCharges": "Mostrar todas las cargas",
+    "showExcessCharges": "Mostrar las cargas en exceso"
+  },
+  "materials": {
+    "custom": "personalizado",
+    "glass": "vidrio",
+    "paper": "paper",
+    "teflon": "teflón"
+  },
+  "circuits": {
+    "title": "Circuitos",
+    "single": "Un solo capacitor",
+    "twoInSeries": "2 en serie",
+    "threeInSeries": "3 en serie",
+    "twoInParallel": "2 en paralelo",
+    "threeInParallel": "3 en paralelo",
+    "combination1": "2 en serie + 1 en paralelo",
+    "combination2": "2 en paralelo + 1 en serie"
+  },
+  "battery": {
+    "connect": "Conectar batería",
+    "disconnect": "Desconectar batería"
+  },
+  "capacitor": {
+    "plateArea": "área de la placa",
+    "separation": "separación"
+  },
+  "plateChargeControl": {
+    "none": "Ninguno",
+    "lotsPositive": "muchos (+)",
+    "lotsNegative": "muchos (-)"
+  },
+  "eFieldDetector": {
+    "title": "Campo eléctrico",
+    "showValues": "Mostrar valores",
+    "showVectors": "Mostrar vectores\\:",
+    "plate": "Placa",
+    "sum": "Suma",
+    "zoom": "Zoom\\:",
+    "dielectric": "Dieléctrico"
+  },
+  "units": {
+    "farads": "F",
+    "coulombs": "C",
+    "joules": "J",
+    "volts": "V",
+    "voltsPerMeter": "V/m",
+    "millimeters": "mm",
+    "millimetersSquared": "mm<sup>2</sup>",
+    "unknown": "?"
+  },
+  "patterns": {
+    "label": "{{label}}:",
+    "valueUnits": "{{value}} {{units}}",
+    "labelValueUnits": "{{label}} {{value}} {{units}}",
+    "materialConstant": "{{material}} ({{constant}})",
+    "capacitorSubscript": "C<sub>{{number}}</sub>"
+  },
+  "preferences": {
+    "title": "Simulación",
+    "exampleToggle": "Ejemplo de alternancia"
   },
   "a11y": {
     "introduction": {
@@ -39,9 +123,5 @@
         "exampleControl": "Control de ejemplo"
       }
     }
-  },
-  "preferences": {
-    "title": "Simulación",
-    "exampleToggle": "Ejemplo de alternancia"
   }
 }

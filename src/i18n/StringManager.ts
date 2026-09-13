@@ -129,6 +129,65 @@ export class StringManager {
     return stringProperties.a11y.multipleCapacitors;
   }
 
+  /** "View" control panel: plate charges and electric field line checkboxes. */
+  public getViewStrings() {
+    return stringProperties.view;
+  }
+
+  /** "Meters" control panel plus the three bar-meter titles. */
+  public getMeterStrings() {
+    return stringProperties.meters;
+  }
+
+  /** "Dielectric" control panel: material, constant, offset, charge view. */
+  public getDielectricPanelStrings() {
+    return stringProperties.dielectricPanel;
+  }
+
+  /** Dielectric material names shown in the material combo box. */
+  public getMaterialStrings() {
+    return stringProperties.materials;
+  }
+
+  /** The seven circuit names on the Multiple Capacitors screen. */
+  public getCircuitStrings() {
+    return stringProperties.circuits;
+  }
+
+  /** Battery connect / disconnect button labels. */
+  public getBatteryStrings() {
+    return stringProperties.battery;
+  }
+
+  /** Capacitor drag-handle labels: plate area and separation. */
+  public getCapacitorStrings() {
+    return stringProperties.capacitor;
+  }
+
+  /** Tick labels for the plate-charge slider shown when the battery is disconnected. */
+  public getPlateChargeControlStrings() {
+    return stringProperties.plateChargeControl;
+  }
+
+  /** E-field detector body: title, vector checkboxes, values, zoom. */
+  public getEFieldDetectorStrings() {
+    return stringProperties.eFieldDetector;
+  }
+
+  /** Unit abbreviations (F, C, J, V, V/m, mm, mm²) and the unknown-value placeholder. */
+  public getUnitStrings() {
+    return stringProperties.units;
+  }
+
+  /**
+   * Composition patterns ported from the Java sim's `pattern.*` strings, with
+   * PhET's positional `{0}` placeholders rewritten as named `{{value}}` ones for
+   * use with `StringUtils.fillIn` / `PatternStringProperty`.
+   */
+  public getPatternStrings() {
+    return stringProperties.patterns;
+  }
+
   /**
    * Simulation-specific preference labels shown in Preferences → Simulation.
    */

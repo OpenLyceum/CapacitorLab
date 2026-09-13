@@ -1,9 +1,93 @@
 {
-  "title": "Capacitor Lab",
+  "title": "TP Condensateur",
   "screens": {
     "introduction": "Introduction",
-    "dielectric": "Dielectric",
-    "multipleCapacitors": "Multiple Capacitors"
+    "dielectric": "Diélectrique",
+    "multipleCapacitors": "Plusieurs capacités"
+  },
+  "view": {
+    "title": "Vue",
+    "plateCharges": "Charges de la plaque",
+    "electricFieldLines": "Lignes de champ électrique"
+  },
+  "meters": {
+    "title": "Mesures",
+    "capacitance": "Capacitance",
+    "plateCharge": "Charge plaque",
+    "plateChargeTop": "Charge plaque (haut)",
+    "storedEnergy": "Energie stockée",
+    "totalCapacitance": "Total Capacitance",
+    "storedCharge": "Stored Charge",
+    "voltmeter": "Voltmètre",
+    "electricFieldDetector": "Détecteur de champ électrique"
+  },
+  "dielectricPanel": {
+    "material": "Matériau",
+    "constant": "Constante diélectrique",
+    "offset": "Offset",
+    "charges": "Charges du diélectrique",
+    "hideAllCharges": "Masquer les charges",
+    "showAllCharges": "Montrer les charges",
+    "showExcessCharges": "Montrer l'excès de charges"
+  },
+  "materials": {
+    "custom": "Personnaliser",
+    "glass": "verre",
+    "paper": "papier",
+    "teflon": "téflon"
+  },
+  "circuits": {
+    "title": "Circuits",
+    "single": "Single",
+    "twoInSeries": "2 in Series",
+    "threeInSeries": "3 in Series",
+    "twoInParallel": "2 in Parallel",
+    "threeInParallel": "3 in Parallel",
+    "combination1": "2 in Series + 1 in Parallel",
+    "combination2": "2 in Parallel + 1 in Series"
+  },
+  "battery": {
+    "connect": "Connecter la batterie",
+    "disconnect": "Déconnecter la batterie"
+  },
+  "capacitor": {
+    "plateArea": "Aire de la plaque",
+    "separation": "Distance inter-plaques"
+  },
+  "plateChargeControl": {
+    "none": "rien",
+    "lotsPositive": "plus de charges (+)",
+    "lotsNegative": "plus de charges (-)"
+  },
+  "eFieldDetector": {
+    "title": "Champ électrique",
+    "showValues": "Afficher les valeurs",
+    "showVectors": "Afficher les vecteurs",
+    "plate": "Plaque",
+    "sum": "Somme",
+    "zoom": "Zoom",
+    "dielectric": "Diélectrique"
+  },
+  "units": {
+    "farads": "F",
+    "coulombs": "C",
+    "joules": "J",
+    "volts": "V",
+    "voltsPerMeter": "V/m",
+    "millimeters": "mm",
+    "millimetersSquared": "mm<sup>2</sup>",
+    "unknown": "?"
+  },
+  "patterns": {
+    "label": "{{label}}:",
+    "valueUnits": "{{value}} {{units}}",
+    "labelValueUnits": "{{label}} {{value}} {{units}}",
+    "materialConstant": "{{material}} ({{constant}})",
+    "capacitorSubscript": "C<sub>{{number}}</sub>"
+  },
+  "preferences": {
+    "title": "Simulation",
+    "exampleToggle": "Exemple de bascule"
   },
   "a11y": {
     "introduction": {
@@ -39,9 +123,5 @@
         "exampleControl": "Contrôle d'exemple"
       }
     }
-  },
-  "preferences": {
-    "title": "Simulation",
-    "exampleToggle": "Exemple de bascule"
   }
 }

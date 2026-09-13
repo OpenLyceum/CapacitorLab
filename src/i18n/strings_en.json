@@ -5,6 +5,90 @@
     "dielectric": "Dielectric",
     "multipleCapacitors": "Multiple Capacitors"
   },
+  "view": {
+    "title": "View",
+    "plateCharges": "Plate Charges",
+    "electricFieldLines": "Electric Field Lines"
+  },
+  "meters": {
+    "title": "Meters",
+    "capacitance": "Capacitance",
+    "plateCharge": "Plate Charge",
+    "plateChargeTop": "Plate Charge (top)",
+    "storedEnergy": "Stored Energy",
+    "totalCapacitance": "Total Capacitance",
+    "storedCharge": "Stored Charge",
+    "voltmeter": "Voltmeter",
+    "electricFieldDetector": "Electric Field Detector"
+  },
+  "dielectricPanel": {
+    "material": "Material",
+    "constant": "Dielectric Constant",
+    "offset": "Offset",
+    "charges": "Dielectric Charges",
+    "hideAllCharges": "Hide all charges",
+    "showAllCharges": "Show all charges",
+    "showExcessCharges": "Show excess charges"
+  },
+  "materials": {
+    "custom": "custom",
+    "glass": "glass",
+    "paper": "paper",
+    "teflon": "teflon"
+  },
+  "circuits": {
+    "title": "Circuits",
+    "single": "Single",
+    "twoInSeries": "2 in Series",
+    "threeInSeries": "3 in Series",
+    "twoInParallel": "2 in Parallel",
+    "threeInParallel": "3 in Parallel",
+    "combination1": "2 in Series + 1 in Parallel",
+    "combination2": "2 in Parallel + 1 in Series"
+  },
+  "battery": {
+    "connect": "Connect Battery",
+    "disconnect": "Disconnect Battery"
+  },
+  "capacitor": {
+    "plateArea": "Plate Area",
+    "separation": "Separation"
+  },
+  "plateChargeControl": {
+    "none": "none",
+    "lotsPositive": "lots (+)",
+    "lotsNegative": "lots (-)"
+  },
+  "eFieldDetector": {
+    "title": "Electric Field",
+    "showValues": "Show Values",
+    "showVectors": "Show Vectors:",
+    "plate": "Plate",
+    "sum": "Sum",
+    "zoom": "Zoom:",
+    "dielectric": "Dielectric"
+  },
+  "units": {
+    "farads": "F",
+    "coulombs": "C",
+    "joules": "J",
+    "volts": "V",
+    "voltsPerMeter": "V/m",
+    "millimeters": "mm",
+    "millimetersSquared": "mm<sup>2</sup>",
+    "unknown": "?"
+  },
+  "patterns": {
+    "label": "{{label}}:",
+    "valueUnits": "{{value}} {{units}}",
+    "labelValueUnits": "{{label}} {{value}} {{units}}",
+    "materialConstant": "{{material}} ({{constant}})",
+    "capacitorSubscript": "C<sub>{{number}}</sub>"
+  },
+  "preferences": {
+    "title": "Simulation",
+    "exampleToggle": "Example Toggle"
+  },
   "a11y": {
     "introduction": {
       "screenSummary": {
@@ -39,9 +123,5 @@
         "exampleControl": "Example control"
       }
     }
-  },
-  "preferences": {
-    "title": "Simulation",
-    "exampleToggle": "Example Toggle"
   }
 }
