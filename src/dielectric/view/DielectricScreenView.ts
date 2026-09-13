@@ -1,5 +1,5 @@
 /**
- * SimScreenView.ts
+ * DielectricScreenView.ts
  *
  * The top-level view for the simulation screen.
  *
@@ -9,7 +9,7 @@
  *   - Override step(dt) for frame-by-frame animation
  *
  * ── Adding content ────────────────────────────────────────────────────────────
- * 1. Create Node subclasses in separate files (e.g. SimControlPanel.ts)
+ * 1. Create Node subclasses in separate files (e.g. CapacitorLabControlPanel.ts)
  * 2. Instantiate them here and call this.addChild(...)
  * 3. Link them to model properties:
  *      model.isRunningProperty.link( isRunning => { ... } );
@@ -24,24 +24,24 @@ import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { Node, Rectangle, Text } from "scenerystack/scenery";
 import { ResetAllButton } from "scenerystack/scenery-phet";
 import { ScreenView, type ScreenViewOptions } from "scenerystack/sim";
-import { FLAT_RESET_ALL_BUTTON_OPTIONS } from "../../common/SimButtonOptions.js";
+import CapacitorLabColors from "../../CapacitorLabColors.js";
+import { SCREEN_VIEW_MARGIN } from "../../CapacitorLabConstants.js";
+import { FLAT_RESET_ALL_BUTTON_OPTIONS } from "../../common/CapacitorLabButtonOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import SimColors from "../../SimColors.js";
-import { SCREEN_VIEW_MARGIN } from "../../SimConstants.js";
-import type { SimModel } from "../model/SimModel.js";
-import { SimScreenSummaryContent } from "./SimScreenSummaryContent.js";
+import type { DielectricModel } from "../model/DielectricModel.js";
+import { DielectricScreenSummaryContent } from "./DielectricScreenSummaryContent.js";
 
-export type SimScreenViewOptions = ScreenViewOptions;
+export type DielectricScreenViewOptions = ScreenViewOptions;
 
-export class SimScreenView extends ScreenView {
-  public constructor(model: SimModel, providedOptions?: SimScreenViewOptions) {
+export class DielectricScreenView extends ScreenView {
+  public constructor(model: DielectricModel, providedOptions?: DielectricScreenViewOptions) {
     // ── Accessibility: screen summary ───────────────────────────────────────────
     // The screen summary is the first thing a screen-reader user encounters. It
     // is registered here, in the ScreenView's super() options, so every sim wires
-    // it the same way. See SimScreenSummaryContent for the four content regions.
-    const options = optionize<SimScreenViewOptions, EmptySelfOptions, ScreenViewOptions>()(
+    // it the same way. See DielectricScreenSummaryContent for the four content regions.
+    const options = optionize<DielectricScreenViewOptions, EmptySelfOptions, ScreenViewOptions>()(
       {
-        screenSummaryContent: new SimScreenSummaryContent(model),
+        screenSummaryContent: new DielectricScreenSummaryContent(model),
       },
       providedOptions,
     );
@@ -51,15 +51,15 @@ export class SimScreenView extends ScreenView {
     // A full-screen rectangle that follows the active color profile.
     // Replace or remove once you add real content.
     const backgroundRect = new Rectangle(0, 0, this.layoutBounds.width, this.layoutBounds.height, {
-      fill: SimColors.backgroundColorProperty,
+      fill: CapacitorLabColors.backgroundColorProperty,
     });
     this.addChild(backgroundRect);
 
     // ── Placeholder label ─────────────────────────────────────────────────────
     // Replace this with your actual simulation content.
-    const placeholderText = new Text(StringManager.getInstance().getScreenNames().simStringProperty, {
+    const placeholderText = new Text(StringManager.getInstance().getScreenNames().dielectricStringProperty, {
       font: "bold 36px sans-serif",
-      fill: SimColors.textColorProperty,
+      fill: CapacitorLabColors.textColorProperty,
       center: this.layoutBounds.center,
     });
     this.addChild(placeholderText);
@@ -72,7 +72,7 @@ export class SimScreenView extends ScreenView {
     // option; a draggable plain Node needs `tagName: "div", focusable: true` too.
     // Example (uncomment and adapt when you add a real control):
     //
-    //   const a11y = StringManager.getInstance().getA11yStrings();
+    //   const a11y = StringManager.getInstance().getDielectricA11yStrings();
     //   const exampleButton = new RectangularPushButton({
     //     ...FLAT_RECTANGULAR_BUTTON_OPTIONS, // flat appearance, not SceneryStack's default 3-D look
     //     content: someIcon,
@@ -133,7 +133,7 @@ export class SimScreenView extends ScreenView {
   // DerivedProperty / Multilink / Property.link against model state, keep the
   // references and tear them down — forks copy what they see. Pattern:
   //
-  // private readonly disposeSimScreenView: () => void;
+  // private readonly disposeDielectricScreenView: () => void;
   //
   // // in the constructor, after creating the listeners:
   // const statusMultilink = Multilink.multilink(
@@ -143,18 +143,18 @@ export class SimScreenView extends ScreenView {
   // const detailsProperty = new DerivedProperty(
   //   [model.stateProperty],
   //   (state) => `State: ${state}`,
-  // ); // → pass as currentDetailsContent in SimScreenSummaryContent
+  // ); // → pass as currentDetailsContent in DielectricScreenSummaryContent
   // const onExternal = (v: number) => { /* … */ };
   // model.externalProperty.link(onExternal); // Property you do NOT own
   //
-  // this.disposeSimScreenView = () => {
+  // this.disposeDielectricScreenView = () => {
   //   statusMultilink.dispose();                 // Multilink you created
   //   detailsProperty.dispose();                 // DerivedProperty you created
   //   model.externalProperty.unlink(onExternal); // undo external link
   // };
   //
   // public override dispose(): void {
-  //   this.disposeSimScreenView();
+  //   this.disposeDielectricScreenView();
   //   super.dispose();
   // }
 }

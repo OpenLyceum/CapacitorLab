@@ -1,17 +1,43 @@
 {
-  "title": "Modèle de Simulation",
+  "title": "Capacitor Lab",
   "screens": {
-    "sim": "Simulation"
+    "introduction": "Introduction",
+    "dielectric": "Dielectric",
+    "multipleCapacitors": "Multiple Capacitors"
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-      "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-      "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+    "introduction": {
+      "screenSummary": {
+        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
+        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
+        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+      },
+      "currentDetails": "La simulation est dans son état initial.",
+      "controls": {
+        "exampleControl": "Contrôle d'exemple"
+      }
     },
-    "currentDetails": "La simulation est dans son état initial.",
-    "controls": {
-      "exampleControl": "Contrôle d'exemple"
+    "dielectric": {
+      "screenSummary": {
+        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
+        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
+        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+      },
+      "currentDetails": "La simulation est dans son état initial.",
+      "controls": {
+        "exampleControl": "Contrôle d'exemple"
+      }
+    },
+    "multipleCapacitors": {
+      "screenSummary": {
+        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
+        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
+        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+      },
+      "currentDetails": "La simulation est dans son état initial.",
+      "controls": {
+        "exampleControl": "Contrôle d'exemple"
+      }
     }
   },
   "preferences": {
