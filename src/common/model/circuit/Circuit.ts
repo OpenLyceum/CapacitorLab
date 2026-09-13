@@ -44,6 +44,12 @@ export type Circuit = {
   /** dQ/dt, Amps. Drives the direction and visibility of the current arrows. */
   readonly currentAmplitudeProperty: TReadOnlyProperty<number>;
 
+  /** Everything a meter must watch to keep its reading current. */
+  readonly changeProperties: TReadOnlyProperty<unknown>[];
+
+  readonly topWire: Wire;
+  readonly bottomWire: Wire;
+
   /**
    * Voltage at whatever a probe-tip shape is touching, with respect to ground, or
    * NaN when the shape is touching nothing connected to the circuit.

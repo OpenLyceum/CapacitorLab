@@ -116,6 +116,14 @@ export abstract class AbstractCircuit implements Circuit {
     return this.computeTotalVoltage() * this.computeTotalCapacitance();
   }
 
+  /**
+   * Everything a meter has to watch: the circuit's inputs plus the plate voltages
+   * they produce. Meters re-link to this when the user switches circuits.
+   */
+  public get changeProperties(): TReadOnlyProperty<unknown>[] {
+    return [...this.changeInputs, ...this.capacitors.map((capacitor) => capacitor.plateVoltageProperty)];
+  }
+
   public get topWire(): Wire {
     const wire = this.wires[0];
     if (wire === undefined) {

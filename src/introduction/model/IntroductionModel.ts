@@ -1,43 +1,36 @@
 /**
  * IntroductionModel.ts
  *
- * The top-level model for the simulation screen.
+ * The Introduction screen: one battery, one capacitor, air between the plates.
  *
- * Add your simulation's state here using reactive Property objects from
- * scenerystack/axon. The view observes these properties and updates automatically.
+ * It is a {@link SingleCapacitorModel} with the dielectric pushed entirely out of
+ * the way, which is how the Java sim built this screen too — `IntroductionModule`
+ * instantiated a `DielectricModel` rather than defining a model of its own. The
+ * dielectric machinery is all still here, doing nothing, so that the Dielectric
+ * screen is the same model with different arguments rather than a second
+ * implementation that has to be kept in step.
  *
- * ── Example ──────────────────────────────────────────────────────────────────
- *   import { BooleanProperty, NumberProperty } from "scenerystack/axon";
- *
- *   public readonly isRunningProperty = new BooleanProperty(false);
- *   public readonly timeProperty = new NumberProperty(0);    // seconds
- *
- * ── Step cycle ────────────────────────────────────────────────────────────────
- * The Sim calls step(dt) on every animation frame. Advance your model state
- * in that method (e.g. integrate equations, update positions).
- *
- * ── Reset ─────────────────────────────────────────────────────────────────────
- * reset() is called when the user presses Reset All. Call .reset() on every
- * Property declared here.
+ * Ported from `module/introduction/IntroductionModule.java`.
  */
-import type { TModel } from "scenerystack/joist";
 
-export class IntroductionModel implements TModel {
-  /**
-   * Resets all model state to initial values.
-   * Called when the user presses the Reset All button.
-   */
-  public reset(): void {
-    // TODO: call .reset() on every Property declared in this model
-  }
+import { PLATE_WIDTH_RANGE } from "../../CapacitorLabConstants.js";
+import { createAir } from "../../common/model/DielectricMaterial.js";
+import { SingleCapacitorModel } from "../../common/model/SingleCapacitorModel.js";
 
-  /**
-   * Steps the model forward by dt seconds.
-   * Called every animation frame by the Sim framework.
-   *
-   * @param _dt - elapsed time in seconds since the last frame
-   */
-  public step(_dt: number): void {
-    // TODO: advance simulation state here
+/**
+ * Far enough out that no part of the slab is ever between the plates, at any
+ * plate width. A metre is absurd next to a 2 cm plate, and deliberately so — it
+ * makes the "no dielectric here" intent unmistakable, and it is the value the
+ * Java sim used.
+ */
+const DIELECTRIC_FULLY_WITHDRAWN = PLATE_WIDTH_RANGE.max + 1;
+
+export class IntroductionModel extends SingleCapacitorModel {
+  public constructor() {
+    super({
+      materials: [createAir()],
+      dielectricOffset: DIELECTRIC_FULLY_WITHDRAWN,
+      eFieldDetectorSimplified: true,
+    });
   }
 }
