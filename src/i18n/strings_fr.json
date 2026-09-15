@@ -38,13 +38,13 @@
   },
   "circuits": {
     "title": "Circuits",
-    "single": "Single",
-    "twoInSeries": "2 in Series",
-    "threeInSeries": "3 in Series",
-    "twoInParallel": "2 in Parallel",
-    "threeInParallel": "3 in Parallel",
-    "combination1": "2 in Series + 1 in Parallel",
-    "combination2": "2 in Parallel + 1 in Series"
+    "single": "Simple",
+    "twoInSeries": "2 en série",
+    "threeInSeries": "3 en série",
+    "twoInParallel": "2 en parallèle",
+    "threeInParallel": "3 en parallèle",
+    "combination1": "2 en série + 1 en parallèle",
+    "combination2": "2 en parallèle + 1 en série"
   },
   "battery": {
     "connect": "Connecter la batterie",
