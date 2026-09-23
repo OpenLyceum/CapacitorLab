@@ -1,4 +1,4 @@
-# CLAUDE.md — Capacitor Lab
+# AGENTS.md — Capacitor Lab
 
 Sim-specific context for AI assistants. General SceneryStack guidance lives in the OpenLyceum `.github`
 repository.
