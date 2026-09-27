@@ -86,8 +86,7 @@
     "capacitorSubscript": "C<sub>{{number}}</sub>"
   },
   "preferences": {
-    "title": "Simulación",
-    "exampleToggle": "Ejemplo de alternancia"
+    "title": "Simulación"
   },
   "a11y": {
     "common": {
@@ -103,10 +102,7 @@
         "controlArea": "Los controles cambian el voltaje, el área y la separación de las placas, las representaciones de carga y campo y la visibilidad de los medidores.",
         "interactionHint": "Ajusta la batería o las placas y luego muestra y coloca un medidor para investigar el resultado."
       },
-      "currentDetails": "Capacitancia {{capacitance}} F. Carga de placa {{charge}} C. Energía almacenada {{energy}} J.",
-      "controls": {
-        "exampleControl": "Control de ejemplo"
-      }
+      "currentDetails": "Capacitancia {{capacitance}} F. Carga de placa {{charge}} C. Energía almacenada {{energy}} J."
     },
     "dielectric": {
       "screenSummary": {
@@ -114,10 +110,7 @@
         "controlArea": "Los controles cambian la batería, la geometría del capacitor, el material y las cargas del dieléctrico, el campo y los medidores.",
         "interactionHint": "Mueve el dieléctrico y compara la capacitancia, la carga, la energía y los tres vectores de campo eléctrico."
       },
-      "currentDetails": "Capacitancia {{capacitance}} F. Carga de placa {{charge}} C. Energía almacenada {{energy}} J.",
-      "controls": {
-        "exampleControl": "Control de ejemplo"
-      }
+      "currentDetails": "Capacitancia {{capacitance}} F. Carga de placa {{charge}} C. Energía almacenada {{energy}} J."
     },
     "multipleCapacitors": {
       "screenSummary": {
@@ -125,10 +118,7 @@
         "controlArea": "Los controles seleccionan uno de siete circuitos, cambian los capacitores y eligen las representaciones y los medidores.",
         "interactionHint": "Selecciona un circuito y asigna valores diferentes para comparar capacitancia total, carga almacenada y energía."
       },
-      "currentDetails": "Circuito {{circuit}}. Capacitancia total {{capacitance}} F. Carga almacenada {{charge}} C. Energía almacenada {{energy}} J.",
-      "controls": {
-        "exampleControl": "Control de ejemplo"
-      }
+      "currentDetails": "Circuito {{circuit}}. Capacitancia total {{capacitance}} F. Carga almacenada {{charge}} C. Energía almacenada {{energy}} J."
     }
   }
 }

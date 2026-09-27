@@ -57,9 +57,6 @@ export type CapacitorLabA11yStrings = {
     readonly interactionHintStringProperty: ReadOnlyProperty<string>;
   };
   readonly currentDetailsStringProperty: ReadOnlyProperty<string>;
-  readonly controls: {
-    readonly exampleControlStringProperty: ReadOnlyProperty<string>;
-  };
 };
 
 /**
@@ -68,7 +65,6 @@ export type CapacitorLabA11yStrings = {
  */
 export type CapacitorLabPreferenceStrings = {
   readonly titleStringProperty: ReadOnlyProperty<string>;
-  readonly exampleToggleStringProperty: ReadOnlyProperty<string>;
 };
 
 /**

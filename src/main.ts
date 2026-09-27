@@ -26,14 +26,9 @@ import { DielectricScreen } from "./dielectric/DielectricScreen.js";
 import { StringManager } from "./i18n/StringManager.js";
 import { IntroductionScreen } from "./introduction/IntroductionScreen.js";
 import { MultipleCapacitorsScreen } from "./multiple-capacitors/MultipleCapacitorsScreen.js";
-import { CapacitorLabPreferencesModel } from "./preferences/CapacitorLabPreferencesModel.js";
-import { CapacitorLabPreferencesNode } from "./preferences/CapacitorLabPreferencesNode.js";
 
 onReadyToLaunch(() => {
   const stringManager = StringManager.getInstance();
-
-  // Simulation-specific preferences; initial values come from capacitorLabQueryParameters.
-  const simPreferences = new CapacitorLabPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
   const screens = [
     new IntroductionScreen({
@@ -60,13 +55,6 @@ onReadyToLaunch(() => {
         supportsProjectorMode: true,
         // Enables keyboard-navigation highlight outlines
         supportsInteractiveHighlights: true,
-      },
-      simulationOptions: {
-        customPreferences: [
-          {
-            createContent: (tandem: Tandem) => new CapacitorLabPreferencesNode(simPreferences, tandem),
-          },
-        ],
       },
       localizationOptions: {
         // Adds a language picker in Preferences → Language

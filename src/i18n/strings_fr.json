@@ -86,8 +86,7 @@
     "capacitorSubscript": "C<sub>{{number}}</sub>"
   },
   "preferences": {
-    "title": "Simulation",
-    "exampleToggle": "Exemple de bascule"
+    "title": "Simulation"
   },
   "a11y": {
     "common": {
@@ -103,10 +102,7 @@
         "controlArea": "Les commandes modifient la tension, l’aire et l’écartement des plaques, les représentations des charges et du champ, et les appareils de mesure.",
         "interactionHint": "Réglez la pile ou les plaques, puis affichez et placez un appareil pour observer le résultat."
       },
-      "currentDetails": "Capacitance {{capacitance}} F. Charge des plaques {{charge}} C. Énergie stockée {{energy}} J.",
-      "controls": {
-        "exampleControl": "Contrôle d'exemple"
-      }
+      "currentDetails": "Capacitance {{capacitance}} F. Charge des plaques {{charge}} C. Énergie stockée {{energy}} J."
     },
     "dielectric": {
       "screenSummary": {
@@ -114,10 +110,7 @@
         "controlArea": "Les commandes modifient la pile, la géométrie du condensateur, le matériau et les charges du diélectrique, le champ et les appareils.",
         "interactionHint": "Déplacez le diélectrique et comparez la capacitance, la charge, l’énergie et les trois vecteurs du champ électrique."
       },
-      "currentDetails": "Capacitance {{capacitance}} F. Charge des plaques {{charge}} C. Énergie stockée {{energy}} J.",
-      "controls": {
-        "exampleControl": "Contrôle d'exemple"
-      }
+      "currentDetails": "Capacitance {{capacitance}} F. Charge des plaques {{charge}} C. Énergie stockée {{energy}} J."
     },
     "multipleCapacitors": {
       "screenSummary": {
@@ -125,10 +118,7 @@
         "controlArea": "Les commandes choisissent l’un des sept circuits, règlent les condensateurs et sélectionnent les représentations et les appareils.",
         "interactionHint": "Choisissez un circuit et donnez des valeurs différentes aux condensateurs pour comparer capacitance totale, charge et énergie."
       },
-      "currentDetails": "Circuit {{circuit}}. Capacitance totale {{capacitance}} F. Charge stockée {{charge}} C. Énergie stockée {{energy}} J.",
-      "controls": {
-        "exampleControl": "Contrôle d'exemple"
-      }
+      "currentDetails": "Circuit {{circuit}}. Capacitance totale {{capacitance}} F. Charge stockée {{charge}} C. Énergie stockée {{energy}} J."
     }
   }
 }

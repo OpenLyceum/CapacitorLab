@@ -11,24 +11,14 @@
  * 2. If it should also be user-editable at runtime, surface it as a preference
  *    in CapacitorLabPreferencesModel (initialize that Property from this query parameter).
  *
- * Usage: append e.g. `?exampleToggle=true` to the sim URL.
+ * Usage: append e.g. `?name=value` to the sim URL (none are defined yet).
  */
 
 import { logGlobal } from "scenerystack/phet-core";
 import { QueryStringMachine } from "scenerystack/query-string-machine";
 import CapacitorLabNamespace from "../CapacitorLabNamespace.js";
 
-const capacitorLabQueryParameters = QueryStringMachine.getAll({
-  /**
-   * Example public boolean parameter. Replace with real sim-specific parameters,
-   * or remove if the sim has none.
-   */
-  exampleToggle: {
-    type: "boolean",
-    defaultValue: false,
-    public: true,
-  },
-});
+const capacitorLabQueryParameters = QueryStringMachine.getAll({});
 
 CapacitorLabNamespace.register("capacitorLabQueryParameters", capacitorLabQueryParameters);
 

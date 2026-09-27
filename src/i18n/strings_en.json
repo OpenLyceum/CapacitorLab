@@ -86,8 +86,7 @@
     "capacitorSubscript": "C<sub>{{number}}</sub>"
   },
   "preferences": {
-    "title": "Simulation",
-    "exampleToggle": "Example Toggle"
+    "title": "Simulation"
   },
   "a11y": {
     "common": {
@@ -103,10 +102,7 @@
         "controlArea": "Controls change battery voltage, plate area and separation, charge and field representations, and meter visibility.",
         "interactionHint": "Adjust the battery or capacitor handles, then show and position a meter to investigate the result."
       },
-      "currentDetails": "Capacitance {{capacitance}} F. Plate charge {{charge}} C. Stored energy {{energy}} J.",
-      "controls": {
-        "exampleControl": "Example control"
-      }
+      "currentDetails": "Capacitance {{capacitance}} F. Plate charge {{charge}} C. Stored energy {{energy}} J."
     },
     "dielectric": {
       "screenSummary": {
@@ -114,10 +110,7 @@
         "controlArea": "Controls change the battery, capacitor geometry, dielectric material and charge view, field representations, and meter visibility.",
         "interactionHint": "Move the dielectric slab and compare capacitance, charge, energy, and the three electric-field vectors."
       },
-      "currentDetails": "Capacitance {{capacitance}} F. Plate charge {{charge}} C. Stored energy {{energy}} J.",
-      "controls": {
-        "exampleControl": "Example control"
-      }
+      "currentDetails": "Capacitance {{capacitance}} F. Plate charge {{charge}} C. Stored energy {{energy}} J."
     },
     "multipleCapacitors": {
       "screenSummary": {
@@ -125,10 +118,7 @@
         "controlArea": "Controls select one of seven circuits, change capacitor values, show charge and field representations, and choose meters.",
         "interactionHint": "Select a circuit and give its capacitors different values to compare total capacitance, stored charge, and energy."
       },
-      "currentDetails": "{{circuit}} circuit. Total capacitance {{capacitance}} F. Stored charge {{charge}} C. Stored energy {{energy}} J.",
-      "controls": {
-        "exampleControl": "Example control"
-      }
+      "currentDetails": "{{circuit}} circuit. Total capacitance {{capacitance}} F. Stored charge {{charge}} C. Stored energy {{energy}} J."
     }
   }
 }
