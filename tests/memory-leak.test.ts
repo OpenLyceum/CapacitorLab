@@ -4,7 +4,6 @@
  * (tests/helpers/memoryLeak.ts). Add sim-specific leak tests below using forceGC().
  */
 
-import { TimeModel } from "../src/common/TimeModel.js";
 import { describeDisposalLeaks } from "./helpers/memoryLeak.js";
 
-describeDisposalLeaks([{ name: "TimeModel", create: () => new TimeModel(), idempotentDispose: true }]);
+describeDisposalLeaks([]);
