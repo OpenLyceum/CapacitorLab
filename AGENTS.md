@@ -62,3 +62,39 @@ npm test
 npm run build
 npm run test:fuzz:quick
 ```
+
+## Accessibility
+
+Follows the shared [OpenLyceum accessibility convention](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
+A11y strings live under the `a11y` key of each locale JSON, read through `StringManager`.
+
+- Screen summaries: `src/dielectric/view/DielectricScreenSummaryContent.ts`, `src/introduction/view/IntroductionScreenSummaryContent.ts`, `src/multiple-capacitors/view/MultipleCapacitorsScreenSummaryContent.ts`
+- Keyboard Shortcuts dialog: `src/dielectric/view/DielectricKeyboardHelpContent.ts`, `src/introduction/view/IntroductionKeyboardHelpContent.ts`, `src/multiple-capacitors/view/MultipleCapacitorsKeyboardHelpContent.ts`
+- Keyboard-draggable objects: `src/common/view/drag/DielectricOffsetDragHandleNode.ts`, `src/common/view/drag/PlateAreaDragHandleNode.ts`, `src/common/view/drag/PlateSeparationDragHandleNode.ts`, `src/common/view/drag/worldPositionDragListener.ts`
+
+## Compliance carve-outs
+
+None — the sim follows [Baton/CONVENTIONS.md](https://github.com/OpenLyceum/Baton/blob/main/CONVENTIONS.md) and matches the template-owned files (`Baton/scripts/check-template-drift.sh`).
+
+## Testing
+
+Vitest on `happy-dom` with the template `tests/setup.ts`; tests live only under `tests/`.
+
+| Path | Covers |
+|---|---|
+| `tests/common/model/CLCalibration.test.ts` | unit tests |
+| `tests/common/model/Capacitor.test.ts` | unit tests |
+| `tests/common/model/circuit/circuits.test.ts` | unit tests |
+| `tests/common/model/screenModels.test.ts` | unit tests |
+| `tests/memory-leak.test.ts` | `describeDisposalLeaks` over the sim's disposables (shared harness `tests/helpers/memoryLeak.ts`) |
+| `tests/fuzz/fuzz.spec.ts` | template fuzz smoke (pointer + keyboard, `?ea`) — `npm run test:fuzz` |
+
+## Commands
+
+```bash
+npm run lint && npm run check && npm test && npm run build && npm run test:fuzz:quick
+```
+
+The standard scripts are listed in the README. `npm run release` runs `npm test` before the version bump, and `src/init.ts` reads `version` from `package.json`.
+
+Sim-specific scripts: `npm run test:physics`.
