@@ -32,16 +32,19 @@ onReadyToLaunch(() => {
 
   const screens = [
     new IntroductionScreen({
+      // The screen name Property updates automatically when the locale changes
       name: stringManager.getScreenNames().introductionStringProperty,
       tandem: Tandem.ROOT.createTandem("introductionScreen"),
       backgroundColorProperty: CapacitorLabColors.backgroundColorProperty,
     }),
     new DielectricScreen({
+      // The screen name Property updates automatically when the locale changes
       name: stringManager.getScreenNames().dielectricStringProperty,
       tandem: Tandem.ROOT.createTandem("dielectricScreen"),
       backgroundColorProperty: CapacitorLabColors.backgroundColorProperty,
     }),
     new MultipleCapacitorsScreen({
+      // The screen name Property updates automatically when the locale changes
       name: stringManager.getScreenNames().multipleCapacitorsStringProperty,
       tandem: Tandem.ROOT.createTandem("multipleCapacitorsScreen"),
       backgroundColorProperty: CapacitorLabColors.backgroundColorProperty,
