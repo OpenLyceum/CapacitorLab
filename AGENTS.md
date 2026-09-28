@@ -9,7 +9,9 @@ Capacitor Lab is a faithful SceneryStack/TypeScript reimplementation of PhET's r
 Java simulation: Introduction, Dielectric, and Multiple Capacitors. SI units are used throughout the
 model. The project is AGPL-3.0-or-later and is not an official PhET product.
 
-## Architecture map
+## Key files
+
+### Architecture map
 
 - `src/common/model/Capacitor.ts` — dielectric-aware capacitance, charge, energy, and field equations.
 - `src/common/model/circuit/` — single, series, parallel, and two combination topologies.
@@ -24,7 +26,7 @@ model. The project is AGPL-3.0-or-later and is not an official PhET product.
 - `doc/implementation-notes.md` — projection, shapes-in-model rationale, and screen differences.
 - `tests/common/model/` — physics and circuit regression suite.
 
-## Reference implementations
+### Reference implementations
 
 The authoritative source is the Java sim under the OpenLyceum baseline checkout:
 `Baseline/PhET/trunk/simulations-java/simulations/capacitor-lab/`.
@@ -37,31 +39,9 @@ Secondary references are:
 Capacitor Lab: Basics has no dielectric feature, so never simplify this port's dielectric physics to
 match it. Preserve the air/dielectric split in charge and electric-field quantities.
 
-## Physics quirks
+## Model
 
-- Air deliberately uses relative permittivity 1.0, not the physical 1.0005896.
-- The partially inserted slab is modeled as air-filled and dielectric-filled capacitors in parallel.
-- With the battery connected, voltage is fixed and charge follows `Q = CV`; disconnected, plate charge
-  is fixed and voltage follows `V = Q/C`.
-- Probe readings are geometric. Do not replace model-shape intersection with view-coordinate guesses.
-- Multiple-capacitor controls change plate separation to realize a requested capacitance; each capacitor
-  is independently adjustable, while battery voltage is synchronized across circuits.
-
-## Working conventions
-
-Use `ProfileColorProperty` values from `CapacitorLabColors.ts`, localized properties from
-`StringManager`, and flat control options from `src/common/CapacitorLabButtonOptions.ts`. Keep physics
-out of scenery nodes. Interactive nodes need keyboard operation and localized accessible content.
-
-Run all gates before handing off:
-
-```bash
-npm run check
-npm run lint
-npm test
-npm run build
-npm run test:fuzz:quick
-```
+Physics and behavior: `doc/model.md`.
 
 ## Accessibility
 
@@ -98,3 +78,31 @@ npm run lint && npm run check && npm test && npm run build && npm run test:fuzz:
 The standard scripts are listed in the README. `npm run release` runs `npm test` before the version bump, and `src/init.ts` reads `version` from `package.json`.
 
 Sim-specific scripts: `npm run test:physics`.
+
+## Development notes
+
+### Physics quirks
+
+- Air deliberately uses relative permittivity 1.0, not the physical 1.0005896.
+- The partially inserted slab is modeled as air-filled and dielectric-filled capacitors in parallel.
+- With the battery connected, voltage is fixed and charge follows `Q = CV`; disconnected, plate charge
+  is fixed and voltage follows `V = Q/C`.
+- Probe readings are geometric. Do not replace model-shape intersection with view-coordinate guesses.
+- Multiple-capacitor controls change plate separation to realize a requested capacitance; each capacitor
+  is independently adjustable, while battery voltage is synchronized across circuits.
+
+### Working conventions
+
+Use `ProfileColorProperty` values from `CapacitorLabColors.ts`, localized properties from
+`StringManager`, and flat control options from `src/common/CapacitorLabButtonOptions.ts`. Keep physics
+out of scenery nodes. Interactive nodes need keyboard operation and localized accessible content.
+
+Run all gates before handing off:
+
+```bash
+npm run check
+npm run lint
+npm test
+npm run build
+npm run test:fuzz:quick
+```
