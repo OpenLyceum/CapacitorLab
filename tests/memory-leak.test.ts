@@ -4,6 +4,7 @@
  * (tests/helpers/memoryLeak.ts). Add sim-specific leak tests below using forceGC().
  */
 
+import { IntroductionModel } from "../src/introduction/model/IntroductionModel.js";
 import { describeDisposalLeaks } from "./helpers/memoryLeak.js";
 
-describeDisposalLeaks([]);
+describeDisposalLeaks([{ name: "IntroductionModel", create: () => new IntroductionModel() }]);

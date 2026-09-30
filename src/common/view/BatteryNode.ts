@@ -13,8 +13,8 @@
  * support the original did not have.
  */
 
-import { DerivedProperty } from "scenerystack/axon";
-import { Dimension2 } from "scenerystack/dot";
+import { PatternStringProperty } from "scenerystack/axon";
+import { Dimension2, toFixed } from "scenerystack/dot";
 import { Image, Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { VSlider } from "scenerystack/sun";
@@ -42,7 +42,9 @@ export class BatteryNode extends Node {
     const imageNode = new Image(CapacitorLabImages.batteryUp);
     this.addChild(imageNode);
 
-    const unitStrings = StringManager.getInstance().getUnitStrings();
+    const strings = StringManager.getInstance();
+    const unitStrings = strings.getUnitStrings();
+    const valueUnitsPattern = strings.getPatternStrings().valueUnitsStringProperty;
 
     const slider = new VSlider(battery.voltageProperty, BATTERY_VOLTAGE_RANGE, {
       trackSize: new Dimension2(TRACK_LENGTH, TRACK_THICKNESS),
@@ -56,10 +58,10 @@ export class BatteryNode extends Node {
     // Built as a Property rather than a string so the unit follows a locale change.
     const createTickLabel = (value: number): Node =>
       new Text(
-        new DerivedProperty(
-          [unitStrings.voltsStringProperty],
-          (volts: string) => `${value === 0 ? "0" : value.toFixed(1)} ${volts}`,
-        ),
+        new PatternStringProperty(valueUnitsPattern, {
+          value: value === 0 ? toFixed(value, 0) : toFixed(value, 1),
+          units: unitStrings.voltsStringProperty,
+        }),
         { font: TICK_LABEL_FONT, fill: CapacitorLabColors.textColorProperty },
       );
 

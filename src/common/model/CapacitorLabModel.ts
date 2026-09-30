@@ -117,4 +117,17 @@ export abstract class CapacitorLabModel implements TModel {
     this.voltmeter.reset();
     this.eFieldDetector.reset();
   }
+
+  /**
+   * Drops meter listeners and the play-area bounds. Screen models that own the
+   * circuit Property dispose it after this returns.
+   */
+  public dispose(): void {
+    this.capacitanceMeter.dispose();
+    this.plateChargeMeter.dispose();
+    this.storedEnergyMeter.dispose();
+    this.voltmeter.dispose();
+    this.eFieldDetector.dispose();
+    this.worldBounds.dispose();
+  }
 }

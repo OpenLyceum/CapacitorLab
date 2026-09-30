@@ -18,6 +18,7 @@
 import { DerivedProperty, NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import { Dimension2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
+import { StringUtils } from "scenerystack/phetcommon";
 import { type Color, Node, Path, Rectangle, RichText, Text } from "scenerystack/scenery";
 import { ArrowNode, CloseButton, PhetFont, PlusMinusZoomButtonGroup } from "scenerystack/scenery-phet";
 import CapacitorLabColors from "../../../CapacitorLabColors.js";
@@ -107,7 +108,7 @@ export class BarMeterNode extends Node {
         [meter.valueProperty, this.exponentProperty, options.unitsProperty],
         (v: number, exponent: number, units: string) => {
           const mantissa = v / 10 ** exponent;
-          return `${mantissa.toFixed(2)} × 10<sup>${exponent}</sup> ${units}`;
+          return `${StringUtils.toFixedLTR(mantissa, 2)} × 10<sup>${exponent}</sup> ${units}`;
         },
       ),
       { font: VALUE_FONT, fill: CapacitorLabColors.textColorProperty },
@@ -117,7 +118,10 @@ export class BarMeterNode extends Node {
       new DerivedProperty([this.exponentProperty], (exponent: number) => `10<sup>${exponent}</sup>`),
       { font: RANGE_LABEL_FONT, fill: CapacitorLabColors.textColorProperty },
     );
-    const minLabel = new Text("0", { font: RANGE_LABEL_FONT, fill: CapacitorLabColors.textColorProperty });
+    const minLabel = new Text(StringManager.getInstance().getMeterStrings().zeroStringProperty, {
+      font: RANGE_LABEL_FONT,
+      fill: CapacitorLabColors.textColorProperty,
+    });
 
     // Zooming in lowers the exponent, which shrinks full scale and makes the bar
     // taller — the opposite sign to what "zoom in" suggests numerically.

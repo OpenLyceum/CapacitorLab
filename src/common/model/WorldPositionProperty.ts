@@ -17,6 +17,7 @@ import type { WorldBounds } from "./WorldBounds.js";
 
 export class WorldPositionProperty extends Property<Vector3> {
   private readonly worldBounds: WorldBounds;
+  private readonly onBoundsChanged: () => void;
 
   public constructor(worldBounds: WorldBounds, position: Vector3) {
     super(position);
@@ -24,9 +25,15 @@ export class WorldPositionProperty extends Property<Vector3> {
 
     // A resize can leave an object outside the new play area; re-writing the
     // current value pushes it back in through the clamp below.
-    worldBounds.link(() => {
+    this.onBoundsChanged = () => {
       this.value = this.value;
-    });
+    };
+    worldBounds.link(this.onBoundsChanged);
+  }
+
+  public override dispose(): void {
+    this.worldBounds.unlink(this.onBoundsChanged);
+    super.dispose();
   }
 
   public override set(position: Vector3): void {

@@ -64,6 +64,9 @@ export type SingleCapacitorModelOptions = {
 export class SingleCapacitorModel extends CapacitorLabModel {
   public readonly circuit: SingleCircuit;
 
+  /** The Property handed to the base class; this screen owns it. */
+  private readonly ownedCircuitProperty: Property<Circuit>;
+
   /** The materials offered in the Dielectric screen's combo box. */
   public readonly materials: readonly DielectricMaterial[];
 
@@ -103,7 +106,13 @@ export class SingleCapacitorModel extends CapacitorLabModel {
     });
 
     this.circuit = circuit;
+    this.ownedCircuitProperty = circuitProperty;
     this.materials = options.materials;
+  }
+
+  public override dispose(): void {
+    super.dispose();
+    this.ownedCircuitProperty.dispose();
   }
 
   public override reset(): void {

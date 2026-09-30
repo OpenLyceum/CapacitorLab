@@ -19,7 +19,8 @@
     "totalCapacitance": "Total Capacitance",
     "storedCharge": "Stored Charge",
     "voltmeter": "Voltmeter",
-    "electricFieldDetector": "Electric Field Detector"
+    "electricFieldDetector": "Electric Field Detector",
+    "zero": "0"
   },
   "dielectricPanel": {
     "material": "Material",

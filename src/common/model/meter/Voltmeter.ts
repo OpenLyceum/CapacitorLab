@@ -41,6 +41,9 @@ export class Voltmeter {
   /** Watches the current circuit; replaced when the user picks a different one. */
   private circuitMultilink: { dispose: () => void } | null = null;
 
+  private readonly probeMultilink: { dispose: () => void };
+  private readonly onCircuitChanged: (circuit: Circuit) => void;
+
   public constructor(
     circuitProperty: TReadOnlyProperty<Circuit>,
     worldBounds: WorldBounds,
@@ -59,17 +62,30 @@ export class Voltmeter {
     this.negativeProbePositionProperty = new WorldPositionProperty(worldBounds, negativeProbePosition);
     this.valueProperty = new Property<number>(Number.NaN);
 
-    Multilink.multilink([this.positiveProbePositionProperty, this.negativeProbePositionProperty], () =>
-      this.updateValue(),
+    this.probeMultilink = Multilink.multilink(
+      [this.positiveProbePositionProperty, this.negativeProbePositionProperty],
+      () => this.updateValue(),
     );
 
     // The reading also has to follow the circuit's own state, and which
     // properties those are changes with the circuit, so the link is rebuilt.
-    circuitProperty.link((circuit: Circuit) => {
+    this.onCircuitChanged = (circuit: Circuit) => {
       this.circuitMultilink?.dispose();
       this.circuitMultilink = Multilink.multilinkAny(circuit.changeProperties, () => this.updateValue());
       this.updateValue();
-    });
+    };
+    circuitProperty.link(this.onCircuitChanged);
+  }
+
+  public dispose(): void {
+    this.circuitProperty.unlink(this.onCircuitChanged);
+    this.circuitMultilink?.dispose();
+    this.probeMultilink.dispose();
+    this.visibleProperty.dispose();
+    this.bodyPositionProperty.dispose();
+    this.positiveProbePositionProperty.dispose();
+    this.negativeProbePositionProperty.dispose();
+    this.valueProperty.dispose();
   }
 
   public getPositiveProbeTipShape(): Shape {

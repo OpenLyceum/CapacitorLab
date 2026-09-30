@@ -18,6 +18,7 @@
 
 import { DerivedProperty, Property, type TReadOnlyProperty } from "scenerystack/axon";
 import { Bounds2, Vector2, type Vector3 } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { type Color, Node, Text, VBox } from "scenerystack/scenery";
 import { ArrowNode, PhetFont, ProbeNode, ShadedRectangle, WireNode } from "scenerystack/scenery-phet";
 import { Checkbox } from "scenerystack/sun";
@@ -59,7 +60,10 @@ class VectorDisplay extends Node {
       stroke: null,
     });
     const value = new Text(
-      new DerivedProperty([valueProperty, unitsProperty], (v: number, units: string) => `${v.toFixed(0)} ${units}`),
+      new DerivedProperty(
+        [valueProperty, unitsProperty],
+        (v: number, units: string) => `${StringUtils.toFixedLTR(v, 0)} ${units}`,
+      ),
       { font: LABEL_FONT, fill: CapacitorLabColors.textColorProperty },
     );
 

@@ -15,6 +15,7 @@
 
 import { DerivedProperty, Property, type TReadOnlyProperty } from "scenerystack/axon";
 import { Bounds2, Vector2, type Vector3 } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { Node, type TColor, Text } from "scenerystack/scenery";
 import { PhetFont, ProbeNode, ShadedRectangle, WireNode } from "scenerystack/scenery-phet";
 import CapacitorLabColors from "../../../CapacitorLabColors.js";
@@ -77,7 +78,7 @@ export class VoltmeterNode extends Node {
       new DerivedProperty(
         [voltmeter.valueProperty, unitStrings.voltsStringProperty, unitStrings.unknownStringProperty],
         (value: number, volts: string, unknown: string) =>
-          Number.isNaN(value) ? unknown : `${value.toFixed(3)} ${volts}`,
+          Number.isNaN(value) ? unknown : `${StringUtils.toFixedLTR(value, 3)} ${volts}`,
       ),
       { font: VALUE_FONT, fill: CapacitorLabColors.controlSurfaceTextColorProperty },
     );

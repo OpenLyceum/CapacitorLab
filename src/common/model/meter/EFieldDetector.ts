@@ -49,6 +49,9 @@ export class EFieldDetector {
   private readonly circuitProperty: TReadOnlyProperty<Circuit>;
   private readonly modelViewTransform: CLModelViewTransform3D;
   private circuitMultilink: { dispose: () => void } | null = null;
+  private readonly onProbeMoved: () => void;
+  private readonly onCircuitChanged: (circuit: Circuit) => void;
+  private readonly onVisibilityChanged: () => void;
 
   /** Whether the detector has ever been shown — see the visibility link below. */
   private hasBeenVisible: boolean;
@@ -77,19 +80,21 @@ export class EFieldDetector {
     this.dielectricVectorProperty = new NumberProperty(0);
     this.sumVectorProperty = new NumberProperty(0);
 
-    this.probePositionProperty.link(() => this.updateVectors());
+    this.onProbeMoved = () => this.updateVectors();
+    this.probePositionProperty.link(this.onProbeMoved);
 
-    circuitProperty.link((circuit: Circuit) => {
+    this.onCircuitChanged = (circuit: Circuit) => {
       this.circuitMultilink?.dispose();
       this.circuitMultilink = Multilink.multilinkAny(circuit.changeProperties, () => this.updateVectors());
       this.updateVectors();
-    });
+    };
+    circuitProperty.link(this.onCircuitChanged);
 
     // The detector starts in the toolbox reading zero. The first time the user
     // brings it out, drop the probe into a capacitor so it reads something —
     // otherwise the meter appears broken.
     this.hasBeenVisible = options.visible;
-    this.visibleProperty.lazyLink(() => {
+    this.onVisibilityChanged = () => {
       if (!this.hasBeenVisible) {
         this.hasBeenVisible = true;
         const firstCapacitor = this.circuitProperty.value.capacitors[0];
@@ -97,7 +102,25 @@ export class EFieldDetector {
           this.moveProbeInto(firstCapacitor);
         }
       }
-    });
+    };
+    this.visibleProperty.lazyLink(this.onVisibilityChanged);
+  }
+
+  public dispose(): void {
+    this.probePositionProperty.unlink(this.onProbeMoved);
+    this.circuitProperty.unlink(this.onCircuitChanged);
+    this.visibleProperty.unlink(this.onVisibilityChanged);
+    this.circuitMultilink?.dispose();
+    this.visibleProperty.dispose();
+    this.bodyPositionProperty.dispose();
+    this.probePositionProperty.dispose();
+    this.plateVectorVisibleProperty.dispose();
+    this.dielectricVectorVisibleProperty.dispose();
+    this.sumVectorVisibleProperty.dispose();
+    this.valuesVisibleProperty.dispose();
+    this.plateVectorProperty.dispose();
+    this.dielectricVectorProperty.dispose();
+    this.sumVectorProperty.dispose();
   }
 
   /**

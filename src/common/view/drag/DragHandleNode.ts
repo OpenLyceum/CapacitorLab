@@ -10,6 +10,7 @@
 
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import { Shape } from "scenerystack/kite";
+import { StringUtils } from "scenerystack/phetcommon";
 import { Node, Path, RichText, Text } from "scenerystack/scenery";
 import { ArrowNode, PhetFont } from "scenerystack/scenery-phet";
 import CapacitorLabColors from "../../../CapacitorLabColors.js";
@@ -58,7 +59,10 @@ export class DragHandleValueNode extends Node {
 
     const label = new Text(labelProperty, { font: LABEL_FONT, fill: CapacitorLabColors.textColorProperty });
     const value = new RichText(
-      new DerivedProperty([valueProperty, unitsProperty], (v: number, units: string) => `${v.toFixed(1)} ${units}`),
+      new DerivedProperty(
+        [valueProperty, unitsProperty],
+        (v: number, units: string) => `${StringUtils.toFixedLTR(v, 1)} ${units}`,
+      ),
       { font: VALUE_FONT, fill: CapacitorLabColors.textColorProperty },
     );
 
