@@ -15,6 +15,7 @@
 
 import { PatternStringProperty } from "scenerystack/axon";
 import { Dimension2, toFixed } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { Image, Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { VSlider } from "scenerystack/sun";
@@ -33,6 +34,10 @@ import { Polarity, type PolarityValue } from "../model/Polarity.js";
 const TRACK_LENGTH = 80;
 const TRACK_THICKNESS = 4;
 
+/** How far the thumb's touch and mouse areas extend past its drawn edge. */
+const THUMB_TOUCH_DILATION = 10;
+const THUMB_MOUSE_DILATION = 4;
+
 const TICK_LABEL_FONT = new PhetFont(14);
 
 export class BatteryNode extends Node {
@@ -47,7 +52,19 @@ export class BatteryNode extends Node {
     const valueUnitsPattern = strings.getPatternStrings().valueUnitsStringProperty;
 
     const slider = new VSlider(battery.voltageProperty, BATTERY_VOLTAGE_RANGE, {
-      trackSize: new Dimension2(TRACK_LENGTH, TRACK_THICKNESS),
+      // VSlider takes its track size as (thickness, length) and rotates it.
+      trackSize: new Dimension2(TRACK_THICKNESS, TRACK_LENGTH),
+      thumbTouchAreaXDilation: THUMB_TOUCH_DILATION,
+      thumbTouchAreaYDilation: THUMB_TOUCH_DILATION,
+      thumbMouseAreaXDilation: THUMB_MOUSE_DILATION,
+      thumbMouseAreaYDilation: THUMB_MOUSE_DILATION,
+      accessibleName: strings.getCommonA11yStrings().batteryVoltageStringProperty,
+      pdomCreateAriaValueText: (value: number | null) =>
+        StringUtils.fillIn(valueUnitsPattern.value, {
+          value: toFixed(value ?? 0, 2),
+          units: unitStrings.voltsStringProperty.value,
+        }),
+      pdomDependencies: [valueUnitsPattern, unitStrings.voltsStringProperty],
       thumbFill: CapacitorLabColors.dragHandleColorProperty,
       thumbFillHighlighted: CapacitorLabColors.dragHandleHighlightColorProperty,
       // A dead zone around zero: without it, landing exactly on zero by dragging

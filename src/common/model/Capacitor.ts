@@ -147,99 +147,107 @@ export class Capacitor {
       { derive: (material: DielectricMaterial) => material.dielectricConstantProperty },
     );
 
-    // Every quantity below depends on some subset of these five; deriving them all
-    // from the same list mirrors the Java sim, which recomputed everything on any
-    // change. The cost is a few redundant multiplications per interaction.
-    const inputs = [
-      this.plateSizeProperty,
-      this.plateSeparationProperty,
-      this.dielectricOffsetProperty,
-      this.dielectricConstantProperty,
-      this.plateVoltageProperty,
-    ];
+    // Each quantity lists exactly the Properties it reads, including the derived
+    // ones. Listing only the five inputs is not enough: a quantity computed from
+    // another derived value can then run before that value updates and keep the
+    // stale result, which is what randomized listener order exposed.
+    this.plateAreaProperty = DerivedProperty.deriveAny(
+      [this.plateSizeProperty],
+      () => this.getPlateWidth() * this.getPlateDepth(),
+    );
 
-    this.plateAreaProperty = DerivedProperty.deriveAny(inputs, () => this.getPlateWidth() * this.getPlateDepth());
-
-    this.dielectricContactAreaProperty = DerivedProperty.deriveAny(inputs, () => {
-      // Withdrawing the slab shrinks the overlap linearly; past a full plate width
-      // there is no overlap left, and the area must not go negative.
-      const overlap = (this.getPlateWidth() - Math.abs(this.dielectricOffsetProperty.value)) * this.getPlateDepth();
-      return Math.max(overlap, 0);
-    });
+    this.dielectricContactAreaProperty = DerivedProperty.deriveAny(
+      [this.plateSizeProperty, this.dielectricOffsetProperty],
+      () => {
+        // Withdrawing the slab shrinks the overlap linearly; past a full plate width
+        // there is no overlap left, and the area must not go negative.
+        const overlap = (this.getPlateWidth() - Math.abs(this.dielectricOffsetProperty.value)) * this.getPlateDepth();
+        return Math.max(overlap, 0);
+      },
+    );
 
     this.airContactAreaProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.plateAreaProperty, this.dielectricContactAreaProperty],
       () => this.plateAreaProperty.value - this.dielectricContactAreaProperty.value,
     );
 
-    this.airCapacitanceProperty = DerivedProperty.deriveAny(inputs, () =>
-      capacitanceOf(EPSILON_AIR, this.airContactAreaProperty.value, this.plateSeparationProperty.value),
+    this.airCapacitanceProperty = DerivedProperty.deriveAny(
+      [this.airContactAreaProperty, this.plateSeparationProperty],
+      () => capacitanceOf(EPSILON_AIR, this.airContactAreaProperty.value, this.plateSeparationProperty.value),
     );
 
-    this.dielectricCapacitanceProperty = DerivedProperty.deriveAny(inputs, () =>
-      capacitanceOf(
-        this.dielectricConstantProperty.value,
-        this.dielectricContactAreaProperty.value,
-        this.plateSeparationProperty.value,
-      ),
+    this.dielectricCapacitanceProperty = DerivedProperty.deriveAny(
+      [this.dielectricConstantProperty, this.dielectricContactAreaProperty, this.plateSeparationProperty],
+      () =>
+        capacitanceOf(
+          this.dielectricConstantProperty.value,
+          this.dielectricContactAreaProperty.value,
+          this.plateSeparationProperty.value,
+        ),
     );
 
     this.totalCapacitanceProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.airCapacitanceProperty, this.dielectricCapacitanceProperty],
       () => this.airCapacitanceProperty.value + this.dielectricCapacitanceProperty.value,
     );
 
     this.airPlateChargeProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.airCapacitanceProperty, this.plateVoltageProperty],
       () => this.airCapacitanceProperty.value * this.plateVoltageProperty.value,
     );
 
     this.dielectricPlateChargeProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.dielectricCapacitanceProperty, this.plateVoltageProperty],
       () => this.dielectricCapacitanceProperty.value * this.plateVoltageProperty.value,
     );
 
     this.totalPlateChargeProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.airPlateChargeProperty, this.dielectricPlateChargeProperty],
       () => this.airPlateChargeProperty.value + this.dielectricPlateChargeProperty.value,
     );
 
-    this.excessAirPlateChargeProperty = DerivedProperty.deriveAny(inputs, () =>
-      excessChargeOf(EPSILON_AIR, this.airCapacitanceProperty.value, this.plateVoltageProperty.value),
+    this.excessAirPlateChargeProperty = DerivedProperty.deriveAny(
+      [this.airCapacitanceProperty, this.plateVoltageProperty],
+      () => excessChargeOf(EPSILON_AIR, this.airCapacitanceProperty.value, this.plateVoltageProperty.value),
     );
 
-    this.excessDielectricPlateChargeProperty = DerivedProperty.deriveAny(inputs, () =>
-      excessChargeOf(
-        this.dielectricConstantProperty.value,
-        this.dielectricCapacitanceProperty.value,
-        this.plateVoltageProperty.value,
-      ),
+    this.excessDielectricPlateChargeProperty = DerivedProperty.deriveAny(
+      [this.dielectricConstantProperty, this.dielectricCapacitanceProperty, this.plateVoltageProperty],
+      () =>
+        excessChargeOf(
+          this.dielectricConstantProperty.value,
+          this.dielectricCapacitanceProperty.value,
+          this.plateVoltageProperty.value,
+        ),
     );
 
     this.effectiveEFieldProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.plateVoltageProperty, this.plateSeparationProperty],
       () => this.plateVoltageProperty.value / this.plateSeparationProperty.value,
     );
 
-    this.platesAirEFieldProperty = DerivedProperty.deriveAny(inputs, () =>
-      platesEFieldOf(EPSILON_AIR, this.plateVoltageProperty.value, this.plateSeparationProperty.value),
+    this.platesAirEFieldProperty = DerivedProperty.deriveAny(
+      [this.plateVoltageProperty, this.plateSeparationProperty],
+      () => platesEFieldOf(EPSILON_AIR, this.plateVoltageProperty.value, this.plateSeparationProperty.value),
     );
 
-    this.platesDielectricEFieldProperty = DerivedProperty.deriveAny(inputs, () =>
-      platesEFieldOf(
-        this.dielectricConstantProperty.value,
-        this.plateVoltageProperty.value,
-        this.plateSeparationProperty.value,
-      ),
+    this.platesDielectricEFieldProperty = DerivedProperty.deriveAny(
+      [this.dielectricConstantProperty, this.plateVoltageProperty, this.plateSeparationProperty],
+      () =>
+        platesEFieldOf(
+          this.dielectricConstantProperty.value,
+          this.plateVoltageProperty.value,
+          this.plateSeparationProperty.value,
+        ),
     );
 
     this.airEFieldProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.platesAirEFieldProperty, this.effectiveEFieldProperty],
       () => this.platesAirEFieldProperty.value - this.effectiveEFieldProperty.value,
     );
 
     this.dielectricEFieldProperty = DerivedProperty.deriveAny(
-      inputs,
+      [this.platesDielectricEFieldProperty, this.effectiveEFieldProperty],
       () => this.platesDielectricEFieldProperty.value - this.effectiveEFieldProperty.value,
     );
   }

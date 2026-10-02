@@ -19,12 +19,16 @@ import { DRAG_HANDLE_ARROW_LENGTH } from "../../../CapacitorLabConstants.js";
 const LABEL_FONT = new PhetFont({ size: 18, weight: "bold" });
 const VALUE_FONT = new PhetFont(16);
 
+/** How far an arrow's touch and mouse areas extend past its drawn edge. */
+const ARROW_TOUCH_DILATION = 10;
+const ARROW_MOUSE_DILATION = 4;
+
 /**
  * The grabbable arrow. Its head and tail are proportional to its length so the
  * three handles look like one family at their different sizes.
  */
 export function createDragHandleArrow(length = DRAG_HANDLE_ARROW_LENGTH): ArrowNode {
-  return new ArrowNode(0, 0, length, 0, {
+  const arrow = new ArrowNode(0, 0, length, 0, {
     doubleHead: true,
     headHeight: length / 4,
     headWidth: length / 2,
@@ -34,6 +38,11 @@ export function createDragHandleArrow(length = DRAG_HANDLE_ARROW_LENGTH): ArrowN
     lineWidth: 1,
     cursor: "pointer",
   });
+
+  // The arrow is thin; a larger target makes it grabbable on touch screens.
+  arrow.touchArea = arrow.localBounds.dilated(ARROW_TOUCH_DILATION);
+  arrow.mouseArea = arrow.localBounds.dilated(ARROW_MOUSE_DILATION);
+  return arrow;
 }
 
 /** The dashed line showing the extent the arrow adjusts. */

@@ -84,7 +84,8 @@
     "valueUnits": "{{value}} {{units}}",
     "labelValueUnits": "{{label}} {{value}} {{units}}",
     "materialConstant": "{{material}} ({{constant}})",
-    "capacitorSubscript": "C<sub>{{number}}</sub>"
+    "capacitorSubscript": "C<sub>{{number}}</sub>",
+    "scientific": "{{mantissa}} × 10<sup>{{exponent}}</sup> {{units}}"
   },
   "preferences": {
     "title": "Simulation"
@@ -95,7 +96,10 @@
       "positiveProbe": "Sonde positive du voltmètre",
       "negativeProbe": "Sonde négative du voltmètre",
       "eFieldDetectorBody": "Boîtier du détecteur de champ électrique",
-      "eFieldProbe": "Sonde du détecteur de champ électrique"
+      "eFieldProbe": "Sonde du détecteur de champ électrique",
+      "batteryVoltage": "Tension de la pile",
+      "capacitorCapacitance": "Capacité du condensateur {{number}}",
+      "scientific": "{{mantissa}} fois 10 puissance {{exponent}}"
     },
     "introduction": {
       "screenSummary": {

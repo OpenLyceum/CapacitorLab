@@ -51,8 +51,14 @@ play/control areas and derives a live capacitance, charge, and energy paragraph 
 ## Verification
 
 Vitest covers capacitor equations, calibration extremes, circuit totals, probe geometry, resets, and
-screen-model wiring. The memory-leak smoke test constructs and resets each screen model. Playwright
-fuzzes all three screens with assertions enabled. Use:
+screen-model wiring. The memory-leak suite disposes an `IntroductionModel` and checks that it is
+garbage-collected. Playwright fuzzes all three screens with assertions enabled.
+
+Object lifetime: the screen models, their circuits, and every view node are created once and live as
+long as the sim, so they link to each other without unlinking and have no `dispose()`. Only objects
+created and removed at runtime need cleanup, and this sim has none.
+
+Use:
 
 ```bash
 npm run check

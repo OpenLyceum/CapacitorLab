@@ -11,7 +11,7 @@
  */
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
-import { Property } from "scenerystack/axon";
+import { PatternStringProperty, Property } from "scenerystack/axon";
 import { Node, RichText } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import CapacitorLabColors from "../../CapacitorLabColors.js";
@@ -26,6 +26,9 @@ import { WireNode } from "../../common/view/WireNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 
 const LABEL_FONT = new PhetFont(24);
+
+/** Gap between a capacitor and its label or capacitance control. */
+const LABEL_SPACING = 6;
 
 /** This screen never draws dielectric charges, so the view is fixed. */
 const NO_DIELECTRIC_CHARGES = new Property(DielectricChargeView.NONE);
@@ -65,20 +68,20 @@ export class MultipleCapacitorsCircuitNode extends Node {
       this.addChild(capacitorNode);
 
       // Numbered from 1, as the circuit diagrams in the design document are.
-      const label = new RichText(capacitorPattern.value.replace("{{number}}", String(index + 1)), {
+      const number = index + 1;
+      const label = new RichText(new PatternStringProperty(capacitorPattern, { number: number }), {
         font: LABEL_FONT,
         fill: CapacitorLabColors.textColorProperty,
       });
-      capacitorPattern.link((pattern: string) => {
-        label.string = pattern.replace("{{number}}", String(index + 1));
-      });
       this.addChild(label);
-      label.right = capacitorNode.bounds.minX - 6;
+      label.right = capacitorNode.bounds.minX - LABEL_SPACING;
       label.centerY = capacitorNode.bounds.centerY;
 
-      const capacitanceControl = new CapacitanceControlNode(capacitor);
+      // To the right of the plates: the left side holds the label and, for C₁,
+      // the battery, so a control there would cover them.
+      const capacitanceControl = new CapacitanceControlNode(capacitor, number);
       this.addChild(capacitanceControl);
-      capacitanceControl.right = label.left - 8;
+      capacitanceControl.left = capacitorNode.bounds.maxX + LABEL_SPACING;
       capacitanceControl.centerY = capacitorNode.bounds.centerY;
     });
 
