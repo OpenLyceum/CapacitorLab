@@ -134,4 +134,10 @@ export class MultipleCapacitorsModel extends CapacitorLabModel {
     }
     this.currentCircuitProperty.reset();
   }
+
+  public override step(dt: number): void {
+    for (const circuit of this.circuits) {
+      circuit.step(dt);
+    }
+  }
 }

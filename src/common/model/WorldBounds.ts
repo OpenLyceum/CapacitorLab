@@ -23,7 +23,7 @@ export class WorldBounds extends Property<Bounds2> {
 
   /** True before the ScreenView has reported its visible bounds. */
   public isEmpty(): boolean {
-    return this.value.width === 0 || this.value.height === 0;
+    return this.value.isEmpty() || this.value.width === 0 || this.value.height === 0;
   }
 
   public containsPoint(point: Vector3): boolean {

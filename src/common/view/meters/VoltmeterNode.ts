@@ -74,14 +74,15 @@ export class VoltmeterNode extends Node {
       font: TITLE_FONT,
       fill: CapacitorLabColors.controlSurfaceTextColorProperty,
     });
-    const readout = new Text(
-      new DerivedProperty(
-        [voltmeter.valueProperty, unitStrings.voltsStringProperty, unitStrings.unknownStringProperty],
-        (value: number, volts: string, unknown: string) =>
-          Number.isNaN(value) ? unknown : `${StringUtils.toFixedLTR(value, 3)} ${volts}`,
-      ),
-      { font: VALUE_FONT, fill: CapacitorLabColors.controlSurfaceTextColorProperty },
+    const readoutProperty = new DerivedProperty(
+      [voltmeter.valueProperty, unitStrings.voltsStringProperty, unitStrings.unknownStringProperty],
+      (value: number, volts: string, unknown: string) =>
+        Number.isNaN(value) ? unknown : `${StringUtils.toFixedLTR(value, 3)} ${volts}`,
     );
+    const readout = new Text(readoutProperty, {
+      font: VALUE_FONT,
+      fill: CapacitorLabColors.controlSurfaceTextColorProperty,
+    });
     body.addChild(title);
     body.addChild(readout);
     title.centerX = BODY_SIZE.x / 2;
@@ -134,6 +135,22 @@ export class VoltmeterNode extends Node {
       modelViewTransform,
       a11y.negativeProbeStringProperty,
     );
+
+    const spokenReadingProperty = new DerivedProperty(
+      [
+        voltmeter.valueProperty,
+        unitStrings.voltsStringProperty,
+        a11y.noConnectionStringProperty,
+        strings.getMeterStrings().voltmeterStringProperty,
+        strings.getPatternStrings().labelStringProperty,
+      ],
+      (value: number, volts: string, noConnection: string, name: string, labelPattern: string) =>
+        `${StringUtils.fillIn(labelPattern, { label: name })} ${Number.isNaN(value) ? noConnection : `${StringUtils.toFixedLTR(value, 3)} ${volts}`}`,
+    );
+    for (const part of [body, positiveProbe, negativeProbe]) {
+      part.accessibleHelpText = spokenReadingProperty;
+    }
+    this.addChild(new Node({ tagName: "div", ariaRole: "status", innerContent: spokenReadingProperty }));
 
     voltmeter.visibleProperty.link((visible: boolean) => {
       this.visible = visible;

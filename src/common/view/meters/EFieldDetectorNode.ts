@@ -48,6 +48,7 @@ class VectorDisplay extends Node {
     colorProperty: TReadOnlyProperty<Color>,
     valuesVisibleProperty: TReadOnlyProperty<boolean>,
     unitsProperty: TReadOnlyProperty<string>,
+    direction = 1,
   ) {
     super();
 
@@ -75,7 +76,7 @@ class VectorDisplay extends Node {
       // Length is proportional to the field, clamped so a large field cannot run
       // off the body; direction follows the sign.
       const length = Math.min(Math.abs(field) / EFIELD_REFERENCE_MAGNITUDE, 2) * REFERENCE_ARROW_LENGTH;
-      arrow.setTip(0, field >= 0 ? length : -length);
+      arrow.setTip(0, field * direction >= 0 ? length : -length);
     });
     valuesVisibleProperty.link((visible: boolean) => {
       value.visible = visible;
@@ -136,6 +137,7 @@ export class EFieldDetectorNode extends Node {
       CapacitorLabColors.dielectricEFieldVectorColorProperty,
       detector.valuesVisibleProperty,
       unitsProperty,
+      -1,
     );
     const sumVector = new VectorDisplay(
       detectorStrings.sumStringProperty,
@@ -218,6 +220,39 @@ export class EFieldDetectorNode extends Node {
 
     makeWorldDraggable(body, detector.bodyPositionProperty, modelViewTransform, a11y.eFieldDetectorBodyStringProperty);
     makeWorldDraggable(probe, detector.probePositionProperty, modelViewTransform, a11y.eFieldProbeStringProperty);
+
+    const spokenReadingProperty = DerivedProperty.deriveAny(
+      [
+        detector.plateVectorProperty,
+        detector.dielectricVectorProperty,
+        detector.sumVectorProperty,
+        detectorStrings.plateStringProperty,
+        detectorStrings.dielectricStringProperty,
+        detectorStrings.sumStringProperty,
+        unitsProperty,
+        strings.getPatternStrings().labelValueUnitsStringProperty,
+      ],
+      () => {
+        const pattern = strings.getPatternStrings().labelValueUnitsStringProperty.value;
+        const units = unitsProperty.value;
+        return [
+          [detectorStrings.plateStringProperty.value, detector.plateVectorProperty.value],
+          [detectorStrings.dielectricStringProperty.value, detector.dielectricVectorProperty.value],
+          [detectorStrings.sumStringProperty.value, detector.sumVectorProperty.value],
+        ]
+          .map(([label, value]) =>
+            StringUtils.fillIn(pattern, {
+              label: label,
+              value: StringUtils.toFixedLTR(value as number, 0),
+              units: units,
+            }),
+          )
+          .join(". ");
+      },
+    );
+    body.accessibleHelpText = spokenReadingProperty;
+    probe.accessibleHelpText = spokenReadingProperty;
+    this.addChild(new Node({ tagName: "div", ariaRole: "status", innerContent: spokenReadingProperty }));
 
     detector.visibleProperty.link((visible: boolean) => {
       this.visible = visible;

@@ -3,8 +3,11 @@
  * and the cross-circuit synchronization the Multiple Capacitors screen relies on.
  */
 
+import { Bounds2, Vector3 } from "scenerystack/dot";
 import { describe, expect, it } from "vitest";
 import { CAPACITANCE_RANGE } from "../../../src/CapacitorLabConstants.js";
+import { WorldBounds } from "../../../src/common/model/WorldBounds.js";
+import { WorldPositionProperty } from "../../../src/common/model/WorldPositionProperty.js";
 import { DielectricModel } from "../../../src/dielectric/model/DielectricModel.js";
 import { IntroductionModel } from "../../../src/introduction/model/IntroductionModel.js";
 import { MultipleCapacitorsModel } from "../../../src/multiple-capacitors/model/MultipleCapacitorsModel.js";
@@ -33,6 +36,21 @@ describe("IntroductionModel", () => {
     expect(model.eFieldDetector.sumVectorVisibleProperty.value).toBe(true);
     expect(model.eFieldDetector.plateVectorVisibleProperty.value).toBe(false);
     expect(model.eFieldDetector.dielectricVectorVisibleProperty.value).toBe(false);
+  });
+});
+
+describe("WorldBounds", () => {
+  it("preserves initial positions until the view supplies bounds", () => {
+    const bounds = new WorldBounds();
+    const initial = new Vector3(0.04, 0.03, 0);
+    const position = new WorldPositionProperty(bounds, initial);
+
+    expect(position.value).toEqual(initial);
+    bounds.value = new Bounds2(0, 0, 0.1, 0.1);
+    expect(position.value).toEqual(initial);
+
+    position.dispose();
+    bounds.dispose();
   });
 });
 
@@ -127,14 +145,21 @@ describe("MultipleCapacitorsModel", () => {
     expect(model.capacitanceMeter.valueProperty.value).toBeCloseTo(3 * singleCapacitance, 20);
   });
 
-  it("steps only the circuit currently on screen", () => {
+  it("keeps inactive circuit charge baselines current", () => {
     const model = new MultipleCapacitorsModel();
-    const [first] = model.circuits;
-    first?.battery.voltageProperty.set(1.5);
+    const [first, second] = model.circuits;
+    if (first === undefined || second === undefined) {
+      throw new Error("expected seven circuits");
+    }
 
     model.step(1 / 60);
+    model.currentCircuitProperty.value = second;
+    second.battery.voltageProperty.set(1.5);
+    model.step(1 / 60);
+    model.step(1 / 60);
+    model.currentCircuitProperty.value = first;
     model.step(1 / 60);
 
-    expect(model.currentCircuitProperty.value.currentAmplitudeProperty.value).toBe(0);
+    expect(first.currentAmplitudeProperty.value).toBe(0);
   });
 });

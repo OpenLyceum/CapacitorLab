@@ -16,7 +16,8 @@
  */
 
 import type { TReadOnlyProperty } from "scenerystack/axon";
-import { Dimension2, Range } from "scenerystack/dot";
+import { Dimension2, Range, toFixed } from "scenerystack/dot";
+import { StringUtils } from "scenerystack/phetcommon";
 import { Node, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import { VSlider } from "scenerystack/sun";
@@ -33,7 +34,10 @@ export class PlateChargeControlNode extends Node {
   public constructor(circuit: SingleCircuit) {
     super();
 
-    const strings = StringManager.getInstance().getPlateChargeControlStrings();
+    const stringManager = StringManager.getInstance();
+    const strings = stringManager.getPlateChargeControlStrings();
+    const a11y = stringManager.getCommonA11yStrings();
+    const coulombsProperty = stringManager.getUnitStrings().coulombsStringProperty;
     const range = new Range(-MAX_PLATE_CHARGE, MAX_PLATE_CHARGE);
 
     const slider = new VSlider(circuit.disconnectedPlateChargeProperty, range, {
@@ -42,6 +46,26 @@ export class PlateChargeControlNode extends Node {
       thumbFillHighlighted: CapacitorLabColors.dragHandleHighlightColorProperty,
       // Zero charge is a state worth being able to hit exactly.
       constrainValue: (value: number) => (Math.abs(value) < PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ? 0 : value),
+      accessibleName: a11y.plateChargeSliderStringProperty,
+      pdomCreateAriaValueText: (value: number | null) => {
+        const charge = value ?? 0;
+        const spokenValue =
+          charge === 0
+            ? "0"
+            : StringUtils.fillIn(a11y.scientificStringProperty.value, {
+                mantissa: toFixed(charge / 1e-13, 2),
+                exponent: -13,
+              });
+        return StringUtils.fillIn(stringManager.getPatternStrings().valueUnitsStringProperty.value, {
+          value: spokenValue,
+          units: coulombsProperty.value,
+        });
+      },
+      pdomDependencies: [
+        a11y.scientificStringProperty,
+        coulombsProperty,
+        stringManager.getPatternStrings().valueUnitsStringProperty,
+      ],
     });
 
     const createLabel = (textProperty: TReadOnlyProperty<string>): Node =>

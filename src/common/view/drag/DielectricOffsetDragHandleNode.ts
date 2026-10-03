@@ -19,7 +19,12 @@ import { StringManager } from "../../../i18n/StringManager.js";
 import type { Capacitor } from "../../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../../model/CLModelViewTransform3D.js";
 import { metersToMillimeters } from "../../model/UnitsUtils.js";
-import { createDragHandleArrow, createDragHandleLine, DragHandleValueNode } from "./DragHandleNode.js";
+import {
+  createDragHandleArrow,
+  createDragHandleLine,
+  DragHandleValueNode,
+  setDragHandleAccessibleValue,
+} from "./DragHandleNode.js";
 
 const LINE_LENGTH = 60;
 
@@ -76,6 +81,14 @@ export class DielectricOffsetDragHandleNode extends Node {
     arrow.tagName = "div";
     arrow.focusable = true;
     arrow.accessibleName = strings.getDielectricPanelStrings().offsetStringProperty;
+    setDragHandleAccessibleValue(
+      arrow,
+      capacitor.dielectricOffsetProperty,
+      metersToMillimeters,
+      DIELECTRIC_OFFSET_RANGE.min,
+      DIELECTRIC_OFFSET_RANGE.max,
+      strings.getUnitStrings().millimetersStringProperty,
+    );
     arrow.addInputListener(
       new KeyboardDragListener({
         // In model units, since this listener's deltas feed the model directly.

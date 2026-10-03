@@ -99,7 +99,10 @@
       "eFieldProbe": "Electric field detector probe",
       "batteryVoltage": "Battery voltage",
       "capacitorCapacitance": "Capacitance of capacitor {{number}}",
-      "scientific": "{{mantissa}} times 10 to the power {{exponent}}"
+      "scientific": "{{mantissa}} times 10 to the power {{exponent}}",
+      "plateChargeSlider": "Plate charge",
+      "squareMillimeters": "square millimeters",
+      "noConnection": "No connection"
     },
     "introduction": {
       "screenSummary": {

@@ -8,13 +8,15 @@
  * `DragHandleValueNode.java`.
  */
 
-import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
+import { DerivedProperty, Multilink, type TReadOnlyProperty } from "scenerystack/axon";
+import { toFixed } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { StringUtils } from "scenerystack/phetcommon";
 import { Node, Path, RichText, Text } from "scenerystack/scenery";
 import { ArrowNode, PhetFont } from "scenerystack/scenery-phet";
 import CapacitorLabColors from "../../../CapacitorLabColors.js";
 import { DRAG_HANDLE_ARROW_LENGTH } from "../../../CapacitorLabConstants.js";
+import { StringManager } from "../../../i18n/StringManager.js";
 
 const LABEL_FONT = new PhetFont({ size: 18, weight: "bold" });
 const VALUE_FONT = new PhetFont(16);
@@ -52,6 +54,32 @@ export function createDragHandleLine(length: number): Path {
     lineWidth: 3,
     lineDash: [3, 3],
   });
+}
+
+/** Give a keyboard drag handle slider semantics and an announced, localized value. */
+export function setDragHandleAccessibleValue(
+  arrow: Node,
+  valueProperty: TReadOnlyProperty<number>,
+  toDisplayValue: (value: number) => number,
+  min: number,
+  max: number,
+  unitsProperty: TReadOnlyProperty<string>,
+): void {
+  const patternProperty = StringManager.getInstance().getPatternStrings().valueUnitsStringProperty;
+  arrow.ariaRole = "slider";
+  arrow.setPDOMAttribute("aria-valuemin", toDisplayValue(min));
+  arrow.setPDOMAttribute("aria-valuemax", toDisplayValue(max));
+  Multilink.multilink(
+    [valueProperty, unitsProperty, patternProperty],
+    (value: number, units: string, pattern: string) => {
+      const displayValue = toDisplayValue(value);
+      arrow.setPDOMAttribute("aria-valuenow", displayValue);
+      arrow.setPDOMAttribute(
+        "aria-valuetext",
+        StringUtils.fillIn(pattern, { value: toFixed(displayValue, 1), units: units }),
+      );
+    },
+  );
 }
 
 /**

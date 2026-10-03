@@ -99,7 +99,10 @@
       "eFieldProbe": "Sonda del detector de campo eléctrico",
       "batteryVoltage": "Voltaje de la batería",
       "capacitorCapacitance": "Capacitancia del condensador {{number}}",
-      "scientific": "{{mantissa}} por 10 elevado a {{exponent}}"
+      "scientific": "{{mantissa}} por 10 elevado a {{exponent}}",
+      "plateChargeSlider": "Carga de la placa",
+      "squareMillimeters": "milímetros cuadrados",
+      "noConnection": "Sin conexión"
     },
     "introduction": {
       "screenSummary": {

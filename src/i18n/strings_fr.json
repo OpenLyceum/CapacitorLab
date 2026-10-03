@@ -99,7 +99,10 @@
       "eFieldProbe": "Sonde du détecteur de champ électrique",
       "batteryVoltage": "Tension de la pile",
       "capacitorCapacitance": "Capacité du condensateur {{number}}",
-      "scientific": "{{mantissa}} fois 10 puissance {{exponent}}"
+      "scientific": "{{mantissa}} fois 10 puissance {{exponent}}",
+      "plateChargeSlider": "Charge de la plaque",
+      "squareMillimeters": "millimètres carrés",
+      "noConnection": "Aucune connexion"
     },
     "introduction": {
       "screenSummary": {

@@ -19,7 +19,12 @@ import { StringManager } from "../../../i18n/StringManager.js";
 import type { Capacitor } from "../../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../../model/CLModelViewTransform3D.js";
 import { metersToMillimeters } from "../../model/UnitsUtils.js";
-import { createDragHandleArrow, createDragHandleLine, DragHandleValueNode } from "./DragHandleNode.js";
+import {
+  createDragHandleArrow,
+  createDragHandleLine,
+  DragHandleValueNode,
+  setDragHandleAccessibleValue,
+} from "./DragHandleNode.js";
 
 const LINE_LENGTH = 60;
 
@@ -80,6 +85,14 @@ export class PlateSeparationDragHandleNode extends Node {
     arrow.tagName = "div";
     arrow.focusable = true;
     arrow.accessibleName = strings.getCapacitorStrings().separationStringProperty;
+    setDragHandleAccessibleValue(
+      arrow,
+      capacitor.plateSeparationProperty,
+      metersToMillimeters,
+      PLATE_SEPARATION_RANGE.min,
+      PLATE_SEPARATION_RANGE.max,
+      strings.getUnitStrings().millimetersStringProperty,
+    );
     arrow.addInputListener(
       new KeyboardDragListener({
         // In model units, since this listener's deltas feed the model directly.
