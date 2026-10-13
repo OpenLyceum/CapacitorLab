@@ -55,6 +55,7 @@ See [the model guide](doc/model.md) for the physics and
 - TypeScript 7 and Vite 8
 - Vitest 5 and Playwright
 - Biome 2
+- vite-plugin-pwa 2
 
 ## License
 
