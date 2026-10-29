@@ -18,7 +18,7 @@ three-screen experience—including the Dielectric screen—in a modern installa
 
 ## Quick Start
 
-Requires Node 24 or newer.
+Requires Node 26 or newer.
 
 ```bash
 npm install
