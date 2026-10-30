@@ -23,7 +23,7 @@ import { NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Shape } from "scenerystack/kite";
 import type { Capacitor } from "../Capacitor.js";
 import type { CircuitConfig } from "../CircuitConfig.js";
-import { ParallelCircuit } from "./ParallelCircuit.js";
+import { ParallelCircuit } from "./ParallelCircuit.ts";
 
 export class SingleCircuit extends ParallelCircuit {
   /** The one capacitor, for readability at the call sites that assume it. */

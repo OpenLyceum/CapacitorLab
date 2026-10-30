@@ -16,15 +16,15 @@
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
-import { Capacitor } from "../Capacitor.js";
+import { Capacitor } from "../Capacitor.ts";
 import type { CircuitConfig } from "../CircuitConfig.js";
 import type { Wire } from "../wire/Wire.js";
 import {
   createWireBatteryToCapacitorsBottom,
   createWireBatteryToCapacitorsTop,
-} from "../wire/WireBatteryToCapacitors.js";
-import { createWireCapacitorToCapacitors } from "../wire/WireCapacitorToCapacitors.js";
-import { AbstractCircuit } from "./AbstractCircuit.js";
+} from "../wire/WireBatteryToCapacitors.ts";
+import { createWireCapacitorToCapacitors } from "../wire/WireCapacitorToCapacitors.ts";
+import { AbstractCircuit } from "./AbstractCircuit.ts";
 
 /**
  * Both combinations place C1 above C2 in the left column and C3 alone in the

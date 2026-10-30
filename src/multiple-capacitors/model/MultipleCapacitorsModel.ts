@@ -14,18 +14,18 @@
 
 import { Property } from "scenerystack/axon";
 import { Vector3 } from "scenerystack/dot";
-import { CAPACITANCE_RANGE, WIRE_THICKNESS } from "../../CapacitorLabConstants.js";
-import { Capacitor } from "../../common/model/Capacitor.js";
-import { CapacitorLabModel, type MeterLayout } from "../../common/model/CapacitorLabModel.js";
+import { CAPACITANCE_RANGE, WIRE_THICKNESS } from "../../CapacitorLabConstants.ts";
+import { Capacitor } from "../../common/model/Capacitor.ts";
+import { CapacitorLabModel, type MeterLayout } from "../../common/model/CapacitorLabModel.ts";
 import type { CircuitConfig } from "../../common/model/CircuitConfig.js";
-import { CLModelViewTransform3D } from "../../common/model/CLModelViewTransform3D.js";
+import { CLModelViewTransform3D } from "../../common/model/CLModelViewTransform3D.ts";
 import type { Circuit } from "../../common/model/circuit/Circuit.js";
-import { Combination1Circuit, Combination2Circuit } from "../../common/model/circuit/CombinationCircuits.js";
-import { ParallelCircuit } from "../../common/model/circuit/ParallelCircuit.js";
-import { SeriesCircuit } from "../../common/model/circuit/SeriesCircuit.js";
-import { SingleCircuit } from "../../common/model/circuit/SingleCircuit.js";
-import { createAir } from "../../common/model/DielectricMaterial.js";
-import { StringManager } from "../../i18n/StringManager.js";
+import { Combination1Circuit, Combination2Circuit } from "../../common/model/circuit/CombinationCircuits.ts";
+import { ParallelCircuit } from "../../common/model/circuit/ParallelCircuit.ts";
+import { SeriesCircuit } from "../../common/model/circuit/SeriesCircuit.ts";
+import { SingleCircuit } from "../../common/model/circuit/SingleCircuit.ts";
+import { createAir } from "../../common/model/DielectricMaterial.ts";
+import { StringManager } from "../../i18n/StringManager.ts";
 
 // Circuit layout, metres. Values from MultipleCapacitorsModel.java.
 const BATTERY_POSITION = new Vector3(0.005, 0.03, 0);

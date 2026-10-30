@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 /** Independent command-line checks against the Java model's reference equations. */
 
 export {};
@@ -29,16 +29,16 @@ for (const name of [
   taskGlobal[name] = (browserWindow as unknown as Record<string, unknown>)[name];
 }
 (browserWindow as unknown as Record<string, unknown>)["phet"] = phetGlobal;
-await import("../tests/setup.js");
+await import("../tests/setup.ts");
 (browserWindow as unknown as Record<string, unknown>)["AudioContext"] = taskGlobal["AudioContext"];
 (browserWindow as unknown as Record<string, unknown>)["webkitAudioContext"] = taskGlobal["webkitAudioContext"];
 
 const { Vector3 } = await import("scenerystack/dot");
-const { EPSILON_0 } = await import("../src/CapacitorLabConstants.js");
-const { Capacitor } = await import("../src/common/model/Capacitor.js");
-const { CLModelViewTransform3D } = await import("../src/common/model/CLModelViewTransform3D.js");
-const { createAir, createGlass } = await import("../src/common/model/DielectricMaterial.js");
-const { MultipleCapacitorsModel } = await import("../src/multiple-capacitors/model/MultipleCapacitorsModel.js");
+const { EPSILON_0 } = await import("../src/CapacitorLabConstants.ts");
+const { Capacitor } = await import("../src/common/model/Capacitor.ts");
+const { CLModelViewTransform3D } = await import("../src/common/model/CLModelViewTransform3D.ts");
+const { createAir, createGlass } = await import("../src/common/model/DielectricMaterial.ts");
+const { MultipleCapacitorsModel } = await import("../src/multiple-capacitors/model/MultipleCapacitorsModel.ts");
 
 let failures = 0;
 

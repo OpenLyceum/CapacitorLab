@@ -16,7 +16,7 @@
  */
 
 import { RangeWithValue } from "scenerystack/dot";
-import CapacitorLabNamespace from "./CapacitorLabNamespace.js";
+import CapacitorLabNamespace from "./CapacitorLabNamespace.ts";
 
 // ── Layout / chrome (screen pixels) ───────────────────────────────────────────
 

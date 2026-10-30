@@ -16,13 +16,13 @@
 import type { TReadOnlyProperty } from "scenerystack/axon";
 import { Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
-import { Capacitor } from "../Capacitor.js";
+import { Capacitor } from "../Capacitor.ts";
 import type { CircuitConfig } from "../CircuitConfig.js";
 import {
   createWireBatteryToCapacitorsBottom,
   createWireBatteryToCapacitorsTop,
-} from "../wire/WireBatteryToCapacitors.js";
-import { AbstractCircuit } from "./AbstractCircuit.js";
+} from "../wire/WireBatteryToCapacitors.ts";
+import { AbstractCircuit } from "./AbstractCircuit.ts";
 
 /** A row of capacitors to the right of the battery, evenly spaced. */
 export function createCapacitorsInRow(config: CircuitConfig, numberOfCapacitors: number): Capacitor[] {

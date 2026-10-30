@@ -18,9 +18,9 @@ import {
   NEGATIVE_TERMINAL_ELLIPSE_SIZE,
   POSITIVE_TERMINAL_CYLINDER_HEIGHT,
   POSITIVE_TERMINAL_ELLIPSE_SIZE,
-} from "../Battery.js";
+} from "../Battery.ts";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
-import { Polarity } from "../Polarity.js";
+import { Polarity } from "../Polarity.ts";
 
 export class BatteryShapes {
   private readonly battery: Battery;

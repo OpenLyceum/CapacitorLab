@@ -19,8 +19,8 @@
 import { BooleanProperty, DerivedProperty, Multilink, NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
-import { BATTERY_VOLTAGE_RANGE } from "../../../CapacitorLabConstants.js";
-import { Battery } from "../Battery.js";
+import { BATTERY_VOLTAGE_RANGE } from "../../../CapacitorLabConstants.ts";
+import { Battery } from "../Battery.ts";
 import type { Capacitor } from "../Capacitor.js";
 import type { CircuitConfig } from "../CircuitConfig.js";
 import type { Wire } from "../wire/Wire.js";

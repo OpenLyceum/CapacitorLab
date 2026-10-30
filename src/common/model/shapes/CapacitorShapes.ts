@@ -15,7 +15,7 @@
 import { Shape } from "scenerystack/kite";
 import type { Capacitor } from "../Capacitor.js";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
-import { BoxShapes } from "./BoxShapes.js";
+import { BoxShapes } from "./BoxShapes.ts";
 
 /** Stand-in for "no shape at all" — contains nothing and intersects nothing. */
 function createEmptyShape(): Shape {

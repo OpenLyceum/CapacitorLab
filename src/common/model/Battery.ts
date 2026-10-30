@@ -14,9 +14,9 @@ import { DerivedProperty, NumberProperty, type TReadOnlyProperty } from "scenery
 import { Dimension2, type Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
 import type { CLModelViewTransform3D } from "./CLModelViewTransform3D.js";
-import { Polarity, type PolarityValue } from "./Polarity.js";
-import { BatteryShapes } from "./shapes/BatteryShapes.js";
-import { shapeIntersects } from "./shapes/shapeIntersects.js";
+import { Polarity, type PolarityValue } from "./Polarity.ts";
+import { BatteryShapes } from "./shapes/BatteryShapes.ts";
+import { shapeIntersects } from "./shapes/shapeIntersects.ts";
 
 /** Bounding box of the battery image, metres. */
 export const BODY_SIZE = new Dimension2(0.0065, 0.01425);

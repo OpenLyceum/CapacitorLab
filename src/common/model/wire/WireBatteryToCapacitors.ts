@@ -26,14 +26,14 @@ import { Vector2 } from "scenerystack/dot";
 import type { Battery } from "../Battery.js";
 import type { Capacitor } from "../Capacitor.js";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
-import { WIRE_CORNER_OFFSET, Wire, wireEndOffset } from "./Wire.js";
+import { WIRE_CORNER_OFFSET, Wire, wireEndOffset } from "./Wire.ts";
 import {
   createBatteryBottomWireSegment,
   createBatteryTopWireSegment,
   createCapacitorBottomWireSegment,
   createCapacitorTopWireSegment,
   WireSegment,
-} from "./WireSegment.js";
+} from "./WireSegment.ts";
 
 /**
  * y of the horizontal run: `wireExtent` clear of whichever capacitor sits nearest

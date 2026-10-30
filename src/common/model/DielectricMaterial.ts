@@ -12,15 +12,15 @@
 
 import { NumberProperty, StringProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Color, ProfileColorProperty } from "scenerystack/scenery";
-import CapacitorLabColors from "../../CapacitorLabColors.js";
+import CapacitorLabColors from "../../CapacitorLabColors.ts";
 import {
   DIELECTRIC_CONSTANT_RANGE,
   EPSILON_AIR,
   EPSILON_GLASS,
   EPSILON_PAPER,
   EPSILON_TEFLON,
-} from "../../CapacitorLabConstants.js";
-import { StringManager } from "../../i18n/StringManager.js";
+} from "../../CapacitorLabConstants.ts";
+import { StringManager } from "../../i18n/StringManager.ts";
 
 export class DielectricMaterial {
   /** Localized name shown in the material combo box. */

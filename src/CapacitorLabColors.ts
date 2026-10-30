@@ -24,7 +24,7 @@
  * Always provide both "default" and "projector" values.
  */
 import { ProfileColorProperty } from "scenerystack/scenery";
-import CapacitorLabNamespace from "./CapacitorLabNamespace.js";
+import CapacitorLabNamespace from "./CapacitorLabNamespace.ts";
 
 const CapacitorLabColors = {
   /**

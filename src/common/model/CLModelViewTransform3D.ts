@@ -25,7 +25,7 @@
 import type { Bounds2, Vector2, Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
 import { YawPitchModelViewTransform3 } from "scenerystack/scenery-phet";
-import { MVT_PITCH, MVT_SCALE, MVT_YAW } from "../../CapacitorLabConstants.js";
+import { MVT_PITCH, MVT_SCALE, MVT_YAW } from "../../CapacitorLabConstants.ts";
 
 export type CLModelViewTransform3DOptions = {
   /** Model-to-view scale factor; x and y scale identically. */

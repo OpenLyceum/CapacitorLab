@@ -18,8 +18,8 @@
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Shape } from "scenerystack/kite";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
-import { shapeIntersects } from "../shapes/shapeIntersects.js";
-import { createWireShape } from "../shapes/WireShapes.js";
+import { shapeIntersects } from "../shapes/shapeIntersects.ts";
+import { createWireShape } from "../shapes/WireShapes.ts";
 import type { WireSegment } from "./WireSegment.js";
 
 export type WireOptions = {

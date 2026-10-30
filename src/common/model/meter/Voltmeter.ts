@@ -17,10 +17,10 @@ import type { Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
 import type { Circuit } from "../circuit/Circuit.js";
-import { shapeIntersects } from "../shapes/shapeIntersects.js";
-import { createProbeTipShape } from "../shapes/VoltmeterShapes.js";
+import { shapeIntersects } from "../shapes/shapeIntersects.ts";
+import { createProbeTipShape } from "../shapes/VoltmeterShapes.ts";
 import type { WorldBounds } from "../WorldBounds.js";
-import { WorldPositionProperty } from "../WorldPositionProperty.js";
+import { WorldPositionProperty } from "../WorldPositionProperty.ts";
 
 export class Voltmeter {
   public readonly visibleProperty: BooleanProperty;

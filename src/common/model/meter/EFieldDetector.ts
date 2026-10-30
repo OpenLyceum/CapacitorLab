@@ -17,7 +17,7 @@ import type { Capacitor } from "../Capacitor.js";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
 import type { Circuit } from "../circuit/Circuit.js";
 import type { WorldBounds } from "../WorldBounds.js";
-import { WorldPositionProperty } from "../WorldPositionProperty.js";
+import { WorldPositionProperty } from "../WorldPositionProperty.ts";
 
 export type EFieldDetectorOptions = {
   visible: boolean;

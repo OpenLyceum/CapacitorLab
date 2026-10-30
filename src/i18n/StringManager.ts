@@ -21,9 +21,9 @@
 
 import type { ReadOnlyProperty } from "scenerystack/axon";
 import { LocalizedString } from "scenerystack/chipper";
-import stringsEn from "./strings_en.json";
-import stringsEs from "./strings_es.json";
-import stringsFr from "./strings_fr.json";
+import stringsEn from "./strings_en.json" with { type: "json" };
+import stringsEs from "./strings_es.json" with { type: "json" };
+import stringsFr from "./strings_fr.json" with { type: "json" };
 
 // ── Compile-time key-parity check ─────────────────────────────────────────────
 // English is the canonical shape; every other locale must match it exactly.

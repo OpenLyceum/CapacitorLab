@@ -21,11 +21,11 @@
 import { DerivedProperty, DynamicProperty, NumberProperty, Property, type TReadOnlyProperty } from "scenerystack/axon";
 import { Dimension3, type Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
-import { EPSILON_0, EPSILON_AIR, EPSILON_VACUUM, PLATE_HEIGHT } from "../../CapacitorLabConstants.js";
+import { EPSILON_0, EPSILON_AIR, EPSILON_VACUUM, PLATE_HEIGHT } from "../../CapacitorLabConstants.ts";
 import type { CLModelViewTransform3D } from "./CLModelViewTransform3D.js";
 import type { DielectricMaterial } from "./DielectricMaterial.js";
-import { CapacitorShapes } from "./shapes/CapacitorShapes.js";
-import { shapeIntersects } from "./shapes/shapeIntersects.js";
+import { CapacitorShapes } from "./shapes/CapacitorShapes.ts";
+import { shapeIntersects } from "./shapes/shapeIntersects.ts";
 
 /** C = ε_r · ε₀ · A / d, the general parallel-plate formula. */
 function capacitanceOf(dielectricConstant: number, area: number, plateSeparation: number): number {

@@ -14,7 +14,7 @@
 
 import { Property } from "scenerystack/axon";
 import { Bounds2, Vector3 } from "scenerystack/dot";
-import { WORLD_DRAG_MARGIN } from "../../CapacitorLabConstants.js";
+import { WORLD_DRAG_MARGIN } from "../../CapacitorLabConstants.ts";
 
 export class WorldBounds extends Property<Bounds2> {
   public constructor() {

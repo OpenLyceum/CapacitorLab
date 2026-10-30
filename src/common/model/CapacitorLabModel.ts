@@ -22,10 +22,10 @@ import {
   CAPACITANCE_DERIVATION,
   PLATE_CHARGE_DERIVATION,
   STORED_ENERGY_DERIVATION,
-} from "./meter/BarMeter.js";
-import { EFieldDetector, type EFieldDetectorOptions } from "./meter/EFieldDetector.js";
-import { Voltmeter } from "./meter/Voltmeter.js";
-import { WorldBounds } from "./WorldBounds.js";
+} from "./meter/BarMeter.ts";
+import { EFieldDetector, type EFieldDetectorOptions } from "./meter/EFieldDetector.ts";
+import { Voltmeter } from "./meter/Voltmeter.ts";
+import { WorldBounds } from "./WorldBounds.ts";
 
 /** Where each meter starts, in model coordinates, and whether it starts visible. */
 export type MeterLayout = {

@@ -16,7 +16,7 @@ import { BooleanProperty, DynamicProperty, type TReadOnlyProperty } from "scener
 import type { Vector3 } from "scenerystack/dot";
 import type { Circuit } from "../circuit/Circuit.js";
 import type { WorldBounds } from "../WorldBounds.js";
-import { WorldPositionProperty } from "../WorldPositionProperty.js";
+import { WorldPositionProperty } from "../WorldPositionProperty.ts";
 
 /** Picks the circuit quantity a given meter reads. */
 export type BarMeterDerivation = (circuit: Circuit) => TReadOnlyProperty<number>;

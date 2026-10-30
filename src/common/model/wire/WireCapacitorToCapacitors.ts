@@ -22,8 +22,8 @@
 import { Vector2 } from "scenerystack/dot";
 import type { Capacitor } from "../Capacitor.js";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
-import { WIRE_CORNER_OFFSET, Wire } from "./Wire.js";
-import { createCapacitorToCapacitorWireSegment, createCapacitorTopWireSegment, WireSegment } from "./WireSegment.js";
+import { WIRE_CORNER_OFFSET, Wire } from "./Wire.ts";
+import { createCapacitorToCapacitorWireSegment, createCapacitorTopWireSegment, WireSegment } from "./WireSegment.ts";
 
 export function createWireCapacitorToCapacitors(
   modelViewTransform: CLModelViewTransform3D,
