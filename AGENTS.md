@@ -58,8 +58,6 @@ None — the sim follows [Baton/CONVENTIONS.md](https://github.com/OpenLyceum/Ba
 
 ## Testing
 
-Vitest on `happy-dom` with the template `tests/setup.ts`; tests live only under `tests/`.
-
 | Path | Covers |
 |---|---|
 | `tests/common/model/CLCalibration.test.ts` | unit tests |
@@ -71,13 +69,7 @@ Vitest on `happy-dom` with the template `tests/setup.ts`; tests live only under 
 
 ## Commands
 
-```bash
-npm run lint && npm run check && npm test && npm run build && npm run test:fuzz:quick
-```
-
-The standard scripts are listed in the README. `npm run release` runs `npm test` before the version bump, and `src/init.ts` reads `version` from `package.json`.
-
-Sim-specific scripts: `npm run test:physics`.
+`npm run test:physics` is the sim-specific suite. The other scripts are the fleet set in `.github/AGENTS.md`.
 
 ## Development notes
 
