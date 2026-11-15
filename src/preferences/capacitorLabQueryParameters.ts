@@ -24,5 +24,3 @@ CapacitorLabNamespace.register("capacitorLabQueryParameters", capacitorLabQueryP
 
 // Log query parameters (for the console / PhET-iO).
 logGlobal("phet.chipper.queryParameters");
-
-export default capacitorLabQueryParameters;
