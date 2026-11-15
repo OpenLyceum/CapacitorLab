@@ -29,7 +29,7 @@ const ARROW_HEIGHT = 15;
 const LINE_WIDTH = 2;
 
 /** How many lines a given field strength earns, at least one row's worth if non-zero. */
-export function getNumberOfLines(effectiveEField: number, maxEffectiveEField: number): number {
+function getNumberOfLines(effectiveEField: number, maxEffectiveEField: number): number {
   const absoluteField = Math.abs(effectiveEField);
   const count = Math.trunc((NUMBER_OF_EFIELD_LINES.max * absoluteField) / maxEffectiveEField);
   if (absoluteField > 0 && count < NUMBER_OF_EFIELD_LINES.min) {
@@ -42,7 +42,7 @@ export function getNumberOfLines(effectiveEField: number, maxEffectiveEField: nu
  * Spacing between lines, metres. Zero means "draw nothing" — there is no field.
  * Derived from the smallest plate, and assumes plates are square.
  */
-export function getLineSpacing(effectiveEField: number, maxEffectiveEField: number): number {
+function getLineSpacing(effectiveEField: number, maxEffectiveEField: number): number {
   if (effectiveEField === 0) {
     return 0;
   }

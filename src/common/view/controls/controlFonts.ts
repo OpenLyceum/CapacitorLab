@@ -12,7 +12,7 @@ import { PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox } from "scenerystack/sun";
 import CapacitorLabColors from "../../../CapacitorLabColors.js";
 
-export const CONTROL_TITLE_FONT = new PhetFont({ size: 16, weight: "bold" });
+const CONTROL_TITLE_FONT = new PhetFont({ size: 16, weight: "bold" });
 export const CONTROL_LABEL_FONT = new PhetFont(14);
 
 /** A panel title. */

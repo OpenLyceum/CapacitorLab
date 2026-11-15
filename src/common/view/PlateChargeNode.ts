@@ -66,7 +66,7 @@ export type PlateChargeNodeOptions = {
  * How many symbols to draw for a given charge. Anything non-zero gets at least
  * one, so that a nearly discharged plate still reads as charged.
  */
-export function getNumberOfCharges(plateCharge: number, maxPlateCharge: number): number {
+function getNumberOfCharges(plateCharge: number, maxPlateCharge: number): number {
   const absoluteCharge = Math.abs(plateCharge);
   const count = Math.trunc((NUMBER_OF_PLATE_CHARGES.max * absoluteCharge) / maxPlateCharge);
   if (absoluteCharge > 0 && count < NUMBER_OF_PLATE_CHARGES.min) {

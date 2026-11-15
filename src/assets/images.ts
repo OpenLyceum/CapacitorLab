@@ -18,5 +18,3 @@ export const CapacitorLabImages = {
   /** Battery drawn upside down, for negative voltage. */
   batteryDown: batteryDownUrl,
 } as const;
-
-export type CapacitorLabImageKey = keyof typeof CapacitorLabImages;

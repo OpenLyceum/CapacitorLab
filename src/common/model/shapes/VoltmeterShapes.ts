@@ -15,7 +15,7 @@ import { Shape } from "scenerystack/kite";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
 
 /** Size of a probe tip, metres. */
-export const PROBE_TIP_SIZE = new Dimension2(0.0005, 0.0015);
+const PROBE_TIP_SIZE = new Dimension2(0.0005, 0.0015);
 
 export function createProbeTipShape(origin: Vector3, modelViewTransform: CLModelViewTransform3D): Shape {
   const { width, height } = PROBE_TIP_SIZE;

@@ -25,7 +25,7 @@ import {
 import { AbstractCircuit } from "./AbstractCircuit.ts";
 
 /** A row of capacitors to the right of the battery, evenly spaced. */
-export function createCapacitorsInRow(config: CircuitConfig, numberOfCapacitors: number): Capacitor[] {
+function createCapacitorsInRow(config: CircuitConfig, numberOfCapacitors: number): Capacitor[] {
   const capacitors: Capacitor[] = [];
   let x = config.batteryPosition.x + config.capacitorXSpacing;
   for (let i = 0; i < numberOfCapacitors; i++) {

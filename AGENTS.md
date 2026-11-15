@@ -48,7 +48,7 @@ Physics and behavior: `doc/model.md`.
 Follows the shared [OpenLyceum accessibility convention](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
 A11y strings live under the `a11y` key of each locale JSON, read through `StringManager`.
 
-- Screen summaries: `src/dielectric/view/DielectricScreenSummaryContent.ts`, `src/introduction/view/IntroductionScreenSummaryContent.ts`, `src/multiple-capacitors/view/MultipleCapacitorsScreenSummaryContent.ts`
+- Screen summaries: `src/dielectric/view/DielectricScreenSummaryContent.ts`, `src/introduction/view/IntroductionScreenSummaryContent.ts`
 - Keyboard Shortcuts dialog: `src/dielectric/view/DielectricKeyboardHelpContent.ts`, `src/introduction/view/IntroductionKeyboardHelpContent.ts`, `src/multiple-capacitors/view/MultipleCapacitorsKeyboardHelpContent.ts`
 - Keyboard-draggable objects: `src/common/view/drag/DielectricOffsetDragHandleNode.ts`, `src/common/view/drag/PlateAreaDragHandleNode.ts`, `src/common/view/drag/PlateSeparationDragHandleNode.ts`, `src/common/view/drag/worldPositionDragListener.ts`
 
