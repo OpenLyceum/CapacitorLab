@@ -12,21 +12,21 @@
  */
 
 import { Shape } from "scenerystack/kite";
-import type { Battery } from "../Battery.js";
 import {
   BODY_SIZE,
   NEGATIVE_TERMINAL_ELLIPSE_SIZE,
   POSITIVE_TERMINAL_CYLINDER_HEIGHT,
   POSITIVE_TERMINAL_ELLIPSE_SIZE,
-} from "../Battery.ts";
+} from "../BatteryGeometry.js";
+import type { BatteryLike } from "../BatteryLike.js";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
 import { Polarity } from "../Polarity.ts";
 
 export class BatteryShapes {
-  private readonly battery: Battery;
+  private readonly battery: BatteryLike;
   private readonly modelViewTransform: CLModelViewTransform3D;
 
-  public constructor(battery: Battery, modelViewTransform: CLModelViewTransform3D) {
+  public constructor(battery: BatteryLike, modelViewTransform: CLModelViewTransform3D) {
     this.battery = battery;
     this.modelViewTransform = modelViewTransform;
   }

@@ -13,7 +13,7 @@
  */
 
 import { Shape } from "scenerystack/kite";
-import type { Capacitor } from "../Capacitor.js";
+import type { CapacitorLike } from "../CapacitorLike.js";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
 import { BoxShapes } from "./BoxShapes.ts";
 
@@ -23,10 +23,10 @@ function createEmptyShape(): Shape {
 }
 
 export class CapacitorShapes {
-  private readonly capacitor: Capacitor;
+  private readonly capacitor: CapacitorLike;
   private readonly boxShapes: BoxShapes;
 
-  public constructor(capacitor: Capacitor, modelViewTransform: CLModelViewTransform3D) {
+  public constructor(capacitor: CapacitorLike, modelViewTransform: CLModelViewTransform3D) {
     this.capacitor = capacitor;
     this.boxShapes = new BoxShapes(modelViewTransform);
   }

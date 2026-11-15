@@ -11,24 +11,21 @@
  */
 
 import { DerivedProperty, NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import { Dimension2, type Vector3 } from "scenerystack/dot";
+import type { Vector3 } from "scenerystack/dot";
 import type { Shape } from "scenerystack/kite";
+/** Bounding box of the battery image, metres. */
+import { BODY_SIZE } from "./BatteryGeometry.js";
 import type { CLModelViewTransform3D } from "./CLModelViewTransform3D.js";
 import { Polarity, type PolarityValue } from "./Polarity.ts";
 import { BatteryShapes } from "./shapes/BatteryShapes.ts";
 import { shapeIntersects } from "./shapes/shapeIntersects.ts";
 
-/** Bounding box of the battery image, metres. */
-export const BODY_SIZE = new Dimension2(0.0065, 0.01425);
-
-/** Ellipse that caps the positive terminal's cylinder, metres. */
-export const POSITIVE_TERMINAL_ELLIPSE_SIZE = new Dimension2(0.0025, 0.0005);
-
-/** Height of the positive terminal's cylinder, metres. */
-export const POSITIVE_TERMINAL_CYLINDER_HEIGHT = 0.0009;
-
-/** Ellipse that forms the (recessed) negative terminal, metres. */
-export const NEGATIVE_TERMINAL_ELLIPSE_SIZE = new Dimension2(0.0035, 0.0009);
+export {
+  BODY_SIZE,
+  NEGATIVE_TERMINAL_ELLIPSE_SIZE,
+  POSITIVE_TERMINAL_CYLINDER_HEIGHT,
+  POSITIVE_TERMINAL_ELLIPSE_SIZE,
+} from "./BatteryGeometry.js";
 
 const POSITIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + 0.000505;
 const NEGATIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + 0.00105;
