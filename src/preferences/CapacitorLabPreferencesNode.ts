@@ -5,15 +5,31 @@
  * add controls here when the sim gains real preferences.
  */
 
-import { Node } from "scenerystack/scenery";
+import { Text, VBox } from "scenerystack/scenery";
+import { PhetFont } from "scenerystack/scenery-phet";
 import type { Tandem } from "scenerystack/tandem";
+import CapacitorLabColors from "../CapacitorLabColors.js";
 import CapacitorLabNamespace from "../CapacitorLabNamespace.js";
+import { StringManager } from "../i18n/StringManager.js";
 import type { CapacitorLabPreferencesModel } from "./CapacitorLabPreferencesModel.js";
 
-/** Empty conventional preferences node; the sim currently uses only framework preferences. */
-export class CapacitorLabPreferencesNode extends Node {
+/** Preferences dialog content sits on a light background regardless of color profile. */
+const PREFERENCES_TEXT_FILL = CapacitorLabColors.controlSurfaceTextColorProperty;
+
+export class CapacitorLabPreferencesNode extends VBox {
   public constructor(_preferencesModel: CapacitorLabPreferencesModel, _tandem?: Tandem) {
-    super();
+    const prefStrings = StringManager.getInstance().getPreferences();
+
+    const header = new Text(prefStrings.titleStringProperty, {
+      font: new PhetFont({ size: 18, weight: "bold" }),
+      fill: PREFERENCES_TEXT_FILL,
+    });
+
+    super({
+      align: "left",
+      spacing: 12,
+      children: [header],
+    });
   }
 }
 
