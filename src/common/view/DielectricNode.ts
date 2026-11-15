@@ -12,11 +12,11 @@
  */
 
 import { DerivedProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import type { Color } from "scenerystack/scenery";
+import { Color } from "scenerystack/scenery";
+import CapacitorLabColors from "../../CapacitorLabColors.js";
 import type { Capacitor } from "../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js";
 import { DielectricChargeView, type DielectricChargeViewValue } from "../model/DielectricChargeView.js";
-import type { DielectricMaterial } from "../model/DielectricMaterial.js";
 import { DielectricExcessChargeNode } from "./DielectricExcessChargeNode.js";
 import { DielectricTotalChargeNode } from "./DielectricTotalChargeNode.js";
 import { TransparentBoxNode } from "./TransparentBoxNode.js";
@@ -31,12 +31,20 @@ export class DielectricNode extends TransparentBoxNode {
   ) {
     // Follows the chosen material, so switching from glass to teflon repaints the
     // slab without rebuilding it.
-    const colorProperty = new DerivedProperty(
-      [capacitor.dielectricMaterialProperty],
-      (material: DielectricMaterial) => material.colorProperty.value as Color,
+    const materialColors = {
+      teflon: CapacitorLabColors.teflonColorProperty,
+      glass: CapacitorLabColors.glassColorProperty,
+      paper: CapacitorLabColors.paperColorProperty,
+      air: CapacitorLabColors.airColorProperty,
+      custom: CapacitorLabColors.customDielectricColorProperty,
+    };
+    const colorProperty = DerivedProperty.deriveAny(
+      [capacitor.dielectricMaterialProperty, ...Object.values(materialColors)],
+      () => Color.toColor(materialColors[capacitor.dielectricMaterialProperty.value.kind].value),
     );
 
     super(modelViewTransform, colorProperty, capacitor.getDielectricSize());
+    this.disposeEmitter.addListener(() => colorProperty.dispose());
 
     const totalChargeNode = new DielectricTotalChargeNode(capacitor, modelViewTransform, maxDielectricEField);
     this.addChild(totalChargeNode);

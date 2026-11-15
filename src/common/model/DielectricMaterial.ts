@@ -11,8 +11,6 @@
  */
 
 import { NumberProperty, StringProperty, type TReadOnlyProperty } from "scenerystack/axon";
-import type { Color, ProfileColorProperty } from "scenerystack/scenery";
-import CapacitorLabColors from "../../CapacitorLabColors.ts";
 import {
   DIELECTRIC_CONSTANT_RANGE,
   EPSILON_AIR,
@@ -22,6 +20,8 @@ import {
 } from "../../CapacitorLabConstants.ts";
 import { StringManager } from "../../i18n/StringManager.ts";
 
+export type DielectricMaterialKind = "teflon" | "glass" | "paper" | "air" | "custom";
+
 export class DielectricMaterial {
   /** Localized name shown in the material combo box. */
   public readonly nameProperty: TReadOnlyProperty<string>;
@@ -29,8 +29,8 @@ export class DielectricMaterial {
   /** Dimensionless relative permittivity ε_r. Mutable only when {@link isCustom}. */
   public readonly dielectricConstantProperty: NumberProperty;
 
-  /** Fill for the slab. Themed, so it follows the projector-mode profile. */
-  public readonly colorProperty: ProfileColorProperty;
+  /** Stable material identity; views choose its appearance. */
+  public readonly kind: DielectricMaterialKind;
 
   /** True for the one material whose constant the user can change. */
   public readonly isCustom: boolean;
@@ -38,22 +38,12 @@ export class DielectricMaterial {
   public constructor(
     nameProperty: TReadOnlyProperty<string>,
     dielectricConstant: number,
-    colorProperty: ProfileColorProperty,
-    isCustom = false,
+    kind: DielectricMaterialKind,
   ) {
     this.nameProperty = nameProperty;
     this.dielectricConstantProperty = new NumberProperty(dielectricConstant);
-    this.colorProperty = colorProperty;
-    this.isCustom = isCustom;
-  }
-
-  /**
-   * True when the slab hides whatever is behind it. Only glass is translucent, so
-   * only glass lets the plate charges show through without the view having to
-   * force transparency.
-   */
-  public isOpaque(): boolean {
-    return (this.colorProperty.value as Color).alpha === 1;
+    this.kind = kind;
+    this.isCustom = kind === "custom";
   }
 
   public reset(): void {
@@ -66,7 +56,7 @@ export function createTeflon(): DielectricMaterial {
   return new DielectricMaterial(
     StringManager.getInstance().getMaterialStrings().teflonStringProperty,
     EPSILON_TEFLON,
-    CapacitorLabColors.teflonColorProperty,
+    "teflon",
   );
 }
 
@@ -75,7 +65,7 @@ export function createGlass(): DielectricMaterial {
   return new DielectricMaterial(
     StringManager.getInstance().getMaterialStrings().glassStringProperty,
     EPSILON_GLASS,
-    CapacitorLabColors.glassColorProperty,
+    "glass",
   );
 }
 
@@ -84,7 +74,7 @@ export function createPaper(): DielectricMaterial {
   return new DielectricMaterial(
     StringManager.getInstance().getMaterialStrings().paperStringProperty,
     EPSILON_PAPER,
-    CapacitorLabColors.paperColorProperty,
+    "paper",
   );
 }
 
@@ -96,7 +86,7 @@ export function createPaper(): DielectricMaterial {
 export function createAir(): DielectricMaterial {
   // Not localized: air is never offered in the material combo box, so this name
   // never reaches the screen. The Java sim made the same call.
-  return new DielectricMaterial(new StringProperty("air"), EPSILON_AIR, CapacitorLabColors.airColorProperty);
+  return new DielectricMaterial(new StringProperty("air"), EPSILON_AIR, "air");
 }
 
 /** The custom material, whose constant the user drives with a slider. */
@@ -104,7 +94,6 @@ export function createCustom(dielectricConstant = DIELECTRIC_CONSTANT_RANGE.defa
   return new DielectricMaterial(
     StringManager.getInstance().getMaterialStrings().customStringProperty,
     dielectricConstant,
-    CapacitorLabColors.customDielectricColorProperty,
-    true,
+    "custom",
   );
 }
