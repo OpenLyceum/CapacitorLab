@@ -20,13 +20,6 @@ import { Polarity, type PolarityValue } from "./Polarity.ts";
 import { BatteryShapes } from "./shapes/BatteryShapes.ts";
 import { shapeIntersects } from "./shapes/shapeIntersects.ts";
 
-export {
-  BODY_SIZE,
-  NEGATIVE_TERMINAL_ELLIPSE_SIZE,
-  POSITIVE_TERMINAL_CYLINDER_HEIGHT,
-  POSITIVE_TERMINAL_ELLIPSE_SIZE,
-} from "./BatteryGeometry.js";
-
 const POSITIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + 0.000505;
 const NEGATIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + 0.00105;
 
