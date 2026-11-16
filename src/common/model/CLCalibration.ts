@@ -24,6 +24,7 @@ import {
   DIELECTRIC_OFFSET_RANGE,
   PLATE_SEPARATION_RANGE,
   PLATE_WIDTH_RANGE,
+  SINGLE_CAPACITOR_MODEL_SETTINGS,
   WIRE_THICKNESS,
 } from "../../CapacitorLabConstants.js";
 import { StringManager } from "../../i18n/StringManager.js";
@@ -58,14 +59,14 @@ function createCircuitWithMaxCharge(dielectricConstant: number): SingleCircuit {
   const config: CircuitConfig = {
     modelViewTransform: new CLModelViewTransform3D(),
     batteryPosition: ORIGIN,
-    capacitorXSpacing: 0.025,
+    capacitorXSpacing: SINGLE_CAPACITOR_MODEL_SETTINGS.CAPACITOR_X_SPACING,
     capacitorYSpacing: 0,
     plateWidth: PLATE_WIDTH_RANGE.min,
     plateSeparation: PLATE_SEPARATION_RANGE.min,
     dielectricMaterial: createCustom(dielectricConstant),
     dielectricOffset: DIELECTRIC_OFFSET_RANGE.min,
     wireThickness: WIRE_THICKNESS,
-    wireExtent: 0.016,
+    wireExtent: SINGLE_CAPACITOR_MODEL_SETTINGS.WIRE_EXTENT,
   };
   const circuit = new SingleCircuit(
     config,

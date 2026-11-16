@@ -123,7 +123,7 @@ export class EFieldDetectorNode extends Node {
     });
     body.addChild(title);
     title.centerX = BODY_SIZE.x / 2;
-    title.top = E_FIELD_DETECTOR_NODE_SETTINGS.TOP_TOP;
+    title.top = E_FIELD_DETECTOR_NODE_SETTINGS.TITLE_TOP;
 
     const plateVector = new VectorDisplay(
       detectorStrings.plateStringProperty,
@@ -191,7 +191,7 @@ export class EFieldDetectorNode extends Node {
     }
     controls.addChild(createCheckbox(detectorStrings.showValuesStringProperty, detector.valuesVisibleProperty));
     body.addChild(controls);
-    controls.left = E_FIELD_DETECTOR_NODE_SETTINGS.LEFT_LEFT;
+    controls.left = E_FIELD_DETECTOR_NODE_SETTINGS.CONTROLS_LEFT;
     controls.bottom = BODY_SIZE.y - 8;
 
     // ── Probe and lead ──────────────────────────────────────────────────────

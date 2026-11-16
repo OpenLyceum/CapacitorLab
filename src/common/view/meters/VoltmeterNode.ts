@@ -87,7 +87,7 @@ export class VoltmeterNode extends Node {
     body.addChild(title);
     body.addChild(readout);
     title.centerX = BODY_SIZE.x / 2;
-    title.top = VOLTMETER_NODE_SETTINGS.TOP_TOP;
+    title.top = VOLTMETER_NODE_SETTINGS.TITLE_TOP;
     readout.centerX = BODY_SIZE.x / 2;
     readout.top = title.bottom + VOLTMETER_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
 

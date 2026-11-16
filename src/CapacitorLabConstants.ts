@@ -207,7 +207,7 @@ export const UNITS_UTILS_SETTINGS = {
 
 /** Settings for common/view/BatteryNode.ts. */
 export const BATTERY_NODE_SETTINGS = {
-  /** * Track length in view pixels. A fixed number rather than a fraction of the battery image: the artwork is an SVG whose intrinsic size is not known until it loads, and a track built from a zero height fails immediately. */
+  /** Track length in view pixels. A fixed number rather than a fraction of the battery image: the artwork is an SVG whose intrinsic size is not known until it loads, and a track built from a zero height fails immediately. */
   TRACK_LENGTH: 80,
   /** Track thickness (px). */
   TRACK_THICKNESS: 4,
@@ -403,7 +403,7 @@ export const BAR_METER_NODE_SETTINGS = {
   TRACK_SIZE_WIDTH: 50,
   /** Track size height (px). */
   TRACK_SIZE_HEIGHT: 200,
-  /** Number of ticks (px). */
+  /** Number of tick marks along the bar meter track (count). */
   NUMBER_OF_TICKS: 10,
   /** Title font size (px). */
   TITLE_FONT_SIZE: 16,
@@ -444,14 +444,14 @@ export const E_FIELD_DETECTOR_NODE_SETTINGS = {
   ARROW_HEAD_HEIGHT: 12,
   /** Arrow tail width (px). */
   ARROW_TAIL_WIDTH: 5,
-  /** Top top (px). */
-  TOP_TOP: 6,
+  /** Top inset for the detector title (px). */
+  TITLE_TOP: 6,
   /** Create checkbox box width (px). */
   CREATE_CHECKBOX_BOX_WIDTH: 14,
   /** Controls spacing (px). */
   CONTROLS_SPACING: 3,
-  /** Left left (px). */
-  LEFT_LEFT: 10,
+  /** Left inset for the vector-visibility controls (px). */
+  CONTROLS_LEFT: 10,
   /** Constructor line width (px). */
   CONSTRUCTOR_LINE_WIDTH: 3,
 } as const;
@@ -474,8 +474,8 @@ export const VOLTMETER_NODE_SETTINGS = {
   BODY_WIRE_NORMAL_Y: 60,
   /** Probe wire normal y (px). */
   PROBE_WIRE_NORMAL_Y: -80,
-  /** Top top (px). */
-  TOP_TOP: 6,
+  /** Top inset for the voltmeter title (px). */
+  TITLE_TOP: 6,
   /** Wire options line width (px). */
   WIRE_OPTIONS_LINE_WIDTH: 3,
 } as const;
@@ -488,7 +488,7 @@ export const MULTIPLE_CAPACITORS_MODEL_SETTINGS = {
   CAPACITOR_Y_SPACING: 0.016,
   /** Wire extent (m). */
   WIRE_EXTENT: 0.01,
-  /** * Plates are fixed and small on this screen — there are up to four capacitors to fit on one canvas — and the separation carries the capacitance the user dials in. */
+  /** Plates are fixed and small on this screen — there are up to four capacitors to fit on one canvas — and the separation carries the capacitance the user dials in. */
   PLATE_WIDTH: 0.0075,
 } as const;
 

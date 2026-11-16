@@ -13,6 +13,7 @@ model. The project is AGPL-3.0-or-later and is not an official PhET product.
 
 ### Architecture map
 
+- `src/CapacitorLabConstants.ts` — ranges, defaults, model spacings, meter/layout settings.
 - `src/common/model/Capacitor.ts` — dielectric-aware capacitance, charge, energy, and field equations.
 - `src/common/model/circuit/` — single, series, parallel, and two combination topologies.
 - `src/common/model/wire/` and `shapes/` — circuit geometry used by both rendering and probes.
