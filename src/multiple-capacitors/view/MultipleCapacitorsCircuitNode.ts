@@ -1,3 +1,4 @@
+import { MULTIPLE_CAPACITORS_CIRCUIT_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * MultipleCapacitorsCircuitNode.ts
  *
@@ -25,10 +26,10 @@ import { CapacitanceControlNode } from "../../common/view/controls/CapacitanceCo
 import { WireNode } from "../../common/view/WireNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 
-const LABEL_FONT = new PhetFont(24);
+const LABEL_FONT = new PhetFont(MULTIPLE_CAPACITORS_CIRCUIT_NODE_SETTINGS.LABEL_FONT_SIZE);
 
 /** Gap between a capacitor and its label or capacitance control. */
-const LABEL_SPACING = 6;
+const LABEL_SPACING: number = MULTIPLE_CAPACITORS_CIRCUIT_NODE_SETTINGS.LABEL_SPACING;
 
 /** This screen never draws dielectric charges, so the view is fixed. */
 const NO_DIELECTRIC_CHARGES = new Property(DielectricChargeView.NONE);

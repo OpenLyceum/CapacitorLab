@@ -1,3 +1,4 @@
+import { SINGLE_CAPACITOR_SCREEN_VIEW_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * SingleCapacitorScreenView.ts
  *
@@ -99,7 +100,7 @@ export class SingleCapacitorScreenView extends CapacitorLabScreenView {
     // ── Control panels ──────────────────────────────────────────────────────
     const panels = new VBox({
       align: "right",
-      spacing: 10,
+      spacing: SINGLE_CAPACITOR_SCREEN_VIEW_SETTINGS.PANELS_SPACING,
       children: [
         new ViewControlPanel(this.plateChargesVisibleProperty, this.eFieldVisibleProperty),
         new MetersControlPanel({

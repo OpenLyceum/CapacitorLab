@@ -1,3 +1,4 @@
+import { SINGLE_CAPACITOR_CIRCUIT_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * SingleCapacitorCircuitNode.ts
  *
@@ -101,7 +102,8 @@ export class SingleCapacitorCircuitNode extends Node {
     bottomCurrentIndicator.centerY = bottomWireNode.bounds.maxY - bottomThickness / 2;
 
     batteryConnectionButton.left = batteryNode.bounds.minX;
-    batteryConnectionButton.bottom = topCurrentIndicator.bounds.minY - 10;
+    batteryConnectionButton.bottom =
+      topCurrentIndicator.bounds.minY - SINGLE_CAPACITOR_CIRCUIT_NODE_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
 
     plateChargeControlNode.translation = modelViewTransform.modelToViewPosition(
       new Vector3(capacitor.position.x - 0.004, 0.001, 0),

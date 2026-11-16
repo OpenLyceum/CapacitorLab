@@ -1,3 +1,4 @@
+import { CURRENT_INDICATOR_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * CurrentIndicatorNode.ts
  *
@@ -20,19 +21,19 @@ import { ArrowNode, MinusNode } from "scenerystack/scenery-phet";
 import CapacitorLabColors from "../../CapacitorLabColors.js";
 import type { Circuit } from "../model/circuit/Circuit.js";
 
-const ARROW_LENGTH = 175;
-const ARROW_HEAD_WIDTH = 60;
-const ARROW_HEAD_HEIGHT = 50;
+const ARROW_LENGTH: number = CURRENT_INDICATOR_NODE_SETTINGS.ARROW_LENGTH;
+const ARROW_HEAD_WIDTH: number = CURRENT_INDICATOR_NODE_SETTINGS.ARROW_HEAD_WIDTH;
+const ARROW_HEAD_HEIGHT: number = CURRENT_INDICATOR_NODE_SETTINGS.ARROW_HEAD_HEIGHT;
 const ARROW_TAIL_WIDTH = 0.4 * ARROW_HEAD_WIDTH;
 
 const ELECTRON_DIAMETER = 0.8 * ARROW_TAIL_WIDTH;
 const ELECTRON_MINUS_SIZE = new Dimension2(0.6 * ELECTRON_DIAMETER, 0.1 * ELECTRON_DIAMETER);
 
 /** The indicator is never fully opaque, so it does not fight the circuit behind it. */
-const VISIBLE_OPACITY = 0.75;
+const VISIBLE_OPACITY: number = CURRENT_INDICATOR_NODE_SETTINGS.VISIBLE_OPACITY;
 
 /** Seconds the arrow takes to fade once the current stops. */
-const FADE_OUT_DURATION = 0.5;
+const FADE_OUT_DURATION: number = CURRENT_INDICATOR_NODE_SETTINGS.FADE_OUT_DURATION;
 
 export class CurrentIndicatorNode extends Node {
   private readonly positiveOrientation: number;

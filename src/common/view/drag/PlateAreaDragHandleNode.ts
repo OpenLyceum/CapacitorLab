@@ -1,3 +1,4 @@
+import { PLATE_AREA_DRAG_HANDLE_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * PlateAreaDragHandleNode.ts
  *
@@ -29,7 +30,7 @@ import {
   setDragHandleAccessibleValue,
 } from "./DragHandleNode.js";
 
-const LINE_LENGTH = 22;
+const LINE_LENGTH: number = PLATE_AREA_DRAG_HANDLE_NODE_SETTINGS.LINE_LENGTH;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);

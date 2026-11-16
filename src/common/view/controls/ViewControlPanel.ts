@@ -1,3 +1,4 @@
+import { VIEW_CONTROL_PANEL_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * ViewControlPanel.ts
  *
@@ -19,7 +20,7 @@ export class ViewControlPanel extends CapacitorLabPanel {
     super(
       new VBox({
         align: "left",
-        spacing: 6,
+        spacing: VIEW_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         children: [
           createControlTitle(strings.titleStringProperty),
           createLabeledCheckbox(strings.plateChargesStringProperty, plateChargesVisibleProperty),

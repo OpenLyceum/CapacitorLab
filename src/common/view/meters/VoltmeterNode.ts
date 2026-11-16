@@ -1,3 +1,4 @@
+import { VOLTMETER_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * VoltmeterNode.ts
  *
@@ -25,15 +26,15 @@ import type { Voltmeter } from "../../model/meter/Voltmeter.js";
 import type { WorldPositionProperty } from "../../model/WorldPositionProperty.js";
 import { makeWorldDraggable } from "../drag/worldPositionDragListener.js";
 
-const BODY_SIZE = new Vector2(150, 80);
-const TITLE_FONT = new PhetFont({ size: 14, weight: "bold" });
-const VALUE_FONT = new PhetFont(18);
-const PROBE_RADIUS = 18;
+const BODY_SIZE = new Vector2(VOLTMETER_NODE_SETTINGS.BODY_SIZE_X, VOLTMETER_NODE_SETTINGS.BODY_SIZE_Y);
+const TITLE_FONT = new PhetFont({ size: VOLTMETER_NODE_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
+const VALUE_FONT = new PhetFont(VOLTMETER_NODE_SETTINGS.VALUE_FONT_SIZE);
+const PROBE_RADIUS: number = VOLTMETER_NODE_SETTINGS.PROBE_RADIUS;
 
 // Where a lead leaves the body and where it arrives at a probe. These set the
 // cubic's control points, which is what gives the leads their slack.
-const BODY_WIRE_NORMAL = new Property(new Vector2(0, 60));
-const PROBE_WIRE_NORMAL = new Property(new Vector2(0, -80));
+const BODY_WIRE_NORMAL = new Property(new Vector2(0, VOLTMETER_NODE_SETTINGS.BODY_WIRE_NORMAL_Y));
+const PROBE_WIRE_NORMAL = new Property(new Vector2(0, VOLTMETER_NODE_SETTINGS.PROBE_WIRE_NORMAL_Y));
 
 function createProbe(color: TColor): ProbeNode {
   return new ProbeNode({
@@ -86,9 +87,9 @@ export class VoltmeterNode extends Node {
     body.addChild(title);
     body.addChild(readout);
     title.centerX = BODY_SIZE.x / 2;
-    title.top = 6;
+    title.top = VOLTMETER_NODE_SETTINGS.TOP_TOP;
     readout.centerX = BODY_SIZE.x / 2;
-    readout.top = title.bottom + 6;
+    readout.top = title.bottom + VOLTMETER_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
 
     // ── Probes ──────────────────────────────────────────────────────────────
     const positiveProbe = createProbe(CapacitorLabColors.positiveChargeColorProperty);
@@ -100,7 +101,7 @@ export class VoltmeterNode extends Node {
     // Drawn behind everything so they emerge from under the body and probes.
     const bodyAnchor = (dx: number): TReadOnlyProperty<Vector2> =>
       viewPositionProperty(voltmeter.bodyPositionProperty, modelViewTransform, new Vector2(dx, BODY_SIZE.y));
-    const wireOptions = { lineWidth: 3 };
+    const wireOptions = { lineWidth: VOLTMETER_NODE_SETTINGS.WIRE_OPTIONS_LINE_WIDTH };
     this.insertChild(
       0,
       new WireNode(

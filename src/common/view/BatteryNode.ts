@@ -1,3 +1,4 @@
+import { BATTERY_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * BatteryNode.ts
  *
@@ -31,14 +32,14 @@ import { Polarity, type PolarityValue } from "../model/Polarity.js";
  * battery image: the artwork is an SVG whose intrinsic size is not known until it
  * loads, and a track built from a zero height fails immediately.
  */
-const TRACK_LENGTH = 80;
-const TRACK_THICKNESS = 4;
+const TRACK_LENGTH: number = BATTERY_NODE_SETTINGS.TRACK_LENGTH;
+const TRACK_THICKNESS: number = BATTERY_NODE_SETTINGS.TRACK_THICKNESS;
 
 /** How far the thumb's touch and mouse areas extend past its drawn edge. */
-const THUMB_TOUCH_DILATION = 10;
-const THUMB_MOUSE_DILATION = 4;
+const THUMB_TOUCH_DILATION: number = BATTERY_NODE_SETTINGS.THUMB_TOUCH_DILATION;
+const THUMB_MOUSE_DILATION: number = BATTERY_NODE_SETTINGS.THUMB_MOUSE_DILATION;
 
-const TICK_LABEL_FONT = new PhetFont(14);
+const TICK_LABEL_FONT = new PhetFont(BATTERY_NODE_SETTINGS.TICK_LABEL_FONT_SIZE);
 
 export class BatteryNode extends Node {
   public constructor(battery: Battery) {

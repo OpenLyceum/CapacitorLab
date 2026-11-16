@@ -1,3 +1,4 @@
+import { DIELECTRIC_OFFSET_DRAG_HANDLE_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * DielectricOffsetDragHandleNode.ts
  *
@@ -26,7 +27,7 @@ import {
   setDragHandleAccessibleValue,
 } from "./DragHandleNode.js";
 
-const LINE_LENGTH = 60;
+const LINE_LENGTH: number = DIELECTRIC_OFFSET_DRAG_HANDLE_NODE_SETTINGS.LINE_LENGTH;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);

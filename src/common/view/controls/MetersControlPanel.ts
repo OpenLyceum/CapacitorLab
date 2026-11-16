@@ -1,3 +1,4 @@
+import { METERS_CONTROL_PANEL_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * MetersControlPanel.ts
  *
@@ -33,7 +34,7 @@ export class MetersControlPanel extends CapacitorLabPanel {
     super(
       new VBox({
         align: "left",
-        spacing: 6,
+        spacing: METERS_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         children: [
           createControlTitle(strings.titleStringProperty),
           createLabeledCheckbox(options.capacitanceLabelProperty, options.capacitanceVisibleProperty),

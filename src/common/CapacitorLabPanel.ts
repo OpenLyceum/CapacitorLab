@@ -1,3 +1,4 @@
+import { CAPACITOR_LAB_PANEL_SETTINGS } from "../CapacitorLabConstants.js";
 /**
  * CapacitorLabPanel.ts
  *
@@ -40,8 +41,8 @@ export class CapacitorLabPanel extends Panel {
         fill: CapacitorLabColors.panelBackgroundColorProperty,
         stroke: CapacitorLabColors.panelBorderColorProperty,
         cornerRadius: PANEL_CORNER_RADIUS,
-        xMargin: 12,
-        yMargin: 10,
+        xMargin: CAPACITOR_LAB_PANEL_SETTINGS.OPTIONS_X_MARGIN,
+        yMargin: CAPACITOR_LAB_PANEL_SETTINGS.OPTIONS_Y_MARGIN,
       },
       providedOptions,
     );

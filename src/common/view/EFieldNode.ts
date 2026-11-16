@@ -1,3 +1,4 @@
+import { E_FIELD_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * EFieldNode.ts
  *
@@ -24,9 +25,9 @@ import type { Capacitor } from "../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js";
 
 /** Arrowhead size in view pixels. */
-const ARROW_WIDTH = 10;
-const ARROW_HEIGHT = 15;
-const LINE_WIDTH = 2;
+const ARROW_WIDTH: number = E_FIELD_NODE_SETTINGS.ARROW_WIDTH;
+const ARROW_HEIGHT: number = E_FIELD_NODE_SETTINGS.ARROW_HEIGHT;
+const LINE_WIDTH: number = E_FIELD_NODE_SETTINGS.LINE_WIDTH;
 
 /** How many lines a given field strength earns, at least one row's worth if non-zero. */
 function getNumberOfLines(effectiveEField: number, maxEffectiveEField: number): number {

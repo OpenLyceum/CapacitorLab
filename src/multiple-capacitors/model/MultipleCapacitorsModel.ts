@@ -1,3 +1,7 @@
+import {
+  MULTIPLE_CAPACITORS_MODEL_COORDINATES,
+  MULTIPLE_CAPACITORS_MODEL_SETTINGS,
+} from "../../CapacitorLabConstants.js";
 /**
  * MultipleCapacitorsModel.ts
  *
@@ -28,28 +32,60 @@ import { createAir } from "../../common/model/DielectricMaterial.ts";
 import { StringManager } from "../../i18n/StringManager.ts";
 
 // Circuit layout, metres. Values from MultipleCapacitorsModel.java.
-const BATTERY_POSITION = new Vector3(0.005, 0.03, 0);
-const CAPACITOR_X_SPACING = 0.018;
-const CAPACITOR_Y_SPACING = 0.016;
-const WIRE_EXTENT = 0.01;
+const BATTERY_POSITION = new Vector3(
+  MULTIPLE_CAPACITORS_MODEL_COORDINATES.BATTERY_POSITION_X,
+  MULTIPLE_CAPACITORS_MODEL_COORDINATES.BATTERY_POSITION_Y,
+  0,
+);
+const CAPACITOR_X_SPACING: number = MULTIPLE_CAPACITORS_MODEL_SETTINGS.CAPACITOR_X_SPACING;
+const CAPACITOR_Y_SPACING: number = MULTIPLE_CAPACITORS_MODEL_SETTINGS.CAPACITOR_Y_SPACING;
+const WIRE_EXTENT: number = MULTIPLE_CAPACITORS_MODEL_SETTINGS.WIRE_EXTENT;
 
 /**
  * Plates are fixed and small on this screen — there are up to four capacitors to
  * fit on one canvas — and the separation carries the capacitance the user dials
  * in.
  */
-const PLATE_WIDTH = 0.0075;
+const PLATE_WIDTH: number = MULTIPLE_CAPACITORS_MODEL_SETTINGS.PLATE_WIDTH;
 
 /** Where the meters sit when they come out of the toolbox, metres. */
 const METER_LAYOUT: Omit<MeterLayout, "eFieldDetector"> = {
-  capacitanceMeterPosition: new Vector3(0.033, 0.0017, 0),
-  plateChargeMeterPosition: new Vector3(0.046, 0.0017, 0),
-  storedEnergyMeterPosition: new Vector3(0.059, 0.0017, 0),
-  eFieldDetectorBodyPosition: new Vector3(0.05, 0.041, 0),
+  capacitanceMeterPosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.CAPACITANCE_METER_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.CAPACITANCE_METER_POSITION_Y,
+    0,
+  ),
+  plateChargeMeterPosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.PLATE_CHARGE_METER_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.PLATE_CHARGE_METER_POSITION_Y,
+    0,
+  ),
+  storedEnergyMeterPosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.STORED_ENERGY_METER_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.STORED_ENERGY_METER_POSITION_Y,
+    0,
+  ),
+  eFieldDetectorBodyPosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.E_FIELD_DETECTOR_BODY_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.E_FIELD_DETECTOR_BODY_POSITION_Y,
+    0,
+  ),
   eFieldDetectorProbePosition: BATTERY_POSITION,
-  voltmeterBodyPosition: new Vector3(0.04, 0.041, 0),
-  voltmeterPositiveProbePosition: new Vector3(0.035, 0.042, 0),
-  voltmeterNegativeProbePosition: new Vector3(0.038, 0.042, 0),
+  voltmeterBodyPosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.VOLTMETER_BODY_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.VOLTMETER_BODY_POSITION_Y,
+    0,
+  ),
+  voltmeterPositiveProbePosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.VOLTMETER_POSITIVE_PROBE_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.VOLTMETER_POSITIVE_PROBE_POSITION_Y,
+    0,
+  ),
+  voltmeterNegativeProbePosition: new Vector3(
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.VOLTMETER_NEGATIVE_PROBE_POSITION_X,
+    MULTIPLE_CAPACITORS_MODEL_COORDINATES.VOLTMETER_NEGATIVE_PROBE_POSITION_Y,
+    0,
+  ),
 };
 
 export class MultipleCapacitorsModel extends CapacitorLabModel {

@@ -1,3 +1,4 @@
+import { PLATE_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * PlateNode.ts
  *
@@ -20,7 +21,7 @@ import { BoxNode } from "./BoxNode.js";
 import { AIR_REGION, DIELECTRIC_REGION, PlateChargeNode } from "./PlateChargeNode.js";
 
 /** How faint the bottom plate's dielectric-facing charges are. */
-const OCCLUDED_CHARGE_OPACITY = 0.25;
+const OCCLUDED_CHARGE_OPACITY: number = PLATE_NODE_SETTINGS.OCCLUDED_CHARGE_OPACITY;
 
 export class PlateNode extends BoxNode {
   private readonly dielectricPlateChargeNode: PlateChargeNode;

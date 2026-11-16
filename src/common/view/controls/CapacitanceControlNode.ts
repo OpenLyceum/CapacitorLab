@@ -1,3 +1,4 @@
+import { CAPACITANCE_CONTROL_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * CapacitanceControlNode.ts
  *
@@ -31,12 +32,12 @@ import { CONTROL_LABEL_FONT } from "./controlFonts.js";
 
 const SCALE = 10 ** CAPACITANCE_CONTROL_EXPONENT;
 
-const TRACK_LENGTH = 60;
-const TRACK_THICKNESS = 4;
-const THUMB_TOUCH_DILATION = 10;
-const THUMB_MOUSE_DILATION = 4;
-const READOUT_MAX_WIDTH = 90;
-const DECIMAL_PLACES = 2;
+const TRACK_LENGTH: number = CAPACITANCE_CONTROL_NODE_SETTINGS.TRACK_LENGTH;
+const TRACK_THICKNESS: number = CAPACITANCE_CONTROL_NODE_SETTINGS.TRACK_THICKNESS;
+const THUMB_TOUCH_DILATION: number = CAPACITANCE_CONTROL_NODE_SETTINGS.THUMB_TOUCH_DILATION;
+const THUMB_MOUSE_DILATION: number = CAPACITANCE_CONTROL_NODE_SETTINGS.THUMB_MOUSE_DILATION;
+const READOUT_MAX_WIDTH: number = CAPACITANCE_CONTROL_NODE_SETTINGS.READOUT_MAX_WIDTH;
+const DECIMAL_PLACES: number = CAPACITANCE_CONTROL_NODE_SETTINGS.DECIMAL_PLACES;
 
 export class CapacitanceControlNode extends VBox {
   /**
@@ -95,9 +96,9 @@ export class CapacitanceControlNode extends VBox {
       thumbTouchAreaYDilation: THUMB_TOUCH_DILATION,
       thumbMouseAreaXDilation: THUMB_MOUSE_DILATION,
       thumbMouseAreaYDilation: THUMB_MOUSE_DILATION,
-      keyboardStep: 0.1,
-      shiftKeyboardStep: 0.01,
-      pageKeyboardStep: 0.5,
+      keyboardStep: CAPACITANCE_CONTROL_NODE_SETTINGS.SLIDER_KEYBOARD_STEP,
+      shiftKeyboardStep: CAPACITANCE_CONTROL_NODE_SETTINGS.SLIDER_SHIFT_KEYBOARD_STEP,
+      pageKeyboardStep: CAPACITANCE_CONTROL_NODE_SETTINGS.SLIDER_PAGE_KEYBOARD_STEP,
       // Round for the readout, then clamp: the range ends are not exact in floating point.
       constrainValue: (value: number) => range.constrainValue(Number(toFixed(value, DECIMAL_PLACES))),
       accessibleName: new PatternStringProperty(a11y.capacitorCapacitanceStringProperty, { number: number }),
@@ -109,6 +110,6 @@ export class CapacitanceControlNode extends VBox {
       pdomDependencies: [a11y.scientificStringProperty],
     });
 
-    super({ children: [readout, slider], spacing: 4 });
+    super({ children: [readout, slider], spacing: CAPACITANCE_CONTROL_NODE_SETTINGS.CONSTRUCTOR_SPACING });
   }
 }

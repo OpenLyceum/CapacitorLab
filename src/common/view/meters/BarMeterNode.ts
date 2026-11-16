@@ -1,3 +1,4 @@
+import { BAR_METER_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * BarMeterNode.ts
  *
@@ -27,14 +28,14 @@ import type { CLModelViewTransform3D } from "../../model/CLModelViewTransform3D.
 import type { BarMeter } from "../../model/meter/BarMeter.js";
 import { makeWorldDraggable } from "../drag/worldPositionDragListener.js";
 
-const TRACK_SIZE = new Dimension2(50, 200);
-const NUMBER_OF_TICKS = 10;
-const TITLE_FONT = new PhetFont({ size: 16, weight: "bold" });
-const VALUE_FONT = new PhetFont(16);
-const RANGE_LABEL_FONT = new PhetFont(14);
+const TRACK_SIZE = new Dimension2(BAR_METER_NODE_SETTINGS.TRACK_SIZE_WIDTH, BAR_METER_NODE_SETTINGS.TRACK_SIZE_HEIGHT);
+const NUMBER_OF_TICKS: number = BAR_METER_NODE_SETTINGS.NUMBER_OF_TICKS;
+const TITLE_FONT = new PhetFont({ size: BAR_METER_NODE_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
+const VALUE_FONT = new PhetFont(BAR_METER_NODE_SETTINGS.VALUE_FONT_SIZE);
+const RANGE_LABEL_FONT = new PhetFont(BAR_METER_NODE_SETTINGS.RANGE_LABEL_FONT_SIZE);
 
 const OVERLOAD_ARROW_WIDTH = 0.75 * TRACK_SIZE.width;
-const OVERLOAD_ARROW_HEIGHT = 15;
+const OVERLOAD_ARROW_HEIGHT: number = BAR_METER_NODE_SETTINGS.OVERLOAD_ARROW_HEIGHT;
 
 export type BarMeterNodeOptions = {
   /** Fill of the bar. Identifies which quantity this meter reads. */
@@ -151,19 +152,19 @@ export class BarMeterNode extends Node {
 
     // Layout: labels down the left, title and readout under the track, buttons
     // to the right.
-    maxLabel.right = track.left - 4;
+    maxLabel.right = track.left - BAR_METER_NODE_SETTINGS.CONSTRUCTOR_RIGHT_OFFSET;
     maxLabel.centerY = track.top;
-    minLabel.right = track.left - 4;
+    minLabel.right = track.left - BAR_METER_NODE_SETTINGS.CONSTRUCTOR_RIGHT_OFFSET;
     minLabel.centerY = track.bottom;
     overloadArrow.centerX = track.centerX;
     overloadArrow.bottom = track.top - 1;
     title.centerX = track.centerX;
-    title.top = track.bottom + 6;
+    title.top = track.bottom + BAR_METER_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     value.centerX = track.centerX;
     value.top = title.bottom + 2;
-    zoomButtons.left = track.right + 6;
+    zoomButtons.left = track.right + BAR_METER_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
     zoomButtons.top = track.top;
-    closeButton.left = track.right + 6;
+    closeButton.left = track.right + BAR_METER_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
     closeButton.bottom = track.bottom;
 
     // The bar grows up from the bottom of the track.

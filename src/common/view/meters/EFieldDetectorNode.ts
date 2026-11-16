@@ -1,3 +1,4 @@
+import { E_FIELD_DETECTOR_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * EFieldDetectorNode.ts
  *
@@ -29,16 +30,16 @@ import type { CLModelViewTransform3D } from "../../model/CLModelViewTransform3D.
 import type { EFieldDetector } from "../../model/meter/EFieldDetector.js";
 import { makeWorldDraggable } from "../drag/worldPositionDragListener.js";
 
-const BODY_SIZE = new Vector2(240, 230);
-const TITLE_FONT = new PhetFont({ size: 14, weight: "bold" });
-const LABEL_FONT = new PhetFont(13);
-const PROBE_RADIUS = 16;
+const BODY_SIZE = new Vector2(E_FIELD_DETECTOR_NODE_SETTINGS.BODY_SIZE_X, E_FIELD_DETECTOR_NODE_SETTINGS.BODY_SIZE_Y);
+const TITLE_FONT = new PhetFont({ size: E_FIELD_DETECTOR_NODE_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
+const LABEL_FONT = new PhetFont(E_FIELD_DETECTOR_NODE_SETTINGS.LABEL_FONT_SIZE);
+const PROBE_RADIUS: number = E_FIELD_DETECTOR_NODE_SETTINGS.PROBE_RADIUS;
 
 /** View pixels an arrow gets for a field of EFIELD_REFERENCE_MAGNITUDE. */
-const REFERENCE_ARROW_LENGTH = 70;
+const REFERENCE_ARROW_LENGTH: number = E_FIELD_DETECTOR_NODE_SETTINGS.REFERENCE_ARROW_LENGTH;
 
-const BODY_WIRE_NORMAL = new Property(new Vector2(0, 80));
-const PROBE_WIRE_NORMAL = new Property(new Vector2(0, -80));
+const BODY_WIRE_NORMAL = new Property(new Vector2(0, E_FIELD_DETECTOR_NODE_SETTINGS.BODY_WIRE_NORMAL_Y));
+const PROBE_WIRE_NORMAL = new Property(new Vector2(0, E_FIELD_DETECTOR_NODE_SETTINGS.PROBE_WIRE_NORMAL_Y));
 
 /** One labelled arrow: its length is the field, its direction the field's sign. */
 class VectorDisplay extends Node {
@@ -54,9 +55,9 @@ class VectorDisplay extends Node {
 
     const label = new Text(labelProperty, { font: LABEL_FONT, fill: CapacitorLabColors.textColorProperty });
     const arrow = new ArrowNode(0, 0, 0, REFERENCE_ARROW_LENGTH, {
-      headWidth: 14,
-      headHeight: 12,
-      tailWidth: 5,
+      headWidth: E_FIELD_DETECTOR_NODE_SETTINGS.ARROW_HEAD_WIDTH,
+      headHeight: E_FIELD_DETECTOR_NODE_SETTINGS.ARROW_HEAD_HEIGHT,
+      tailWidth: E_FIELD_DETECTOR_NODE_SETTINGS.ARROW_TAIL_WIDTH,
       fill: colorProperty,
       stroke: null,
     });
@@ -83,7 +84,7 @@ class VectorDisplay extends Node {
     });
 
     label.centerX = 0;
-    label.bottom = -REFERENCE_ARROW_LENGTH - 4;
+    label.bottom = -REFERENCE_ARROW_LENGTH - E_FIELD_DETECTOR_NODE_SETTINGS.CONSTRUCTOR_BOTTOM_OFFSET;
     value.centerX = 0;
     value.top = label.bottom + 2;
   }
@@ -118,11 +119,11 @@ export class EFieldDetectorNode extends Node {
     const title = new Text(detectorStrings.titleStringProperty, {
       font: TITLE_FONT,
       fill: CapacitorLabColors.controlSurfaceTextColorProperty,
-      maxWidth: BODY_SIZE.x - 16,
+      maxWidth: BODY_SIZE.x - E_FIELD_DETECTOR_NODE_SETTINGS.TITLE_MAX_WIDTH_OFFSET,
     });
     body.addChild(title);
     title.centerX = BODY_SIZE.x / 2;
-    title.top = 6;
+    title.top = E_FIELD_DETECTOR_NODE_SETTINGS.TOP_TOP;
 
     const plateVector = new VectorDisplay(
       detectorStrings.plateStringProperty,
@@ -152,8 +153,8 @@ export class EFieldDetectorNode extends Node {
     const vectors = [plateVector, dielectricVector, sumVector];
     vectors.forEach((vector, index) => {
       body.addChild(vector);
-      vector.centerX = (BODY_SIZE.x * (index + 1)) / 4;
-      vector.centerY = BODY_SIZE.y * 0.55;
+      vector.centerX = (BODY_SIZE.x * (index + 1)) / E_FIELD_DETECTOR_NODE_SETTINGS.CONSTRUCTOR_CENTER_X_FACTOR;
+      vector.centerY = BODY_SIZE.y * E_FIELD_DETECTOR_NODE_SETTINGS.CONSTRUCTOR_CENTER_Y_FACTOR;
     });
 
     detector.plateVectorVisibleProperty.link((visible: boolean) => {
@@ -171,10 +172,10 @@ export class EFieldDetectorNode extends Node {
       new Checkbox(
         property,
         new Text(textProperty, { font: LABEL_FONT, fill: CapacitorLabColors.controlSurfaceTextColorProperty }),
-        { boxWidth: 14 },
+        { boxWidth: E_FIELD_DETECTOR_NODE_SETTINGS.CREATE_CHECKBOX_BOX_WIDTH },
       );
 
-    const controls = new VBox({ align: "left", spacing: 3 });
+    const controls = new VBox({ align: "left", spacing: E_FIELD_DETECTOR_NODE_SETTINGS.CONTROLS_SPACING });
     if (!options.simplified) {
       controls.addChild(
         new Text(detectorStrings.showVectorsStringProperty, {
@@ -190,7 +191,7 @@ export class EFieldDetectorNode extends Node {
     }
     controls.addChild(createCheckbox(detectorStrings.showValuesStringProperty, detector.valuesVisibleProperty));
     body.addChild(controls);
-    controls.left = 10;
+    controls.left = E_FIELD_DETECTOR_NODE_SETTINGS.LEFT_LEFT;
     controls.bottom = BODY_SIZE.y - 8;
 
     // ── Probe and lead ──────────────────────────────────────────────────────
@@ -214,7 +215,7 @@ export class EFieldDetectorNode extends Node {
       0,
       new WireNode(bodyAnchor, BODY_WIRE_NORMAL, probeAnchor, PROBE_WIRE_NORMAL, {
         stroke: CapacitorLabColors.eFieldDetectorWireColorProperty,
-        lineWidth: 3,
+        lineWidth: E_FIELD_DETECTOR_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
       }),
     );
 

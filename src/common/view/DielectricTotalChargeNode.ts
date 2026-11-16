@@ -1,3 +1,4 @@
+import { DIELECTRIC_TOTAL_CHARGE_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * DielectricTotalChargeNode.ts
  *
@@ -23,7 +24,7 @@ import { Polarity, type PolarityValue } from "../model/Polarity.js";
 import { createNegativeChargeNode, createPositiveChargeNode } from "./chargeNodes.js";
 
 /** Lattice pitch, view pixels. */
-const SPACING_BETWEEN_PAIRS = 45;
+const SPACING_BETWEEN_PAIRS: number = DIELECTRIC_TOTAL_CHARGE_NODE_SETTINGS.SPACING_BETWEEN_PAIRS;
 
 /** How far apart a pair can be pulled, view pixels. */
 const MAX_NEGATIVE_CHARGE_OFFSET = SPACING_BETWEEN_PAIRS / 2;

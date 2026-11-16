@@ -1,3 +1,4 @@
+import { BATTERY_CONNECTION_BUTTON_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * BatteryConnectionButton.ts
  *
@@ -28,7 +29,7 @@ export class BatteryConnectionButton extends TextPushButton {
 
     super(labelProperty, {
       ...FLAT_RECTANGULAR_BUTTON_OPTIONS,
-      font: new PhetFont(20),
+      font: new PhetFont(BATTERY_CONNECTION_BUTTON_SETTINGS.CONSTRUCTOR_FONT_SIZE),
       textFill: LIGHT_SURFACE_TEXT_FILL,
       listener: () => {
         circuit.batteryConnectedProperty.value = !circuit.batteryConnectedProperty.value;

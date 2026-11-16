@@ -1,3 +1,4 @@
+import { TRANSPARENT_BOX_NODE_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * TransparentBoxNode.ts
  *
@@ -20,7 +21,7 @@ import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js"
 import { BoxNode } from "./BoxNode.js";
 
 /** How much of the slab shows through when something behind it matters. */
-const TRANSPARENT_OPACITY = 0.5;
+const TRANSPARENT_OPACITY: number = TRANSPARENT_BOX_NODE_SETTINGS.TRANSPARENT_OPACITY;
 
 export class TransparentBoxNode extends BoxNode {
   private readonly bottomPath: Path;

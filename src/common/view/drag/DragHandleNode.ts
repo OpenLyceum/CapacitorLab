@@ -1,3 +1,4 @@
+import { DRAG_HANDLE_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * DragHandleNode.ts
  *
@@ -18,12 +19,12 @@ import CapacitorLabColors from "../../../CapacitorLabColors.js";
 import { DRAG_HANDLE_ARROW_LENGTH } from "../../../CapacitorLabConstants.js";
 import { StringManager } from "../../../i18n/StringManager.js";
 
-const LABEL_FONT = new PhetFont({ size: 18, weight: "bold" });
-const VALUE_FONT = new PhetFont(16);
+const LABEL_FONT = new PhetFont({ size: DRAG_HANDLE_NODE_SETTINGS.LABEL_FONT_SIZE, weight: "bold" });
+const VALUE_FONT = new PhetFont(DRAG_HANDLE_NODE_SETTINGS.VALUE_FONT_SIZE);
 
 /** How far an arrow's touch and mouse areas extend past its drawn edge. */
-const ARROW_TOUCH_DILATION = 10;
-const ARROW_MOUSE_DILATION = 4;
+const ARROW_TOUCH_DILATION: number = DRAG_HANDLE_NODE_SETTINGS.ARROW_TOUCH_DILATION;
+const ARROW_MOUSE_DILATION: number = DRAG_HANDLE_NODE_SETTINGS.ARROW_MOUSE_DILATION;
 
 /**
  * The grabbable arrow. Its head and tail are proportional to its length so the
@@ -32,9 +33,9 @@ const ARROW_MOUSE_DILATION = 4;
 export function createDragHandleArrow(length = DRAG_HANDLE_ARROW_LENGTH): ArrowNode {
   const arrow = new ArrowNode(0, 0, length, 0, {
     doubleHead: true,
-    headHeight: length / 4,
+    headHeight: length / DRAG_HANDLE_NODE_SETTINGS.ARROW_HEAD_HEIGHT_FACTOR,
     headWidth: length / 2,
-    tailWidth: length / 6,
+    tailWidth: length / DRAG_HANDLE_NODE_SETTINGS.ARROW_TAIL_WIDTH_FACTOR,
     fill: CapacitorLabColors.dragHandleColorProperty,
     stroke: CapacitorLabColors.boxStrokeColorProperty,
     lineWidth: 1,
@@ -51,8 +52,11 @@ export function createDragHandleArrow(length = DRAG_HANDLE_ARROW_LENGTH): ArrowN
 export function createDragHandleLine(length: number): Path {
   return new Path(Shape.lineSegment(0, 0, length, 0), {
     stroke: CapacitorLabColors.textColorProperty,
-    lineWidth: 3,
-    lineDash: [3, 3],
+    lineWidth: DRAG_HANDLE_NODE_SETTINGS.CREATE_DRAG_HANDLE_LINE_LINE_WIDTH,
+    lineDash: [
+      DRAG_HANDLE_NODE_SETTINGS.CREATE_DRAG_HANDLE_LINE_LINE_DASH_DASH,
+      DRAG_HANDLE_NODE_SETTINGS.CREATE_DRAG_HANDLE_LINE_LINE_DASH_DASH,
+    ],
   });
 }
 

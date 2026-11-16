@@ -1,3 +1,4 @@
+import { VOLTMETER_SHAPES_COORDINATES } from "../../../CapacitorLabConstants.js";
 /**
  * VoltmeterShapes.ts
  *
@@ -15,7 +16,10 @@ import { Shape } from "scenerystack/kite";
 import type { CLModelViewTransform3D } from "../CLModelViewTransform3D.js";
 
 /** Size of a probe tip, metres. */
-const PROBE_TIP_SIZE = new Dimension2(0.0005, 0.0015);
+const PROBE_TIP_SIZE = new Dimension2(
+  VOLTMETER_SHAPES_COORDINATES.PROBE_TIP_SIZE_WIDTH,
+  VOLTMETER_SHAPES_COORDINATES.PROBE_TIP_SIZE_HEIGHT,
+);
 
 export function createProbeTipShape(origin: Vector3, modelViewTransform: CLModelViewTransform3D): Shape {
   const { width, height } = PROBE_TIP_SIZE;

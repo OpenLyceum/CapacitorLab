@@ -1,3 +1,4 @@
+import { DIELECTRIC_PROPERTIES_CONTROL_PANEL_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * DielectricPropertiesControlPanel.ts
  *
@@ -62,7 +63,7 @@ export class DielectricPropertiesControlPanel extends CapacitorLabPanel {
               titleNodeOptions: { font: CONTROL_LABEL_FONT, fill: CapacitorLabColors.textColorProperty },
               numberDisplayOptions: { textOptions: { font: CONTROL_LABEL_FONT }, decimalPlaces: 1 },
               sliderOptions: { thumbFill: CapacitorLabColors.dragHandleColorProperty },
-              delta: 0.1,
+              delta: DIELECTRIC_PROPERTIES_CONTROL_PANEL_SETTINGS.CONSTANT_CONTROL_DELTA,
               enabledProperty: new DerivedProperty(
                 [capacitor.dielectricMaterialProperty],
                 (material: DielectricMaterial) => material.isCustom,
@@ -86,13 +87,16 @@ export class DielectricPropertiesControlPanel extends CapacitorLabPanel {
           createNode: () => createRadioLabel(panelStrings.showExcessChargesStringProperty),
         },
       ],
-      { spacing: 4, radioButtonOptions: { radius: 8 } },
+      {
+        spacing: DIELECTRIC_PROPERTIES_CONTROL_PANEL_SETTINGS.CHARGE_VIEW_BUTTONS_SPACING,
+        radioButtonOptions: { radius: DIELECTRIC_PROPERTIES_CONTROL_PANEL_SETTINGS.CHARGE_VIEW_BUTTONS_RADIUS },
+      },
     );
 
     super(
       new VBox({
         align: "left",
-        spacing: 8,
+        spacing: DIELECTRIC_PROPERTIES_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         children: [
           createControlTitle(screenStrings.dielectricStringProperty),
           materialComboBox,

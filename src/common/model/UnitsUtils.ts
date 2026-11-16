@@ -1,3 +1,5 @@
+import { UNITS_UTILS_SETTINGS } from "../../CapacitorLabConstants.js";
+
 /**
  * UnitsUtils.ts
  *
@@ -10,7 +12,7 @@
  * Ported from `util/UnitsUtils.java`.
  */
 
-const MILLIMETERS_PER_METER = 1000;
+const MILLIMETERS_PER_METER: number = UNITS_UTILS_SETTINGS.MILLIMETERS_PER_METER;
 
 export function metersToMillimeters(meters: number): number {
   return meters * MILLIMETERS_PER_METER;

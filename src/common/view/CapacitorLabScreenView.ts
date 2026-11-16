@@ -1,3 +1,4 @@
+import { CAPACITOR_LAB_SCREEN_VIEW_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * CapacitorLabScreenView.ts
  *
@@ -27,7 +28,7 @@ import type { CapacitorLabModel } from "../model/CapacitorLabModel.js";
 import { DielectricChargeView, type DielectricChargeViewValue } from "../model/DielectricChargeView.js";
 
 /** Width reserved down the right-hand side for the control panels. */
-export const CONTROL_PANEL_WIDTH = 260;
+export const CONTROL_PANEL_WIDTH: number = CAPACITOR_LAB_SCREEN_VIEW_SETTINGS.CONTROL_PANEL_WIDTH;
 
 export abstract class CapacitorLabScreenView extends ScreenView {
   /** Whether + and − symbols are drawn on the plates. */

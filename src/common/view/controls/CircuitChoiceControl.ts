@@ -1,3 +1,4 @@
+import { CIRCUIT_CHOICE_CONTROL_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * CircuitChoiceControl.ts
  *
@@ -27,13 +28,16 @@ export class CircuitChoiceControl extends CapacitorLabPanel {
             fill: CapacitorLabColors.textColorProperty,
           }),
       })),
-      { spacing: 4, radioButtonOptions: { radius: 8 } },
+      {
+        spacing: CIRCUIT_CHOICE_CONTROL_SETTINGS.BUTTONS_SPACING,
+        radioButtonOptions: { radius: CIRCUIT_CHOICE_CONTROL_SETTINGS.BUTTONS_RADIUS },
+      },
     );
 
     super(
       new VBox({
         align: "left",
-        spacing: 8,
+        spacing: CIRCUIT_CHOICE_CONTROL_SETTINGS.CONSTRUCTOR_SPACING,
         children: [createControlTitle(StringManager.getInstance().getCircuitStrings().titleStringProperty), buttons],
       }),
     );

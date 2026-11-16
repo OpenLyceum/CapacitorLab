@@ -1,3 +1,4 @@
+import { SINGLE_CAPACITOR_MODEL_COORDINATES, SINGLE_CAPACITOR_MODEL_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * SingleCapacitorModel.ts
  *
@@ -26,19 +27,43 @@ import { SingleCircuit } from "./circuit/SingleCircuit.js";
 import type { DielectricMaterial } from "./DielectricMaterial.js";
 
 // Circuit layout, metres. Values from DielectricModel.java.
-const BATTERY_POSITION = new Vector3(0.005, 0.034, 0);
-const CAPACITOR_X_SPACING = 0.025;
+const BATTERY_POSITION = new Vector3(
+  SINGLE_CAPACITOR_MODEL_COORDINATES.BATTERY_POSITION_X,
+  SINGLE_CAPACITOR_MODEL_COORDINATES.BATTERY_POSITION_Y,
+  0,
+);
+const CAPACITOR_X_SPACING: number = SINGLE_CAPACITOR_MODEL_SETTINGS.CAPACITOR_X_SPACING;
 const CAPACITOR_Y_SPACING = 0;
-const WIRE_EXTENT = 0.016;
+const WIRE_EXTENT: number = SINGLE_CAPACITOR_MODEL_SETTINGS.WIRE_EXTENT;
 
 /** Where the meters sit when they come out of the toolbox, metres. */
 const METER_LAYOUT: Omit<MeterLayout, "eFieldDetector"> = {
-  capacitanceMeterPosition: new Vector3(0.038, 0.0017, 0),
-  plateChargeMeterPosition: new Vector3(0.049, 0.0017, 0),
-  storedEnergyMeterPosition: new Vector3(0.06, 0.0017, 0),
-  eFieldDetectorBodyPosition: new Vector3(0.043, 0.041, 0),
+  capacitanceMeterPosition: new Vector3(
+    SINGLE_CAPACITOR_MODEL_COORDINATES.CAPACITANCE_METER_POSITION_X,
+    SINGLE_CAPACITOR_MODEL_COORDINATES.CAPACITANCE_METER_POSITION_Y,
+    0,
+  ),
+  plateChargeMeterPosition: new Vector3(
+    SINGLE_CAPACITOR_MODEL_COORDINATES.PLATE_CHARGE_METER_POSITION_X,
+    SINGLE_CAPACITOR_MODEL_COORDINATES.PLATE_CHARGE_METER_POSITION_Y,
+    0,
+  ),
+  storedEnergyMeterPosition: new Vector3(
+    SINGLE_CAPACITOR_MODEL_COORDINATES.STORED_ENERGY_METER_POSITION_X,
+    SINGLE_CAPACITOR_MODEL_COORDINATES.STORED_ENERGY_METER_POSITION_Y,
+    0,
+  ),
+  eFieldDetectorBodyPosition: new Vector3(
+    SINGLE_CAPACITOR_MODEL_COORDINATES.E_FIELD_DETECTOR_BODY_POSITION_X,
+    SINGLE_CAPACITOR_MODEL_COORDINATES.E_FIELD_DETECTOR_BODY_POSITION_Y,
+    0,
+  ),
   eFieldDetectorProbePosition: BATTERY_POSITION,
-  voltmeterBodyPosition: new Vector3(0.057, 0.023, 0),
+  voltmeterBodyPosition: new Vector3(
+    SINGLE_CAPACITOR_MODEL_COORDINATES.VOLTMETER_BODY_POSITION_X,
+    SINGLE_CAPACITOR_MODEL_COORDINATES.VOLTMETER_BODY_POSITION_Y,
+    0,
+  ),
   voltmeterPositiveProbePosition: new Vector3(BATTERY_POSITION.x + 0.015, BATTERY_POSITION.y, BATTERY_POSITION.z),
   voltmeterNegativeProbePosition: new Vector3(BATTERY_POSITION.x + 0.02, BATTERY_POSITION.y, BATTERY_POSITION.z),
 };

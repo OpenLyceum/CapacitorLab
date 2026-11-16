@@ -1,3 +1,4 @@
+import { PLATE_CHARGE_CONTROL_NODE_SETTINGS } from "../../../CapacitorLabConstants.js";
 /**
  * PlateChargeControlNode.ts
  *
@@ -27,8 +28,11 @@ import { StringManager } from "../../../i18n/StringManager.js";
 import { MAX_PLATE_CHARGE } from "../../model/CLCalibration.js";
 import type { SingleCircuit } from "../../model/circuit/SingleCircuit.js";
 
-const TICK_LABEL_FONT = new PhetFont(14);
-const TRACK_SIZE = new Dimension2(6, 200);
+const TICK_LABEL_FONT = new PhetFont(PLATE_CHARGE_CONTROL_NODE_SETTINGS.TICK_LABEL_FONT_SIZE);
+const TRACK_SIZE = new Dimension2(
+  PLATE_CHARGE_CONTROL_NODE_SETTINGS.TRACK_SIZE_WIDTH,
+  PLATE_CHARGE_CONTROL_NODE_SETTINGS.TRACK_SIZE_HEIGHT,
+);
 
 export class PlateChargeControlNode extends Node {
   public constructor(circuit: SingleCircuit) {

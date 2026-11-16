@@ -1,3 +1,4 @@
+import { BATTERY_SETTINGS } from "../../CapacitorLabConstants.js";
 /**
  * Battery.ts
  *
@@ -20,8 +21,8 @@ import { Polarity, type PolarityValue } from "./Polarity.ts";
 import { BatteryShapes } from "./shapes/BatteryShapes.ts";
 import { shapeIntersects } from "./shapes/shapeIntersects.ts";
 
-const POSITIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + 0.000505;
-const NEGATIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + 0.00105;
+const POSITIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + BATTERY_SETTINGS.POSITIVE_TERMINAL_TOP_OFFSET;
+const NEGATIVE_TERMINAL_Y_OFFSET = -(BODY_SIZE.height / 2) + BATTERY_SETTINGS.NEGATIVE_TERMINAL_TOP_OFFSET;
 
 export class Battery {
   /** Centre of the battery in the 3D model frame, metres. Fixed. */
