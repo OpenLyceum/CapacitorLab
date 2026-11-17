@@ -17,6 +17,7 @@ import { NUMBER_OF_PLATE_CHARGES } from "../../CapacitorLabConstants.js";
 import type { Capacitor } from "../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js";
 import { createNegativeChargeNode, createPositiveChargeNode } from "./chargeNodes.js";
+import { disposeChildren } from "./disposeChildren.js";
 import { getGridSize } from "./gridSize.js";
 
 export class DielectricExcessChargeNode extends Node {
@@ -65,7 +66,7 @@ export class DielectricExcessChargeNode extends Node {
   }
 
   private update(): void {
-    this.chargeParent.removeAllChildren();
+    disposeChildren(this.chargeParent);
 
     const excessCharge = this.capacitor.excessDielectricPlateChargeProperty.value;
     const size = this.capacitor.getDielectricSize();
@@ -82,6 +83,7 @@ export class DielectricExcessChargeNode extends Node {
     const sampleCharge = createTopCharge();
     const zMargin = this.modelViewTransform.viewToModelDeltaXY(sampleCharge.width, 0).x;
     const yOffset = this.modelViewTransform.viewToModelDeltaXY(0, sampleCharge.height + 1).y;
+    sampleCharge.dispose();
 
     const gridWidth = contactWidth;
     const gridDepth = size.depth - 2 * zMargin;

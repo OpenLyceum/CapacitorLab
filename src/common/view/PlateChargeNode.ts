@@ -22,6 +22,7 @@ import type { Capacitor } from "../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js";
 import { Polarity, type PolarityValue } from "../model/Polarity.js";
 import { createNegativeChargeNode, createPositiveChargeNode } from "./chargeNodes.js";
+import { disposeChildren } from "./disposeChildren.js";
 import { getGridSize } from "./gridSize.js";
 
 /** Which region of the plate a node draws, and how much charge that region holds. */
@@ -121,7 +122,7 @@ export class PlateChargeNode extends Node {
   }
 
   private update(): void {
-    this.chargeParent.removeAllChildren();
+    disposeChildren(this.chargeParent);
 
     const numberOfCharges = getNumberOfCharges(this.region.getPlateCharge(this.capacitor), this.maxPlateCharge);
     if (numberOfCharges === 0) {
@@ -132,7 +133,9 @@ export class PlateChargeNode extends Node {
 
     // Inset the grid by one symbol's width so symbols do not overhang the plate's
     // front and back edges.
-    const zMargin = this.modelViewTransform.viewToModelDeltaXY(createCharge().width, 0).x;
+    const sampleCharge = createCharge();
+    const zMargin = this.modelViewTransform.viewToModelDeltaXY(sampleCharge.width, 0).x;
+    sampleCharge.dispose();
     const gridWidth = this.region.getContactWidth(this.capacitor);
     const gridDepth = this.capacitor.getPlateDepth() - 2 * zMargin;
 

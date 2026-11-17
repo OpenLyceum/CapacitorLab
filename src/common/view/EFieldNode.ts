@@ -23,6 +23,7 @@ import CapacitorLabColors from "../../CapacitorLabColors.js";
 import { NUMBER_OF_EFIELD_LINES, PLATE_WIDTH_RANGE } from "../../CapacitorLabConstants.js";
 import type { Capacitor } from "../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js";
+import { disposeChildren } from "./disposeChildren.js";
 
 /** Arrowhead size in view pixels. */
 const ARROW_WIDTH: number = E_FIELD_NODE_SETTINGS.ARROW_WIDTH;
@@ -94,7 +95,7 @@ export class EFieldNode extends Node {
   }
 
   private update(): void {
-    this.lineParent.removeAllChildren();
+    disposeChildren(this.lineParent);
 
     const effectiveEField = this.capacitor.effectiveEFieldProperty.value;
     const lineSpacing = getLineSpacing(effectiveEField, this.maxEffectiveEField);

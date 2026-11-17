@@ -22,6 +22,7 @@ import type { Capacitor } from "../model/Capacitor.js";
 import type { CLModelViewTransform3D } from "../model/CLModelViewTransform3D.js";
 import { Polarity, type PolarityValue } from "../model/Polarity.js";
 import { createNegativeChargeNode, createPositiveChargeNode } from "./chargeNodes.js";
+import { disposeChildren } from "./disposeChildren.js";
 
 /** Lattice pitch, view pixels. */
 const SPACING_BETWEEN_PAIRS: number = DIELECTRIC_TOTAL_CHARGE_NODE_SETTINGS.SPACING_BETWEEN_PAIRS;
@@ -82,7 +83,7 @@ export class DielectricTotalChargeNode extends Node {
   }
 
   private update(): void {
-    this.chargeParent.removeAllChildren();
+    disposeChildren(this.chargeParent);
 
     const eField = this.capacitor.dielectricEFieldProperty.value;
     const separatedOffset = this.getNegativeChargeOffset(eField);
