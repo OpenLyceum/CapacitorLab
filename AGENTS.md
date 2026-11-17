@@ -55,7 +55,7 @@ A11y strings live under the `a11y` key of each locale JSON, read through `String
 
 ## Compliance carve-outs
 
-None — the sim follows [Baton/CONVENTIONS.md](https://github.com/OpenLyceum/Baton/blob/main/CONVENTIONS.md) and matches the template-owned files (`Baton/scripts/check-template-drift.sh`).
+- `memory-leak:CapacitorLabModel` — abstract base; dispose path covered by SingleCapacitorModel / screen models in `tests/memory-leak.test.ts`.
 
 ## Testing
 
