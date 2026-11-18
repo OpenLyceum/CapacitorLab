@@ -33,7 +33,8 @@ export class Voltmeter {
    * which the view shows as "?" rather than as a number. A plain Property rather
    * than a NumberProperty, because NumberProperty rejects NaN.
    */
-  public readonly valueProperty: Property<number>;
+  public readonly valueProperty: TReadOnlyProperty<number>;
+  private readonly _valueProperty: Property<number>;
 
   private readonly circuitProperty: TReadOnlyProperty<Circuit>;
   private readonly modelViewTransform: CLModelViewTransform3D;
@@ -60,7 +61,8 @@ export class Voltmeter {
     this.bodyPositionProperty = new WorldPositionProperty(worldBounds, bodyPosition);
     this.positiveProbePositionProperty = new WorldPositionProperty(worldBounds, positiveProbePosition);
     this.negativeProbePositionProperty = new WorldPositionProperty(worldBounds, negativeProbePosition);
-    this.valueProperty = new Property<number>(Number.NaN);
+    this._valueProperty = new Property<number>(Number.NaN);
+    this.valueProperty = this._valueProperty;
 
     this.probeMultilink = Multilink.multilink(
       [this.positiveProbePositionProperty, this.negativeProbePositionProperty],
@@ -85,7 +87,7 @@ export class Voltmeter {
     this.bodyPositionProperty.dispose();
     this.positiveProbePositionProperty.dispose();
     this.negativeProbePositionProperty.dispose();
-    this.valueProperty.dispose();
+    this._valueProperty.dispose();
   }
 
   public getPositiveProbeTipShape(): Shape {
@@ -101,7 +103,7 @@ export class Voltmeter {
     const negativeTip = this.getNegativeProbeTipShape();
 
     // Probes held against each other short the meter out.
-    this.valueProperty.value = shapeIntersects(positiveTip, negativeTip)
+    this._valueProperty.value = shapeIntersects(positiveTip, negativeTip)
       ? 0
       : this.circuitProperty.value.getVoltageBetween(positiveTip, negativeTip);
   }

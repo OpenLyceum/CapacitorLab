@@ -47,7 +47,8 @@ export class Capacitor {
   public readonly position: Vector3;
 
   /** Plate width × height × depth, metres. Plates are square, so depth tracks width. */
-  public readonly plateSizeProperty: Property<Dimension3>;
+  public readonly plateSizeProperty: TReadOnlyProperty<Dimension3>;
+  private readonly _plateSizeProperty: Property<Dimension3>;
 
   /** Distance between the facing plate surfaces, metres. Design-doc symbol `d`. */
   public readonly plateSeparationProperty: NumberProperty;
@@ -136,7 +137,8 @@ export class Capacitor {
     this.modelViewTransform = modelViewTransform;
     this.shapes = new CapacitorShapes(this, modelViewTransform);
 
-    this.plateSizeProperty = new Property(new Dimension3(plateWidth, PLATE_HEIGHT, plateWidth));
+    this._plateSizeProperty = new Property(new Dimension3(plateWidth, PLATE_HEIGHT, plateWidth));
+    this.plateSizeProperty = this._plateSizeProperty;
     this.plateSeparationProperty = new NumberProperty(plateSeparation);
     this.dielectricMaterialProperty = new Property(dielectricMaterial);
     this.dielectricOffsetProperty = new NumberProperty(dielectricOffset);
@@ -280,7 +282,7 @@ export class Capacitor {
     if (plateWidth <= 0) {
       throw new Error(`plateWidth must be > 0: ${plateWidth}`);
     }
-    this.plateSizeProperty.value = new Dimension3(plateWidth, this.getPlateHeight(), plateWidth);
+    this._plateSizeProperty.value = new Dimension3(plateWidth, this.getPlateHeight(), plateWidth);
   }
 
   /** The dielectric fills the gap, so it is as wide and deep as a plate and as tall as the gap. */
@@ -350,7 +352,7 @@ export class Capacitor {
   }
 
   public reset(): void {
-    this.plateSizeProperty.reset();
+    this._plateSizeProperty.reset();
     this.plateSeparationProperty.reset();
     this.dielectricMaterialProperty.reset();
     this.dielectricOffsetProperty.reset();
