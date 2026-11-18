@@ -23,6 +23,7 @@ const DIELECTRIC_FULLY_WITHDRAWN = PLATE_WIDTH_RANGE.max + 1;
 const worldBounds = new WorldBounds();
 
 describeDisposalLeaks([
+  // memory-leak-covers: BarMeter, EFieldDetector, Voltmeter (built and disposed by every screen model)
   { name: "IntroductionModel", create: () => new IntroductionModel() },
   { name: "DielectricModel", create: () => new DielectricModel() },
   { name: "MultipleCapacitorsModel", create: () => new MultipleCapacitorsModel() },

@@ -53,10 +53,6 @@ A11y strings live under the `a11y` key of each locale JSON, read through `String
 - Keyboard Shortcuts dialog: `src/dielectric/view/DielectricKeyboardHelpContent.ts`, `src/introduction/view/IntroductionKeyboardHelpContent.ts`, `src/multiple-capacitors/view/MultipleCapacitorsKeyboardHelpContent.ts`
 - Keyboard-draggable objects: `src/common/view/drag/DielectricOffsetDragHandleNode.ts`, `src/common/view/drag/PlateAreaDragHandleNode.ts`, `src/common/view/drag/PlateSeparationDragHandleNode.ts`, `src/common/view/drag/worldPositionDragListener.ts`
 
-## Compliance carve-outs
-
-- `memory-leak:CapacitorLabModel` — abstract base; dispose path covered by SingleCapacitorModel / screen models in `tests/memory-leak.test.ts`.
-
 ## Testing
 
 | Path | Covers |
