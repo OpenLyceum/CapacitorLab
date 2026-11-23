@@ -25,13 +25,15 @@ for (const name of [
   "Element",
   "Node",
   "DOMParser",
-]) {
-  taskGlobal[name] = (browserWindow as unknown as Record<string, unknown>)[name];
+] as const) {
+  taskGlobal[name] = browserWindow[name];
 }
-(browserWindow as unknown as Record<string, unknown>)["phet"] = phetGlobal;
+Object.assign(browserWindow, { phet: phetGlobal });
 await import("../tests/setup.ts");
-(browserWindow as unknown as Record<string, unknown>)["AudioContext"] = taskGlobal["AudioContext"];
-(browserWindow as unknown as Record<string, unknown>)["webkitAudioContext"] = taskGlobal["webkitAudioContext"];
+Object.assign(browserWindow, {
+  AudioContext: taskGlobal["AudioContext"],
+  webkitAudioContext: taskGlobal["webkitAudioContext"],
+});
 
 const { Vector3 } = await import("scenerystack/dot");
 const { EPSILON_0 } = await import("../src/CapacitorLabConstants.ts");
