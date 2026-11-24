@@ -33,8 +33,8 @@ const PROBE_RADIUS: number = VOLTMETER_NODE_SETTINGS.PROBE_RADIUS;
 
 // Where a lead leaves the body and where it arrives at a probe. These set the
 // cubic's control points, which is what gives the leads their slack.
-const BODY_WIRE_NORMAL = new Property(new Vector2(0, VOLTMETER_NODE_SETTINGS.BODY_WIRE_NORMAL_Y));
-const PROBE_WIRE_NORMAL = new Property(new Vector2(0, VOLTMETER_NODE_SETTINGS.PROBE_WIRE_NORMAL_Y));
+const BodyWireNormalProperty = new Property(new Vector2(0, VOLTMETER_NODE_SETTINGS.BODY_WIRE_NORMAL_Y));
+const ProbeWireNormalProperty = new Property(new Vector2(0, VOLTMETER_NODE_SETTINGS.PROBE_WIRE_NORMAL_Y));
 
 function createProbe(color: TColor): ProbeNode {
   return new ProbeNode({
@@ -106,9 +106,9 @@ export class VoltmeterNode extends Node {
       0,
       new WireNode(
         bodyAnchor(BODY_SIZE.x * 0.3),
-        BODY_WIRE_NORMAL,
+        BodyWireNormalProperty,
         viewPositionProperty(voltmeter.positiveProbePositionProperty, modelViewTransform, Vector2.ZERO),
-        PROBE_WIRE_NORMAL,
+        ProbeWireNormalProperty,
         { ...wireOptions, stroke: CapacitorLabColors.voltmeterPositiveWireColorProperty },
       ),
     );
@@ -116,9 +116,9 @@ export class VoltmeterNode extends Node {
       0,
       new WireNode(
         bodyAnchor(BODY_SIZE.x * 0.7),
-        BODY_WIRE_NORMAL,
+        BodyWireNormalProperty,
         viewPositionProperty(voltmeter.negativeProbePositionProperty, modelViewTransform, Vector2.ZERO),
-        PROBE_WIRE_NORMAL,
+        ProbeWireNormalProperty,
         { ...wireOptions, stroke: CapacitorLabColors.voltmeterNegativeWireColorProperty },
       ),
     );

@@ -22,7 +22,7 @@ import {
   createWireBatteryToCapacitorsBottom,
   createWireBatteryToCapacitorsTop,
 } from "../wire/WireBatteryToCapacitors.ts";
-import { AbstractCircuit } from "./AbstractCircuit.ts";
+import { AbstractCircuit, type ElectricalState } from "./AbstractCircuit.ts";
 
 /** A row of capacitors to the right of the battery, evenly spaced. */
 function createCapacitorsInRow(config: CircuitConfig, numberOfCapacitors: number): Capacitor[] {
@@ -44,16 +44,11 @@ function createCapacitorsInRow(config: CircuitConfig, numberOfCapacitors: number
   return capacitors;
 }
 
-export class ParallelCircuit extends AbstractCircuit {
-  /**
-   * @param deferFinish - true when a subclass still has state to register in
-   *   `changeInputs`; that subclass then calls `finishConstruction()` itself.
-   */
-  public constructor(
+export abstract class AbstractParallelCircuit extends AbstractCircuit {
+  protected constructor(
     config: CircuitConfig,
     displayNameProperty: TReadOnlyProperty<string>,
     numberOfCapacitors: number,
-    deferFinish = false,
   ) {
     super(config, displayNameProperty, numberOfCapacitors, createCapacitorsInRow, (cfg, battery, capacitors) => [
       createWireBatteryToCapacitorsTop(cfg.modelViewTransform, cfg.wireThickness, cfg.wireExtent, battery, capacitors),
@@ -65,9 +60,6 @@ export class ParallelCircuit extends AbstractCircuit {
         capacitors,
       ),
     ]);
-    if (!deferFinish) {
-      this.finishConstruction();
-    }
   }
 
   /** Every capacitor sees the same voltage. */
@@ -115,5 +107,18 @@ export class ParallelCircuit extends AbstractCircuit {
 
   protected intersectsSomeBottomPlate(shape: Shape): boolean {
     return this.capacitors.some((capacitor) => capacitor.intersectsBottomPlate(shape));
+  }
+}
+
+export class ParallelCircuit extends AbstractParallelCircuit {
+  protected readonly electricalState: ElectricalState;
+
+  public constructor(
+    config: CircuitConfig,
+    displayNameProperty: TReadOnlyProperty<string>,
+    numberOfCapacitors: number,
+  ) {
+    super(config, displayNameProperty, numberOfCapacitors);
+    this.electricalState = this.createElectricalState();
   }
 }

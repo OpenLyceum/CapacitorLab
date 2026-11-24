@@ -38,8 +38,8 @@ const PROBE_RADIUS: number = E_FIELD_DETECTOR_NODE_SETTINGS.PROBE_RADIUS;
 /** View pixels an arrow gets for a field of EFIELD_REFERENCE_MAGNITUDE. */
 const REFERENCE_ARROW_LENGTH: number = E_FIELD_DETECTOR_NODE_SETTINGS.REFERENCE_ARROW_LENGTH;
 
-const BODY_WIRE_NORMAL = new Property(new Vector2(0, E_FIELD_DETECTOR_NODE_SETTINGS.BODY_WIRE_NORMAL_Y));
-const PROBE_WIRE_NORMAL = new Property(new Vector2(0, E_FIELD_DETECTOR_NODE_SETTINGS.PROBE_WIRE_NORMAL_Y));
+const BodyWireNormalProperty = new Property(new Vector2(0, E_FIELD_DETECTOR_NODE_SETTINGS.BODY_WIRE_NORMAL_Y));
+const ProbeWireNormalProperty = new Property(new Vector2(0, E_FIELD_DETECTOR_NODE_SETTINGS.PROBE_WIRE_NORMAL_Y));
 
 /** One labelled arrow: its length is the field, its direction the field's sign. */
 class VectorDisplay extends Node {
@@ -205,15 +205,15 @@ export class EFieldDetectorNode extends Node {
     });
     this.addChild(probe);
 
-    const bodyAnchor = new DerivedProperty([detector.bodyPositionProperty], (position: Vector3) =>
+    const bodyAnchorProperty = new DerivedProperty([detector.bodyPositionProperty], (position: Vector3) =>
       modelViewTransform.modelToViewPosition(position).plusXY(BODY_SIZE.x / 2, BODY_SIZE.y),
     );
-    const probeAnchor = new DerivedProperty([detector.probePositionProperty], (position: Vector3) =>
+    const probeAnchorProperty = new DerivedProperty([detector.probePositionProperty], (position: Vector3) =>
       modelViewTransform.modelToViewPosition(position),
     );
     this.insertChild(
       0,
-      new WireNode(bodyAnchor, BODY_WIRE_NORMAL, probeAnchor, PROBE_WIRE_NORMAL, {
+      new WireNode(bodyAnchorProperty, BodyWireNormalProperty, probeAnchorProperty, ProbeWireNormalProperty, {
         stroke: CapacitorLabColors.eFieldDetectorWireColorProperty,
         lineWidth: E_FIELD_DETECTOR_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
       }),

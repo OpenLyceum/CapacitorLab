@@ -32,7 +32,7 @@ const LABEL_FONT = new PhetFont(MULTIPLE_CAPACITORS_CIRCUIT_NODE_SETTINGS.LABEL_
 const LABEL_SPACING: number = MULTIPLE_CAPACITORS_CIRCUIT_NODE_SETTINGS.LABEL_SPACING;
 
 /** This screen never draws dielectric charges, so the view is fixed. */
-const NO_DIELECTRIC_CHARGES = new Property(DielectricChargeView.NONE);
+const NoDielectricChargesProperty = new Property(DielectricChargeView.NONE);
 
 export class MultipleCapacitorsCircuitNode extends Node {
   private readonly currentIndicators: readonly CurrentIndicatorNode[];
@@ -62,7 +62,7 @@ export class MultipleCapacitorsCircuitNode extends Node {
         modelViewTransform,
         plateChargesVisibleProperty,
         eFieldVisibleProperty,
-        NO_DIELECTRIC_CHARGES,
+        NoDielectricChargesProperty,
         { dielectricVisible: false },
       );
       capacitorNode.translation = modelViewTransform.modelToViewPosition(capacitor.position);

@@ -24,7 +24,7 @@ import {
   createWireBatteryToCapacitorsTop,
 } from "../wire/WireBatteryToCapacitors.ts";
 import { createWireCapacitorToCapacitors } from "../wire/WireCapacitorToCapacitors.ts";
-import { AbstractCircuit } from "./AbstractCircuit.ts";
+import { AbstractCircuit, type ElectricalState } from "./AbstractCircuit.ts";
 
 /**
  * Both combinations place C1 above C2 in the left column and C3 alone in the
@@ -75,6 +75,8 @@ function asThree(capacitors: readonly Capacitor[]): [Capacitor, Capacitor, Capac
  *     |-----|------|
  */
 export class Combination1Circuit extends AbstractCircuit {
+  protected readonly electricalState: ElectricalState;
+
   private readonly c1: Capacitor;
   private readonly c2: Capacitor;
   private readonly c3: Capacitor;
@@ -93,7 +95,7 @@ export class Combination1Circuit extends AbstractCircuit {
       ];
     });
     [this.c1, this.c2, this.c3] = asThree(this.capacitors);
-    this.finishConstruction();
+    this.electricalState = this.createElectricalState();
   }
 
   protected override updatePlateVoltages(): void {
@@ -154,6 +156,8 @@ export class Combination1Circuit extends AbstractCircuit {
  *     |-----|------|
  */
 export class Combination2Circuit extends AbstractCircuit {
+  protected readonly electricalState: ElectricalState;
+
   private readonly c1: Capacitor;
   private readonly c2: Capacitor;
   private readonly c3: Capacitor;
@@ -172,7 +176,7 @@ export class Combination2Circuit extends AbstractCircuit {
       ];
     });
     [this.c1, this.c2, this.c3] = asThree(this.capacitors);
-    this.finishConstruction();
+    this.electricalState = this.createElectricalState();
   }
 
   protected override updatePlateVoltages(): void {

@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 /**
  * gridSize.ts
  *
@@ -26,12 +27,12 @@ export function getGridSize(numberOfObjects: number, width: number, height: numb
   }
 
   const alpha = Math.sqrt(numberOfObjects / width / height);
-  let columns = Math.round(width * alpha);
+  let columns = roundSymmetric(width * alpha);
 
   // Two ways to get the row count, both rounded: straight from the density, or
   // from the column count we just committed to. Keep whichever fits N better.
-  const rowsFromDensity = Math.round(height * alpha);
-  const rowsFromColumns = columns === 0 ? 0 : Math.round(numberOfObjects / columns);
+  const rowsFromDensity = roundSymmetric(height * alpha);
+  const rowsFromColumns = columns === 0 ? 0 : roundSymmetric(numberOfObjects / columns);
   let rows: number;
   if (rowsFromDensity !== rowsFromColumns) {
     const errorFromDensity = Math.abs(numberOfObjects - rowsFromDensity * columns);

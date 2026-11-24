@@ -5,13 +5,7 @@
  * the wires from a {@link CircuitConfig}, keeps the capacitors' plate voltages in
  * step with whatever the user changes, and tracks current as dQ/dt.
  *
- * ── Two-phase construction ───────────────────────────────────────────────────
- * Plate voltages depend on subclass state (which capacitors are in series, whether
- * the battery is connected), so the base class cannot link them until the subclass
- * constructor has finished. Every concrete circuit therefore ends its constructor
- * with `this.finishConstruction()`. The Java version had the same requirement and
- * met it with null checks inside `updatePlateVoltages`; making it an explicit call
- * is the same order with the reason written down.
+ * Each topology creates its electrical state once its own inputs are ready.
  *
  * Ported from `model/circuit/AbstractCircuit.java`.
  */
@@ -29,6 +23,13 @@ import type { Circuit } from "./Circuit.js";
 export type CreateCapacitors = (config: CircuitConfig, numberOfCapacitors: number) => Capacitor[];
 export type CreateWires = (config: CircuitConfig, battery: Battery, capacitors: readonly Capacitor[]) => Wire[];
 
+export type ElectricalState = {
+  readonly totalCapacitanceProperty: TReadOnlyProperty<number>;
+  readonly totalVoltageProperty: TReadOnlyProperty<number>;
+  readonly totalChargeProperty: TReadOnlyProperty<number>;
+  readonly storedEnergyProperty: TReadOnlyProperty<number>;
+};
+
 export abstract class AbstractCircuit implements Circuit {
   public readonly displayNameProperty: TReadOnlyProperty<string>;
   public readonly battery: Battery;
@@ -43,16 +44,28 @@ export abstract class AbstractCircuit implements Circuit {
 
   public readonly currentAmplitudeProperty: NumberProperty = new NumberProperty(0);
 
-  // Assigned by finishConstruction(), which every concrete constructor must call.
-  public totalCapacitanceProperty!: TReadOnlyProperty<number>;
-  public totalVoltageProperty!: TReadOnlyProperty<number>;
-  public totalChargeProperty!: TReadOnlyProperty<number>;
-  public storedEnergyProperty!: TReadOnlyProperty<number>;
+  protected abstract readonly electricalState: ElectricalState;
+
+  public get totalCapacitanceProperty(): TReadOnlyProperty<number> {
+    return this.electricalState.totalCapacitanceProperty;
+  }
+
+  public get totalVoltageProperty(): TReadOnlyProperty<number> {
+    return this.electricalState.totalVoltageProperty;
+  }
+
+  public get totalChargeProperty(): TReadOnlyProperty<number> {
+    return this.electricalState.totalChargeProperty;
+  }
+
+  public get storedEnergyProperty(): TReadOnlyProperty<number> {
+    return this.electricalState.storedEnergyProperty;
+  }
 
   /**
    * Everything that changes the circuit's electrical state *except* plate voltage
    * — which is an output, and would make the update cycle back on itself.
-   * Subclasses append their own state here before calling finishConstruction.
+   * Subclasses append their own state here before creating electrical state.
    */
   protected readonly changeInputs: TReadOnlyProperty<unknown>[];
 
@@ -83,15 +96,12 @@ export abstract class AbstractCircuit implements Circuit {
     ];
   }
 
-  /**
-   * Links the derived electrical state. Call at the very end of every concrete
-   * constructor — see the note in the class doc.
-   */
-  protected finishConstruction(): void {
-    this.totalCapacitanceProperty = DerivedProperty.deriveAny(this.changeInputs, () => this.computeTotalCapacitance());
-    this.totalVoltageProperty = DerivedProperty.deriveAny(this.changeInputs, () => this.computeTotalVoltage());
-    this.totalChargeProperty = DerivedProperty.deriveAny(this.changeInputs, () => this.computeTotalCharge());
-    this.storedEnergyProperty = DerivedProperty.deriveAny(this.changeInputs, () => {
+  /** Creates electrical outputs and links plate voltages after topology inputs are initialized. */
+  protected createElectricalState(): ElectricalState {
+    const totalCapacitanceProperty = DerivedProperty.deriveAny(this.changeInputs, () => this.computeTotalCapacitance());
+    const totalVoltageProperty = DerivedProperty.deriveAny(this.changeInputs, () => this.computeTotalVoltage());
+    const totalChargeProperty = DerivedProperty.deriveAny(this.changeInputs, () => this.computeTotalCharge());
+    const storedEnergyProperty = DerivedProperty.deriveAny(this.changeInputs, () => {
       const capacitance = this.computeTotalCapacitance();
       const voltage = this.computeTotalVoltage();
       return 0.5 * capacitance * voltage * voltage;
@@ -99,6 +109,7 @@ export abstract class AbstractCircuit implements Circuit {
 
     Multilink.multilinkAny(this.changeInputs, () => this.updatePlateVoltages());
     this.updatePlateVoltages();
+    return { totalCapacitanceProperty, totalVoltageProperty, totalChargeProperty, storedEnergyProperty };
   }
 
   /** Distributes the circuit's voltage across its capacitors. */

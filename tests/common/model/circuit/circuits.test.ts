@@ -183,6 +183,29 @@ describe("circuits", () => {
       expect(circuit.capacitor.totalPlateChargeProperty.value).toBeCloseTo(chargeBefore, 20);
       expect(circuit.capacitor.plateVoltageProperty.value).toBeCloseTo(0.75, 9);
     });
+
+    it("restores the initial electrical outputs after resetting a disconnected circuit", () => {
+      const circuit = new SingleCircuit(createConfig(), NAME);
+      const initial = [
+        circuit.totalCapacitanceProperty.value,
+        circuit.totalVoltageProperty.value,
+        circuit.totalChargeProperty.value,
+        circuit.storedEnergyProperty.value,
+      ];
+      circuit.battery.voltageProperty.value = 1.5;
+      circuit.batteryConnectedProperty.value = false;
+      circuit.capacitor.plateSeparationProperty.value /= 2;
+
+      circuit.reset();
+
+      expect(circuit.batteryConnectedProperty.value).toBe(true);
+      expect([
+        circuit.totalCapacitanceProperty.value,
+        circuit.totalVoltageProperty.value,
+        circuit.totalChargeProperty.value,
+        circuit.storedEnergyProperty.value,
+      ]).toEqual(initial);
+    });
   });
 
   describe("current", () => {
