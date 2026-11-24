@@ -30,7 +30,7 @@ export class BarMeter {
   /** The quantity being read, in its SI unit. */
   public readonly valueProperty: TReadOnlyProperty<number>;
 
-  private readonly derivedValue: DynamicProperty<number, number, Circuit>;
+  private readonly derivedValueProperty: DynamicProperty<number, number, Circuit>;
 
   public constructor(
     circuitProperty: TReadOnlyProperty<Circuit>,
@@ -41,12 +41,12 @@ export class BarMeter {
   ) {
     this.positionProperty = new WorldPositionProperty(worldBounds, position);
     this.visibleProperty = new BooleanProperty(visible);
-    this.derivedValue = new DynamicProperty<number, number, Circuit>(circuitProperty, { derive: derivation });
-    this.valueProperty = this.derivedValue;
+    this.derivedValueProperty = new DynamicProperty<number, number, Circuit>(circuitProperty, { derive: derivation });
+    this.valueProperty = this.derivedValueProperty;
   }
 
   public dispose(): void {
-    this.derivedValue.dispose();
+    this.derivedValueProperty.dispose();
     this.visibleProperty.dispose();
     this.positionProperty.dispose();
   }
