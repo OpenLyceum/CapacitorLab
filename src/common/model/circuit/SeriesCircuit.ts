@@ -27,7 +27,7 @@ import {
   createWireBatteryToCapacitorsTop,
 } from "../wire/WireBatteryToCapacitors.ts";
 import { createWireCapacitorToCapacitors } from "../wire/WireCapacitorToCapacitors.ts";
-import { AbstractCircuit } from "./AbstractCircuit.ts";
+import { AbstractCircuit, type ElectricalState } from "./AbstractCircuit.ts";
 
 /** A column of capacitors to the right of the battery, centred on the battery's y. */
 function createCapacitorsInColumn(config: CircuitConfig, numberOfCapacitors: number): Capacitor[] {
@@ -57,6 +57,8 @@ function createCapacitorsInColumn(config: CircuitConfig, numberOfCapacitors: num
 }
 
 export class SeriesCircuit extends AbstractCircuit {
+  protected readonly electricalState: ElectricalState;
+
   public constructor(
     config: CircuitConfig,
     displayNameProperty: TReadOnlyProperty<string>,
@@ -87,7 +89,7 @@ export class SeriesCircuit extends AbstractCircuit {
       );
       return wires;
     });
-    this.finishConstruction();
+    this.electricalState = this.createElectricalState();
   }
 
   /** Same charge through every capacitor, so Vi = Q_total / Ci. */

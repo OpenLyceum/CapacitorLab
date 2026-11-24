@@ -23,9 +23,12 @@ import { NumberProperty, type TReadOnlyProperty } from "scenerystack/axon";
 import type { Shape } from "scenerystack/kite";
 import type { Capacitor } from "../Capacitor.js";
 import type { CircuitConfig } from "../CircuitConfig.js";
-import { ParallelCircuit } from "./ParallelCircuit.ts";
+import type { ElectricalState } from "./AbstractCircuit.js";
+import { AbstractParallelCircuit } from "./ParallelCircuit.ts";
 
-export class SingleCircuit extends ParallelCircuit {
+export class SingleCircuit extends AbstractParallelCircuit {
+  protected readonly electricalState: ElectricalState;
+
   /** The one capacitor, for readability at the call sites that assume it. */
   public readonly capacitor: Capacitor;
 
@@ -37,7 +40,7 @@ export class SingleCircuit extends ParallelCircuit {
   public readonly disconnectedPlateChargeProperty: NumberProperty;
 
   public constructor(config: CircuitConfig, displayNameProperty: TReadOnlyProperty<string>, batteryConnected = true) {
-    super(config, displayNameProperty, 1, true /* deferFinish */);
+    super(config, displayNameProperty, 1);
 
     const capacitor = this.capacitors[0];
     if (capacitor === undefined) {
@@ -59,7 +62,7 @@ export class SingleCircuit extends ParallelCircuit {
     });
 
     this.changeInputs.push(this.batteryConnectedProperty, this.disconnectedPlateChargeProperty);
-    this.finishConstruction();
+    this.electricalState = this.createElectricalState();
   }
 
   protected override updatePlateVoltages(): void {
